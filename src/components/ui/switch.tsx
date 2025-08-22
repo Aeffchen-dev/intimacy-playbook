@@ -17,11 +17,11 @@ const Switch = React.forwardRef<
   >
     <SwitchPrimitives.Thumb
       className={cn(
-        "pointer-events-none block h-5 w-5 rounded-full shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0 flex items-center justify-center"
+        "pointer-events-none block h-[18px] w-[18px] rounded-full shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0 flex items-center justify-center"
       )}
       style={{ backgroundColor: '#ff69b4' }}
     >
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ transform: 'rotate(-10deg)' }}>
+      <svg width="10.8" height="10.8" viewBox="0 0 12 12" fill="none" style={{ transform: 'rotate(-10deg)' }}>
         {/* Eyes */}
         <circle cx="3.5" cy="4" r="0.8" fill="black" />
         <circle cx="8.5" cy="4" r="0.8" fill="black" />
