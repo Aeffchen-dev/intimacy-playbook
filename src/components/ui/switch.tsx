@@ -17,10 +17,16 @@ const Switch = React.forwardRef<
   >
     <SwitchPrimitives.Thumb
       className={cn(
-        "pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0 flex items-center justify-center text-xs"
+        "pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0 flex items-center justify-center"
       )}
     >
-      <span>😊</span>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        {/* Eyes */}
+        <circle cx="3.5" cy="4" r="0.8" fill="black" />
+        <circle cx="8.5" cy="4" r="0.8" fill="black" />
+        {/* Mouth */}
+        <path d="M3 7.5 C4.5 9, 7.5 9, 9 7.5" stroke="black" strokeWidth="0.8" fill="none" strokeLinecap="round" />
+      </svg>
     </SwitchPrimitives.Thumb>
   </SwitchPrimitives.Root>
 ))
