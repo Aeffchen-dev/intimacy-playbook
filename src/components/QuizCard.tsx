@@ -263,8 +263,8 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
               fontStyle: 'italic',
               color: question.category.toLowerCase() !== 'intro' ? categoryColors.text : 'hsl(var(--foreground))',
               hyphens: 'none',
-              wordBreak: 'normal',
-              overflowWrap: 'break-word'
+              wordBreak: 'keep-all',
+              overflowWrap: 'normal'
             }}
           >
             {processedText.length > 0 ? processedText : question.question}
