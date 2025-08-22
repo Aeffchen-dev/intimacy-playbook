@@ -5,12 +5,26 @@ import { cn } from "@/lib/utils"
 
 interface SwitchProps extends React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root> {
   isAnimating?: boolean;
+  checked?: boolean;
 }
 
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   SwitchProps
->(({ className, isAnimating, ...props }, ref) => (
+>(({ className, isAnimating, checked, ...props }, ref) => {
+  const [totalRotation, setTotalRotation] = React.useState(-10);
+  
+  React.useEffect(() => {
+    if (isAnimating) {
+      if (checked) {
+        setTotalRotation(prev => prev + 360);
+      } else {
+        setTotalRotation(prev => prev - 360);
+      }
+    }
+  }, [isAnimating, checked]);
+
+  return (
   <SwitchPrimitives.Root
     className={cn(
       "peer inline-flex h-[23px] w-11 shrink-0 cursor-pointer items-center rounded-full border border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input",
@@ -31,7 +45,7 @@ const Switch = React.forwardRef<
         viewBox="0 0 12 12" 
         fill="none" 
         style={{ 
-          transform: `rotate(${isAnimating ? '180deg' : '-10deg'})`,
+          transform: `rotate(${totalRotation}deg)`,
           transition: 'transform 0.3s ease-in-out'
         }}
       >
@@ -43,7 +57,8 @@ const Switch = React.forwardRef<
       </svg>
     </SwitchPrimitives.Thumb>
   </SwitchPrimitives.Root>
-))
+)
+})
 Switch.displayName = SwitchPrimitives.Root.displayName
 
 export { Switch }
