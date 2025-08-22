@@ -40,7 +40,7 @@ const Switch = React.forwardRef<
     
     {/* Smiley that moves across the full switch */}
     <div
-      className="absolute pointer-events-none transition-all duration-300 ease-in-out"
+      className="absolute pointer-events-none transition-all duration-500 ease-in-out"
       style={{ 
         left: checked ? 'calc(100% - 18px - 2px)' : '2px',
         top: '1.5px',
@@ -61,7 +61,7 @@ const Switch = React.forwardRef<
         fill="none" 
         style={{ 
           transform: `rotate(${totalRotation}deg)`,
-          transition: 'transform 0.3s ease-in-out'
+          transition: 'transform 0.6s ease-in-out'
         }}
       >
         {/* Eyes */}

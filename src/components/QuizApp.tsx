@@ -375,7 +375,7 @@ export function QuizApp() {
   const handleDragEnd = () => {
     if (!isDragging) return;
     
-    const threshold = 160;
+    const threshold = 150;
     
     if (Math.abs(dragOffset) > threshold) {
       if (dragOffset > 0 && currentIndex > 0) {
@@ -572,7 +572,7 @@ export function QuizApp() {
                       flexDirection: 'column',
                       position: 'relative',
                       transform: `translateY(2px) rotate(${loading ? (loadingSmileyRotating ? '360deg' : '-2deg') : (logoSmileyRotating ? '360deg' : '-2deg')})`,
-                      transition: 'transform 0.3s ease-in-out'
+                      transition: 'transform 0.6s ease-in-out'
                     }}
                   >
                     <div style={{ display: 'flex', gap: '2px', position: 'absolute', top: '4.5px', left: '50%', transform: 'translateX(-50%)' }}>
