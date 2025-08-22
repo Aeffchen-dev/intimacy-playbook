@@ -379,9 +379,18 @@ export function QuizApp() {
     setCurrentIndex(0); // Reset to first slide when filtering/mode changes
   }, [selectedCategories, allQuestions, availableCategories.length, isMixedMode, introSlide, hasToggleBeenChanged]);
 
+  // Clamp current index whenever slides length changes to prevent out-of-bounds access
+  useEffect(() => {
+    setCurrentIndex((i) => (slides.length ? Math.min(i, slides.length - 1) : 0));
+  }, [slides.length]);
+
   const handleCategoriesChange = (categories: string[]) => {
     setSelectedCategories(categories);
   };
+
+  const hasSlides = slides.length > 0;
+  const safeIndex = hasSlides ? Math.min(currentIndex, slides.length - 1) : 0;
+  const safeSlide = hasSlides ? slides[safeIndex] : undefined;
 
   return (
     <div className="min-h-[100svh] h-[100svh] bg-background overflow-hidden flex flex-col" style={{ height: '100svh' }}>
@@ -412,24 +421,24 @@ export function QuizApp() {
         <div className="flex-1 flex items-stretch justify-center min-h-0">
           {loading ? (
             <div className="flex items-center justify-center h-full text-white text-xl">Lade Fragen...</div>
-          ) : slides.length > 0 ? (
-            slides[currentIndex].type === 'intro' ? (
+          ) : hasSlides ? (
+            safeSlide!.type === 'intro' ? (
               <div className="flex items-center justify-center h-full">
                 <QuizCard
-                  question={slides[currentIndex].question!}
+                  question={safeSlide!.question!}
                   onSwipeLeft={nextQuestion}
                   onSwipeRight={prevQuestion}
                   animationClass={animationClass}
-                  categoryIndex={categoryColorMap[slides[currentIndex].question!.category] || 0}
+                  categoryIndex={categoryColorMap[safeSlide!.question!.category] || 0}
                 />
               </div>
             ) : (
               <QuizCard
-                question={slides[currentIndex].question!}
+                question={safeSlide!.question!}
                 onSwipeLeft={nextQuestion}
                 onSwipeRight={prevQuestion}
                 animationClass={animationClass}
-                categoryIndex={categoryColorMap[slides[currentIndex].question!.category] || 0}
+                categoryIndex={categoryColorMap[safeSlide!.question!.category] || 0}
               />
             )
           ) : (
