@@ -43,7 +43,7 @@ const Switch = React.forwardRef<
       className="absolute pointer-events-none transition-all duration-300 ease-in-out"
       style={{ 
         left: checked ? 'calc(100% - 18px - 2px)' : '2px',
-        top: '1.5px',
+        top: '3.5px',
         width: '18px',
         height: '18px',
         backgroundColor: '#ff69b4',
