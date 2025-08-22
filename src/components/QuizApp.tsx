@@ -577,24 +577,28 @@ export function QuizApp() {
         {/* Toggle centered below the card */}
         <div className="flex items-center justify-center pb-4">
           <div 
-            className="flex items-center cursor-pointer px-4 py-2 -mr-2" 
+            className="flex items-center cursor-pointer px-4 py-2 flex-1 justify-end" 
             onClick={() => handleToggleClick(false)}
           >
-            <span className="text-white font-normal text-xs">
+            <span className="text-white font-normal text-xs mr-2">
               question mode
             </span>
+            <div className="w-6 h-6" /> {/* Left half touch area over toggle */}
           </div>
-          <Switch 
-            checked={isMixedMode}
-            onCheckedChange={handleToggleChange}
-            isAnimating={toggleAnimating}
-            className="w-[46px] mx-2 data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px]"
-          />
+          <div className="relative">
+            <Switch 
+              checked={isMixedMode}
+              onCheckedChange={handleToggleChange}
+              isAnimating={toggleAnimating}
+              className="w-[46px] data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px] pointer-events-none"
+            />
+          </div>
           <div 
-            className="flex items-center cursor-pointer px-4 py-2 -ml-2" 
+            className="flex items-center cursor-pointer px-4 py-2 flex-1 justify-start" 
             onClick={() => handleToggleClick(true)}
           >
-            <span className="text-white font-normal text-xs">
+            <div className="w-6 h-6" /> {/* Right half touch area over toggle */}
+            <span className="text-white font-normal text-xs ml-2">
               action mode
             </span>
           </div>
