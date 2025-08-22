@@ -578,40 +578,8 @@ export function QuizApp() {
           <Switch 
             checked={isMixedMode}
             onCheckedChange={handleToggleChange}
-            className={`w-[46px] data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px] [&>span]:m-0.5 [&>span]:bg-yellow-400 ${toggleAnimating ? 'toggle-smiley-rotating' : 'toggle-smiley-thumb'}`}
+            className={`w-[46px] data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px] [&>span]:bg-white [&>span]:m-0.5 ${toggleAnimating ? '[&>span]:animate-spin' : ''}`}
           />
-          <style>{`
-            .toggle-smiley-thumb span, .toggle-smiley-rotating span {
-              background: #fbbf24 !important;
-              position: relative;
-              transition: transform 0.3s ease-in-out !important;
-            }
-            .toggle-smiley-rotating span {
-              transform: rotate(360deg) !important;
-            }
-            .toggle-smiley-thumb span::before, .toggle-smiley-rotating span::before {
-              content: '';
-              position: absolute;
-              top: 3px;
-              left: 3px;
-              width: 2px;
-              height: 2px;
-              background: black;
-              border-radius: 50%;
-              box-shadow: 4px 0 0 black;
-            }
-            .toggle-smiley-thumb span::after, .toggle-smiley-rotating span::after {
-              content: '';
-              position: absolute;
-              top: 9px;
-              left: 4px;
-              width: 6px;
-              height: 1px;
-              border: 0.5px solid black;
-              border-top: none;
-              border-radius: 0 0 3px 3px;
-            }
-          `}</style>
           <span 
             className="text-white font-normal text-xs cursor-pointer" 
             onClick={() => handleToggleClick(true)}
