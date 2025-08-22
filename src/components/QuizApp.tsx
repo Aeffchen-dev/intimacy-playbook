@@ -400,7 +400,7 @@ export function QuizApp() {
               {char}
             </span>
           ))}
-          <span style={{ marginLeft: '8px', marginRight: '8px' }}></span>
+          <span style={{ marginLeft: '5px', marginRight: '5px' }}></span>
           {"Playbook".split('').map((char, index) => (
             <span 
               key={index + 100} 
