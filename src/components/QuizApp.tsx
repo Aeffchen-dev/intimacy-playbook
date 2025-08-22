@@ -390,12 +390,8 @@ export function QuizApp() {
       <div className="bg-black mt-4 flex items-center justify-between w-full px-4" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
         <div className="text-white font-sans font-black text-base flex items-center gap-0">
           <span>Intimacy Playb</span>
-          <div className="w-3 h-3 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full mx-0.5 relative">
-            <div className="absolute inset-0.5 bg-white rounded-full opacity-20"></div>
-          </div>
-          <div className="w-3 h-3 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full mx-0.5 relative">
-            <div className="absolute inset-0.5 bg-white rounded-full opacity-20"></div>
-          </div>
+          <div className="w-3 h-3 bg-white rounded-full mx-0.5"></div>
+          <div className="w-3 h-3 bg-white rounded-full mx-0.5"></div>
           <span>k</span>
         </div>
         <button 
