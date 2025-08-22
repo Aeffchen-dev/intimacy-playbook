@@ -583,7 +583,7 @@ export function QuizApp() {
             >
               <span 
                 className="text-white font-normal text-xs"
-                style={{ fontFamily: 'Arial, sans-serif', marginRight: '2px' }}
+                style={{ fontFamily: 'Arial, sans-serif', marginRight: '8px' }}
               >
                 question mode
               </span>
@@ -600,7 +600,7 @@ export function QuizApp() {
             >
               <span 
                 className="text-white font-normal text-xs"
-                style={{ fontFamily: 'Arial, sans-serif', marginLeft: '2px' }}
+                style={{ fontFamily: 'Arial, sans-serif', marginLeft: '8px' }}
               >
                 action mode
               </span>
