@@ -20,12 +20,12 @@ const Switch = React.forwardRef<
         "pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0 flex items-center justify-center"
       )}
     >
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ transform: 'rotate(10deg)' }}>
         {/* Eyes */}
-        <circle cx="3.5" cy="4" r="0.8" fill="black" />
-        <circle cx="8.5" cy="4" r="0.8" fill="black" />
+        <circle cx="3.5" cy="4" r="0.8" fill="#ff69b4" />
+        <circle cx="8.5" cy="4" r="0.8" fill="#ff69b4" />
         {/* Mouth */}
-        <path d="M3 7.5 C4.5 9, 7.5 9, 9 7.5" stroke="black" strokeWidth="0.8" fill="none" strokeLinecap="round" />
+        <path d="M3 7.5 C4.5 9, 7.5 9, 9 7.5" stroke="#ff69b4" strokeWidth="0.8" fill="none" strokeLinecap="round" />
       </svg>
     </SwitchPrimitives.Thumb>
   </SwitchPrimitives.Root>
