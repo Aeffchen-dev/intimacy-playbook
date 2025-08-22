@@ -434,12 +434,14 @@ export function QuizApp() {
           {"Intimacy".split('').map((char, index) => {
             const rotations = [3, -2, 4, -3, 2, -4, 3, -1];
             const isAnimating = animatingLetterIndex === index;
+            const isEven = index % 2 === 0;
+            const translateY = isAnimating ? (isEven ? '-3px' : '3px') : '0px';
             return (
               <span 
                 key={index} 
                 style={{ 
                   display: 'inline-block',
-                  transform: `rotate(${rotations[index]}deg) translateY(${isAnimating ? '-2px' : '0px'})`,
+                  transform: `rotate(${rotations[index]}deg) translateY(${translateY})`,
                   transition: 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
                 }}
               >
@@ -452,12 +454,14 @@ export function QuizApp() {
             const rotations = [-2, 3, -1, 4, -3, 2, -4, 1];
             const letterIndex = index + 8; // Continue counting from Intimacy letters
             const isAnimating = animatingLetterIndex === letterIndex;
+            const isEven = letterIndex % 2 === 0;
+            const translateY = isAnimating ? (isEven ? '-3px' : '3px') : '0px';
             return (
               <span 
                 key={index + 100} 
                 style={{ 
                   display: 'inline-block',
-                  transform: `rotate(${rotations[index]}deg) translateY(${isAnimating ? '-2px' : '0px'})`,
+                  transform: `rotate(${rotations[index]}deg) translateY(${translateY})`,
                   position: 'relative',
                   transition: 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
                 }}
