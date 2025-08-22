@@ -85,24 +85,25 @@ export function CategorySelector({
           Wählen Sie die Kategorien aus, die Sie sehen möchten
         </DialogDescription>
         <div className="flex flex-col h-full relative w-full max-h-full min-h-0">
-          {/* Close Button */}
-          <button
-            onClick={handleClose}
-            className="absolute right-6 top-6 z-10 text-white hover:bg-white/10 p-2 rounded-full transition-colors"
-          >
-            <X className="h-6 w-6" />
-          </button>
-
           {/* Header */}
-          <DialogHeader className="absolute top-6 left-6 z-10">
-            <DialogTitle className="text-white text-xl font-normal">
-              Kategorien wählen
-            </DialogTitle>
-          </DialogHeader>
+          <div className="flex items-center justify-between px-6 py-4 bg-background">
+            <DialogHeader>
+              <DialogTitle className="text-white text-xl font-normal">
+                Kategorien wählen
+              </DialogTitle>
+            </DialogHeader>
+            
+            <button
+              onClick={handleClose}
+              className="text-white hover:bg-white/10 p-2 rounded-full transition-colors"
+            >
+              <X className="h-6 w-6" />
+            </button>
+          </div>
 
           {/* Categories List */}
-          <ScrollArea className="flex-1 pt-20 min-h-0">
-            <div className="px-6 space-y-2 pb-6">
+          <ScrollArea className="flex-1 min-h-0">
+            <div className="px-6 pt-2 space-y-2 pb-6">
               {categories.map((category, index) => {
               const isSelected = tempSelection.includes(category);
               const borderColor = getCategoryColors(category, index);
