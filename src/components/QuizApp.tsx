@@ -78,6 +78,7 @@ export function QuizApp() {
   const [logoAnimating, setLogoAnimating] = useState(false);
   const [animatingLetterIndex, setAnimatingLetterIndex] = useState(-1);
   const [toggleAnimating, setToggleAnimating] = useState(false);
+  const [loadingSmileyRotating, setLoadingSmileyRotating] = useState(false);
 
   useEffect(() => {
     fetchQuestions();
@@ -87,6 +88,11 @@ export function QuizApp() {
   useEffect(() => {
     if (loading && !logoAnimating) {
       handleLogoClick();
+      // Also rotate smiley during loading
+      setLoadingSmileyRotating(true);
+      setTimeout(() => {
+        setLoadingSmileyRotating(false);
+      }, 1200);
     }
   }, [loading]);
 
@@ -508,7 +514,7 @@ export function QuizApp() {
                       justifyContent: 'center',
                       flexDirection: 'column',
                       position: 'relative',
-                      transform: `rotate(${toggleAnimating ? '360deg' : '-2deg'})`,
+                      transform: `rotate(${(toggleAnimating || loadingSmileyRotating) ? '360deg' : '-2deg'})`,
                       transition: 'transform 0.3s ease-in-out'
                     }}
                   >
