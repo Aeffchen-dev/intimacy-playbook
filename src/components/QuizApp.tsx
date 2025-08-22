@@ -389,63 +389,69 @@ export function QuizApp() {
       {/* App Header with controls */}
       <div className="bg-black mt-4 flex items-center justify-between w-full px-4" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
         <div className="text-white" style={{ fontFamily: 'Arial Heavy, Arial, sans-serif', fontSize: '16px', fontWeight: '950' }}>
-          {"Intimacy".split('').map((char, index) => (
-            <span 
-              key={index} 
-              style={{ 
-                display: 'inline-block',
-                transform: `rotate(${(Math.random() * 4 + 2) * (Math.random() < 0.5 ? -1 : 1)}deg)`
-              }}
-            >
-              {char}
-            </span>
-          ))}
+          {"Intimacy".split('').map((char, index) => {
+            const rotations = [3, -2, 4, -3, 2, -4, 3, -1];
+            return (
+              <span 
+                key={index} 
+                style={{ 
+                  display: 'inline-block',
+                  transform: `rotate(${rotations[index]}deg)`
+                }}
+              >
+                {char}
+              </span>
+            );
+          })}
           <span style={{ marginLeft: '7px' }}></span>
-          {"Playbook".split('').map((char, index) => (
-            <span 
-              key={index + 100} 
-              style={{ 
-                display: 'inline-block',
-                transform: `rotate(${(Math.random() * 4 + 2) * (Math.random() < 0.5 ? -1 : 1)}deg)`,
-                position: 'relative'
-              }}
-            >
-              {char === 'o' && index === 6 ? (
-                <div 
-                  style={{
-                    display: 'inline-block',
-                    width: '13px',
-                    height: '13px',
-                    backgroundColor: '#fbbf24',
-                    borderRadius: '50%',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexDirection: 'column',
-                    position: 'relative',
-                    transform: 'rotate(-2deg)'
-                  }}
-                >
-                  <div style={{ display: 'flex', gap: '2px', position: 'absolute', top: '2px', left: '50%', transform: 'translateX(-50%)' }}>
-                    <div style={{ width: '1.5px', height: '1.5px', backgroundColor: 'black', borderRadius: '50%' }}></div>
-                    <div style={{ width: '1.5px', height: '1.5px', backgroundColor: 'black', borderRadius: '50%' }}></div>
+          {"Playbook".split('').map((char, index) => {
+            const rotations = [-2, 3, -1, 4, -3, 2, -4, 1];
+            return (
+              <span 
+                key={index + 100} 
+                style={{ 
+                  display: 'inline-block',
+                  transform: `rotate(${rotations[index]}deg)`,
+                  position: 'relative'
+                }}
+              >
+                {char === 'o' && index === 6 ? (
+                  <div 
+                    style={{
+                      display: 'inline-block',
+                      width: '13px',
+                      height: '13px',
+                      backgroundColor: '#fbbf24',
+                      borderRadius: '50%',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexDirection: 'column',
+                      position: 'relative',
+                      transform: 'rotate(-2deg)'
+                    }}
+                  >
+                    <div style={{ display: 'flex', gap: '2px', position: 'absolute', top: '2px', left: '50%', transform: 'translateX(-50%)' }}>
+                      <div style={{ width: '1.5px', height: '1.5px', backgroundColor: 'black', borderRadius: '50%' }}></div>
+                      <div style={{ width: '1.5px', height: '1.5px', backgroundColor: 'black', borderRadius: '50%' }}></div>
+                    </div>
+                    <div style={{ 
+                      width: '5px', 
+                      height: '2px', 
+                      border: '1px solid black', 
+                      borderTop: 'none',
+                      borderRadius: '0 0 5px 5px',
+                      position: 'absolute',
+                      top: '7px',
+                      left: '50%',
+                      transform: 'translateX(-50%)'
+                    }}></div>
                   </div>
-                  <div style={{ 
-                    width: '5px', 
-                    height: '2px', 
-                    border: '1px solid black', 
-                    borderTop: 'none',
-                    borderRadius: '0 0 5px 5px',
-                    position: 'absolute',
-                    top: '7px',
-                    left: '50%',
-                    transform: 'translateX(-50%)'
-                  }}></div>
-                </div>
-              ) : (
-                char
-              )}
-            </span>
-          ))}
+                ) : (
+                  char
+                )}
+              </span>
+            );
+          })}
         </div>
         <button 
           onClick={() => setCategorySelectorOpen(true)}
