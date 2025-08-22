@@ -258,7 +258,9 @@ export function QuizCard({
         height: '100%',
         maxHeight: '100%',
         backgroundColor: question.category.toLowerCase() !== 'intro' ? categoryColors.bg : 'hsl(var(--card-background))',
-        color: question.category.toLowerCase() !== 'intro' ? categoryColors.text : 'hsl(var(--foreground))'
+        color: question.category.toLowerCase() !== 'intro' ? categoryColors.text : 'hsl(var(--foreground))',
+        transform: isDragging ? `translate(${dragOffsetX}px, ${dragOffsetY}px)` : 'none',
+        transition: isDragging ? 'none' : 'transform 0.3s ease-out'
       }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
