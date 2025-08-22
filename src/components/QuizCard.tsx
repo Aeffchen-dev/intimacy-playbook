@@ -138,14 +138,14 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
     
     // CSS custom properties for the colors with proper contrast ratios
     const colorVars = {
-      1: { bg: 'hsl(var(--quiz-category1-bg))', text: 'hsl(var(--quiz-category1-text))', pillBg: 'hsl(0 0% 0% / 0.1)' },
-      2: { bg: 'hsl(var(--quiz-category2-bg))', text: 'hsl(var(--quiz-category2-text))', pillBg: 'hsl(0 0% 0% / 0.1)' },
-      3: { bg: 'hsl(var(--quiz-category3-bg))', text: 'hsl(var(--quiz-category3-text))', pillBg: 'hsl(0 0% 0% / 0.1)' },
-      4: { bg: 'hsl(var(--quiz-category4-bg))', text: 'hsl(var(--quiz-category4-text))', pillBg: 'hsl(0 0% 0% / 0.1)' },
-      5: { bg: 'hsl(var(--quiz-category5-bg))', text: 'hsl(var(--quiz-category5-text))', pillBg: 'hsl(0 0% 0% / 0.1)' },
-      6: { bg: 'hsl(var(--quiz-category6-bg))', text: 'hsl(var(--quiz-category6-text))', pillBg: 'hsl(0 0% 0% / 0.1)' },
-      7: { bg: 'hsl(var(--quiz-category7-bg))', text: 'hsl(var(--quiz-category7-text))', pillBg: 'hsl(0 0% 0% / 0.1)' },
-      8: { bg: 'hsl(var(--quiz-category8-bg))', text: 'hsl(var(--quiz-category8-text))', pillBg: 'hsl(0 0% 0% / 0.1)' },
+      1: { bg: 'hsl(var(--quiz-category1-bg))', text: 'hsl(var(--quiz-category1-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category1-bg)) 85%, black 15%)' },
+      2: { bg: 'hsl(var(--quiz-category2-bg))', text: 'hsl(var(--quiz-category2-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category2-bg)) 85%, black 15%)' },
+      3: { bg: 'hsl(var(--quiz-category3-bg))', text: 'hsl(var(--quiz-category3-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category3-bg)) 85%, black 15%)' },
+      4: { bg: 'hsl(var(--quiz-category4-bg))', text: 'hsl(var(--quiz-category4-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category4-bg)) 85%, black 15%)' },
+      5: { bg: 'hsl(var(--quiz-category5-bg))', text: 'hsl(var(--quiz-category5-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category5-bg)) 85%, black 15%)' },
+      6: { bg: 'hsl(var(--quiz-category6-bg))', text: 'hsl(var(--quiz-category6-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category6-bg)) 85%, black 15%)' },
+      7: { bg: 'hsl(var(--quiz-category7-bg))', text: 'hsl(var(--quiz-category7-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category7-bg)) 85%, black 15%)' },
+      8: { bg: 'hsl(var(--quiz-category8-bg))', text: 'hsl(var(--quiz-category8-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category8-bg)) 85%, black 15%)' },
     };
     
     return colorVars[colorIndex as keyof typeof colorVars] || colorVars[1];
