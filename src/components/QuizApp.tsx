@@ -532,13 +532,13 @@ export function QuizApp() {
                     }}
                   >
                     <div style={{ display: 'flex', gap: '2px', position: 'absolute', top: '3.5px', left: '50%', transform: 'translateX(-50%)' }}>
-                      <div style={{ width: '2px', height: '2px', backgroundColor: 'black', borderRadius: '50%' }}></div>
-                      <div style={{ width: '2px', height: '2px', backgroundColor: 'black', borderRadius: '50%' }}></div>
+                      <div style={{ width: '2.4px', height: '2.4px', backgroundColor: 'black', borderRadius: '50%' }}></div>
+                      <div style={{ width: '2.4px', height: '2.4px', backgroundColor: 'black', borderRadius: '50%' }}></div>
                     </div>
                     <div style={{ 
                       width: '6px', 
                       height: '2.5px', 
-                      border: '1px solid black', 
+                      border: '0.8px solid black', 
                       borderTop: 'none',
                       borderRadius: '0 0 6px 6px',
                       position: 'absolute',
