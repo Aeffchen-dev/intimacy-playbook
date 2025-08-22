@@ -135,16 +135,16 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
         colorIndex = (categoryIndex % 8) + 1;
     }
     
-    // CSS custom properties for the colors
+    // CSS custom properties for the colors with proper contrast ratios
     const colorVars = {
-      1: { bg: 'hsl(var(--quiz-category1-bg))', text: 'white' },
-      2: { bg: 'hsl(var(--quiz-category2-bg))', text: 'white' },
-      3: { bg: 'hsl(var(--quiz-category3-bg))', text: 'black' },
-      4: { bg: 'hsl(var(--quiz-category4-bg))', text: 'white' },
-      5: { bg: 'hsl(var(--quiz-category5-bg))', text: 'white' },
-      6: { bg: 'hsl(var(--quiz-category6-bg))', text: 'black' },
-      7: { bg: 'hsl(var(--quiz-category7-bg))', text: 'black' },
-      8: { bg: 'hsl(var(--quiz-category8-bg))', text: 'black' },
+      1: { bg: 'hsl(var(--quiz-category1-bg))', text: 'hsl(var(--quiz-category1-text))' },
+      2: { bg: 'hsl(var(--quiz-category2-bg))', text: 'hsl(var(--quiz-category2-text))' },
+      3: { bg: 'hsl(var(--quiz-category3-bg))', text: 'hsl(var(--quiz-category3-text))' },
+      4: { bg: 'hsl(var(--quiz-category4-bg))', text: 'hsl(var(--quiz-category4-text))' },
+      5: { bg: 'hsl(var(--quiz-category5-bg))', text: 'hsl(var(--quiz-category5-text))' },
+      6: { bg: 'hsl(var(--quiz-category6-bg))', text: 'hsl(var(--quiz-category6-text))' },
+      7: { bg: 'hsl(var(--quiz-category7-bg))', text: 'hsl(var(--quiz-category7-text))' },
+      8: { bg: 'hsl(var(--quiz-category8-bg))', text: 'hsl(var(--quiz-category8-text))' },
     };
     
     return colorVars[colorIndex as keyof typeof colorVars] || colorVars[1];
@@ -212,10 +212,12 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
 
   return (
     <div 
-      className={`relative w-full max-w-[500px] mx-auto bg-[hsl(var(--card-background))] rounded-2xl shadow-card overflow-hidden select-none max-h-full ${animationClass}`}
+      className={`relative w-full max-w-[500px] mx-auto rounded-2xl shadow-card overflow-hidden select-none max-h-full ${animationClass}`}
       style={{
         height: '100%',
-        maxHeight: '100%'
+        maxHeight: '100%',
+        backgroundColor: question.category.toLowerCase() !== 'intro' ? categoryColors.bg : 'hsl(var(--card-background))',
+        color: question.category.toLowerCase() !== 'intro' ? categoryColors.text : 'hsl(var(--foreground))'
       }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
@@ -237,37 +239,17 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
         onClick={onSwipeLeft}
       />
 
-      {/* Category Strip - Hidden for intro slides */}
-      {question.category.toLowerCase() !== 'intro' && (
-        <div 
-          className="absolute left-0 top-0 h-full w-8 flex items-center justify-center"
-          style={{ backgroundColor: categoryColors.bg }}
-        >
-          <div className="transform -rotate-90 whitespace-nowrap">
-            {Array(20).fill(question.category).map((cat, index) => (
-              <span 
-                key={index} 
-                className="font-bold text-sm tracking-wide uppercase" 
-                style={{ 
-                  color: categoryColors.text,
-                  marginRight: index < 19 ? '8px' : '0' 
-                }}
-              >
-                {cat}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Main Content */}
-      <div className={`h-full flex flex-col justify-center ${question.category.toLowerCase() === 'intro' ? 'px-8' : 'ml-8 lg:ml-10 px-8 lg:pr-10'}`}>
+      <div className={`h-full flex flex-col justify-center ${question.category.toLowerCase() === 'intro' ? 'px-8' : 'px-8 lg:px-10'}`}>
 
         <div ref={containerRef} className={`flex-1 flex w-full ${question.category.toLowerCase() === 'intro' ? 'items-center justify-start text-left' : 'items-start justify-start text-left pt-16'}`}>
           <h1 
             ref={textRef}
-            className={`font-normal text-foreground leading-tight w-full ${question.category.toLowerCase() === 'intro' ? 'text-base md:text-lg lg:text-xl max-w-md' : 'text-3xl md:text-4xl lg:text-4xl max-w-full'}`}
-            style={{ fontFamily: 'Arial, sans-serif' }}
+            className={`font-normal leading-tight w-full ${question.category.toLowerCase() === 'intro' ? 'text-base md:text-lg lg:text-xl max-w-md' : 'text-3xl md:text-4xl lg:text-4xl max-w-full'}`}
+            style={{ 
+              fontFamily: 'Arial, sans-serif',
+              color: 'inherit'
+            }}
           >
             {processedText.length > 0 ? processedText : question.question}
           </h1>
@@ -276,7 +258,7 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
         {/* Navigation hint at bottom - only for intro slides */}
         {question.category.toLowerCase() === 'intro' && (
           <div className="absolute bottom-4 left-0 right-0 text-center">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs opacity-60">
               Swipe um weiter zu navigieren
             </p>
           </div>

@@ -47,22 +47,22 @@ All colors MUST be HSL.
     --quiz-background: 0 0% 7%;
     --quiz-surface: 0 0% 12%;
     
-    /* Category-specific colors using the new provided colors */
-    --quiz-category1-bg: 0 100% 50%;         /* #FF0000 - red (Körperliche Intimität) */
+    /* Category-specific colors inspired by screenshot */
+    --quiz-category1-bg: 16 100% 60%;        /* Vibrant orange-red (Körperliche Intimität) */
     --quiz-category1-text: 0 0% 98%;         /* White text */
-    --quiz-category2-bg: 241 100% 50%;       /* #0500FF - blue (Emotionale Intimität) */
+    --quiz-category2-bg: 186 85% 45%;        /* Teal/turquoise (Emotionale Intimität) */
     --quiz-category2-text: 0 0% 98%;         /* White text */
-    --quiz-category3-bg: 318 86% 75%;        /* #FF92EF - pink (Kreative Intimität) */
+    --quiz-category3-bg: 320 75% 70%;        /* Soft purple-pink (Kreative Intimität) */
     --quiz-category3-text: 0 0% 0%;          /* Black text */
-    --quiz-category4-bg: 20 85% 45%;         /* #CC6600 - rust (Geistige Intimität) */
-    --quiz-category4-text: 0 0% 98%;         /* White text */
-    --quiz-category5-bg: 266 100% 65%;       /* #8A2BE2 - purple (Alltagsintimität) */
+    --quiz-category4-bg: 45 95% 55%;         /* Golden orange (Geistige Intimität) */
+    --quiz-category4-text: 0 0% 0%;          /* Black text */
+    --quiz-category5-bg: 270 85% 50%;        /* Deep purple (Alltagsintimität) */
     --quiz-category5-text: 0 0% 98%;         /* White text */
-    --quiz-category6-bg: 60 100% 71%;        /* #FFFE6F - yellow (Spielerische Intimität) */
+    --quiz-category6-bg: 55 100% 65%;        /* Bright yellow (Spielerische Intimität) */
     --quiz-category6-text: 0 0% 0%;          /* Black text */
-    --quiz-category7-bg: 166 80% 69%;        /* #72F1C0 - mint (Spirituelle Intimität) */
+    --quiz-category7-bg: 160 70% 55%;        /* Sage green (Spirituelle Intimität) */
     --quiz-category7-text: 0 0% 0%;          /* Black text */
-    --quiz-category8-bg: 120 100% 40%;       /* #00CC00 - green (Gemeinsame Abenteuer) */
+    --quiz-category8-bg: 200 80% 45%;        /* Ocean blue (Gemeinsame Abenteuer) */
     --quiz-category8-text: 0 0% 98%;         /* White text */
     
     /* Legacy category colors - keeping for backward compatibility */
