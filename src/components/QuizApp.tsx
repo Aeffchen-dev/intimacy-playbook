@@ -380,20 +380,6 @@ export function QuizApp() {
     setSelectedCategories(categories);
   };
 
-  // Get the darker color for toggle pill based on category index
-  const getCategoryDarkerColor = (categoryIndex: number) => {
-    const colorMap: { [key: number]: string } = {
-      0: 'hsl(var(--quiz-category1-darker))',
-      1: 'hsl(var(--quiz-category2-darker))',
-      2: 'hsl(var(--quiz-category3-darker))',
-      3: 'hsl(var(--quiz-category4-darker))',
-      4: 'hsl(var(--quiz-category5-darker))',
-      5: 'hsl(var(--quiz-category6-darker))',
-      6: 'hsl(var(--quiz-category7-darker))',
-    };
-    return colorMap[categoryIndex] || 'hsl(0 0% 100%)';
-  };
-
   const hasSlides = slides.length > 0;
   const safeIndex = hasSlides ? Math.min(currentIndex, slides.length - 1) : 0;
   const safeSlide = hasSlides ? slides[safeIndex] : undefined;
@@ -440,12 +426,7 @@ export function QuizApp() {
               setIsMixedMode(checked);
               setHasToggleBeenChanged(true);
             }}
-            className="w-[46px] data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px] [&>span]:m-0.5"
-            style={{
-              '--toggle-pill-bg': hasSlides && safeSlide?.question ? 
-                getCategoryDarkerColor(categoryColorMap[safeSlide.question.category] || 0) : 
-                'hsl(0 0% 100%)'
-            } as React.CSSProperties}
+            className="w-[46px] data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px] [&>span]:bg-white [&>span]:m-0.5"
           />
           <span className="text-white font-normal text-xs">action mode</span>
         </div>
