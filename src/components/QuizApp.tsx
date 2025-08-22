@@ -361,8 +361,8 @@ export function QuizApp() {
     
     let orderedQuestions: Question[];
     
-    if (isMixedMode) {
-      // In action mode, prioritize "Aktion" questions first
+    if (isMixedMode && hasToggleBeenChanged) {
+      // Only prioritize "Aktion" questions when user actively switched to action mode
       const aktionQuestions = filteredQuestions.filter(q => q.type === 'Aktion');
       const frageQuestions = filteredQuestions.filter(q => q.type === 'Frage');
       
@@ -373,7 +373,7 @@ export function QuizApp() {
       // Combine with "Aktion" questions first
       orderedQuestions = [...shuffledAktionQuestions, ...shuffledFrageQuestions];
     } else {
-      // In question mode, just shuffle normally
+      // For initial load or question mode, just shuffle normally
       orderedQuestions = smartShuffle([...filteredQuestions]);
     }
     
