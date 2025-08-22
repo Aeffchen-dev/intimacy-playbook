@@ -33,8 +33,9 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
     const processText = () => {
       if (!containerRef.current) return;
 
-      // Split by line breaks first to preserve them
-      const lines = question.question.split('\n');
+      // Split by line breaks first, but collapse multiple consecutive line breaks into single ones
+      const normalizedText = question.question.replace(/\n\s*\n+/g, '\n').trim();
+      const lines = normalizedText.split('\n');
       const containerWidth = containerRef.current.getBoundingClientRect().width;
       
       // Create temporary element to measure word width with exact same styles
