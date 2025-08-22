@@ -1,0 +1,183 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 98%;
+    --card-background: 0 0% 8.6%;
+
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 280 100% 70%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 280 100% 70%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 280 100% 70%;
+
+    --radius: 1rem;
+    
+    /* Quiz App Custom Colors */
+    --quiz-primary: 280 100% 70%;
+    --quiz-accent: 290 100% 80%;
+    --quiz-category-bg: 290 100% 85%;
+    --quiz-category-text: 0 0% 15%;
+    --quiz-background: 0 0% 7%;
+    --quiz-surface: 0 0% 12%;
+    
+    /* Category-specific colors using the new provided colors */
+    --quiz-category1-bg: 0 100% 50%;         /* #FF0000 - red (Körperliche Intimität) */
+    --quiz-category1-text: 0 0% 98%;         /* White text */
+    --quiz-category2-bg: 241 100% 50%;       /* #0500FF - blue (Emotionale Intimität) */
+    --quiz-category2-text: 0 0% 98%;         /* White text */
+    --quiz-category3-bg: 318 86% 75%;        /* #FF92EF - pink (Kreative Intimität) */
+    --quiz-category3-text: 0 0% 0%;          /* Black text */
+    --quiz-category4-bg: 20 85% 45%;         /* #CC6600 - rust (Geistige Intimität) */
+    --quiz-category4-text: 0 0% 98%;         /* White text */
+    --quiz-category5-bg: 266 100% 65%;       /* #8A2BE2 - purple (Alltagsintimität) */
+    --quiz-category5-text: 0 0% 98%;         /* White text */
+    --quiz-category6-bg: 60 100% 71%;        /* #FFFE6F - yellow (Spielerische Intimität) */
+    --quiz-category6-text: 0 0% 0%;          /* Black text */
+    --quiz-category7-bg: 166 80% 69%;        /* #72F1C0 - mint (Spirituelle Intimität) */
+    --quiz-category7-text: 0 0% 0%;          /* Black text */
+    --quiz-category8-bg: 120 100% 40%;       /* #00CC00 - green (Gemeinsame Abenteuer) */
+    --quiz-category8-text: 0 0% 98%;         /* White text */
+    
+    /* Legacy category colors - keeping for backward compatibility */
+    --quiz-werte-bg: 266 100% 51%;           /* #7004FF */
+    --quiz-werte-text: 0 0% 98%;
+    --quiz-bedürfnisse-bg: 241 100% 50%;     /* #0500FF */
+    --quiz-bedürfnisse-text: 0 0% 98%;
+    --quiz-kommunikation-bg: 318 86% 75%;    /* #FF92EF */
+    --quiz-kommunikation-text: 0 0% 0%;
+    --quiz-motivation-bg: 60 100% 71%;       /* #FFFE6F */
+    --quiz-motivation-text: 0 0% 0%;
+    --quiz-grenzen-bg: 185 72% 53%;          /* #28C8E4 */
+    --quiz-grenzen-text: 0 0% 98%;
+    --quiz-vision-bg: 166 80% 69%;           /* #72F1C0 */
+    --quiz-vision-text: 0 0% 0%;
+    --quiz-no-go-bg: 266 100% 51%;           /* #7004FF */
+    --quiz-no-go-text: 0 0% 98%;
+    --quiz-risiko-bg: 241 100% 50%;          /* #0500FF */
+    --quiz-risiko-text: 0 0% 98%;
+    --quiz-regeln-bg: 318 86% 75%;           /* #FF92EF */
+    --quiz-regeln-text: 0 0% 0%;
+    --quiz-info-bg: 60 100% 71%;             /* #FFFE6F */
+    --quiz-info-text: 0 0% 0%;
+    --quiz-reflexion-bg: 185 72% 53%;        /* #28C8E4 */
+    --quiz-reflexion-text: 0 0% 98%;
+    --quiz-bindung-bg: 166 80% 69%;          /* #72F1C0 */
+    --quiz-bindung-text: 0 0% 0%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(280 100% 70%), hsl(290 100% 80%));
+    --gradient-surface: linear-gradient(135deg, hsl(0 0% 10%), hsl(0 0% 15%));
+    
+    /* Shadows */
+    --shadow-glow: 0 0 40px hsl(280 100% 70% / 0.3);
+    --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
+    
+    /* Animations */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-quick: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 0 0% 0%;
+    --foreground: 210 40% 98%;
+    --card-background: 0 0% 8.6%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+/* Kokoro Font Definition */
+@font-face {
+  font-family: 'Kokoro';
+  src: url('/fonts/kokoro-bolditalic-webfont.woff2') format('woff2');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    overflow: hidden;
+    height: 100vh;
+    height: 100svh;
+  }
+}
