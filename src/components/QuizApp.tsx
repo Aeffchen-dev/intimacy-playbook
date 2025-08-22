@@ -302,22 +302,75 @@ export function QuizApp() {
     const offsetY = clientY - dragStartY;
     setDragOffsetX(offsetX);
     setDragOffsetY(offsetY);
+    
+    // Auto-complete drag when 20% of card is outside viewport
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const cardWidth = 500; // max-w-[500px] from card
+    const cardHeight = Math.min(window.innerHeight * 0.7, 600); // Approximate card height
+    
+    const threshold20Percent = 0.2;
+    
+    // Check if 20% of card is outside any edge
+    const isOutsideLeft = offsetX < -(cardWidth * threshold20Percent);
+    const isOutsideRight = offsetX > (viewportWidth - cardWidth + (cardWidth * threshold20Percent));
+    const isOutsideTop = offsetY < -(cardHeight * threshold20Percent);
+    const isOutsideBottom = offsetY > (viewportHeight - cardHeight + (cardHeight * threshold20Percent));
+    
+    if (isOutsideLeft || isOutsideRight || isOutsideTop || isOutsideBottom) {
+      // Auto-complete the drag
+      handleDragEnd(true);
+    }
   };
 
-  const handleDragEnd = () => {
+  const handleDragEnd = (autoComplete = false) => {
     if (!isDragging) return;
     
-    const threshold = 20;
-    const distance = Math.sqrt(dragOffsetX * dragOffsetX + dragOffsetY * dragOffsetY);
-    
-    if (distance > threshold && currentIndex < slides.length - 1) {
-      // Dragged far enough - move to next slide
-      nextQuestion();
+    if (autoComplete) {
+      // Auto-complete: animate card out of viewport completely
+      setIsTransitioning(true);
+      
+      // Determine direction to animate out
+      let finalX = dragOffsetX;
+      let finalY = dragOffsetY;
+      
+      if (Math.abs(dragOffsetX) > Math.abs(dragOffsetY)) {
+        // Horizontal movement dominates
+        finalX = dragOffsetX > 0 ? window.innerWidth : -window.innerWidth;
+        finalY = dragOffsetY;
+      } else {
+        // Vertical movement dominates
+        finalX = dragOffsetX;
+        finalY = dragOffsetY > 0 ? window.innerHeight : -window.innerHeight;
+      }
+      
+      setDragOffsetX(finalX);
+      setDragOffsetY(finalY);
+      
+      // Complete transition after animation
+      setTimeout(() => {
+        if (currentIndex < slides.length - 1) {
+          setCurrentIndex(prev => prev + 1);
+        }
+        setIsDragging(false);
+        setDragOffsetX(0);
+        setDragOffsetY(0);
+        setIsTransitioning(false);
+      }, 300);
+    } else {
+      // Normal drag end - check threshold
+      const threshold = 20;
+      const distance = Math.sqrt(dragOffsetX * dragOffsetX + dragOffsetY * dragOffsetY);
+      
+      if (distance > threshold && currentIndex < slides.length - 1) {
+        // Dragged far enough - move to next slide
+        nextQuestion();
+      }
+      
+      setIsDragging(false);
+      setDragOffsetX(0);
+      setDragOffsetY(0);
     }
-    
-    setIsDragging(false);
-    setDragOffsetX(0);
-    setDragOffsetY(0);
   };
 
   const handleKeyPress = (e: KeyboardEvent) => {
@@ -556,8 +609,8 @@ export function QuizApp() {
                 
                 if (isActive) {
                   // Current slide (top of stack) - can be dragged
-                  if (isDragging) {
-                    // Card follows finger/mouse exactly, no transitions
+                  if (isDragging || isTransitioning) {
+                    // Card follows finger/mouse exactly, or animates out when transitioning
                     transform = `translateX(${dragOffsetX}px) translateY(${dragOffsetY}px)`;
                   } else {
                     // Normal position when not dragging
@@ -576,7 +629,7 @@ export function QuizApp() {
                     style={{
                       transform,
                       zIndex,
-                      transition: isDragging && isActive ? 'none' : 'transform 0.3s ease-in-out',
+                      transition: (isDragging && !isTransitioning) && isActive ? 'none' : 'transform 0.3s ease-out',
                       transformOrigin: 'center center'
                     }}
                   >
