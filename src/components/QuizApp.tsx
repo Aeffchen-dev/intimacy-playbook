@@ -434,8 +434,8 @@ export function QuizApp() {
                   <div 
                     style={{
                       display: 'inline-block',
-                      width: '17px',
-                      height: '17px',
+                      width: '15px',
+                      height: '15px',
                       backgroundColor: '#fbbf24',
                       borderRadius: '50%',
                       alignItems: 'center',
@@ -445,18 +445,18 @@ export function QuizApp() {
                       transform: 'rotate(-2deg)'
                     }}
                   >
-                    <div style={{ display: 'flex', gap: '2px', position: 'absolute', top: '4px', left: '50%', transform: 'translateX(-50%)' }}>
-                      <div style={{ width: '2.2px', height: '2.2px', backgroundColor: 'black', borderRadius: '50%' }}></div>
-                      <div style={{ width: '2.2px', height: '2.2px', backgroundColor: 'black', borderRadius: '50%' }}></div>
+                    <div style={{ display: 'flex', gap: '2px', position: 'absolute', top: '3.5px', left: '50%', transform: 'translateX(-50%)' }}>
+                      <div style={{ width: '2px', height: '2px', backgroundColor: 'black', borderRadius: '50%' }}></div>
+                      <div style={{ width: '2px', height: '2px', backgroundColor: 'black', borderRadius: '50%' }}></div>
                     </div>
                     <div style={{ 
-                      width: '7px', 
-                      height: '3px', 
+                      width: '6px', 
+                      height: '2.5px', 
                       border: '1px solid black', 
                       borderTop: 'none',
-                      borderRadius: '0 0 7px 7px',
+                      borderRadius: '0 0 6px 6px',
                       position: 'absolute',
-                      top: '9.5px',
+                      top: '8.5px',
                       left: '50%',
                       transform: 'translateX(-50%)'
                     }}></div>
