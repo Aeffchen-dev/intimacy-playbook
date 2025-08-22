@@ -65,10 +65,10 @@ const Switch = React.forwardRef<
         }}
       >
         {/* Eyes */}
-        <circle cx="3.5" cy="4" r="1.2" fill="black" />
-        <circle cx="8.5" cy="4" r="1.2" fill="black" />
+        <circle cx="3.5" cy="4" r="1" fill="black" />
+        <circle cx="8.5" cy="4" r="1" fill="black" />
         {/* Mouth */}
-        <path d="M3 7.5 C4.5 9, 7.5 9, 9 7.5" stroke="black" strokeWidth="0.8" fill="none" strokeLinecap="round" />
+        <path d="M3 7.5 C4.5 9, 7.5 9, 9 7.5" stroke="black" strokeWidth="1" fill="none" strokeLinecap="round" />
       </svg>
     </div>
   </SwitchPrimitives.Root>
