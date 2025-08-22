@@ -52,7 +52,7 @@ const Switch = React.forwardRef<
         alignItems: 'center',
         justifyContent: 'center',
         boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-        transition: 'all 0.6s ease-in-out'
+        transition: 'all 0.5s ease-in-out'
       }}
     >
       <svg 
@@ -62,7 +62,7 @@ const Switch = React.forwardRef<
         fill="none" 
         style={{ 
           transform: `rotate(${totalRotation}deg)`,
-          transition: 'transform 0.6s ease-in-out'
+          transition: 'transform 0.5s ease-in-out'
         }}
       >
         {/* Eyes */}
