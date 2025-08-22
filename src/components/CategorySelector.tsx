@@ -158,7 +158,7 @@ export function CategorySelector({
                               style={{
                                 strokeDasharray: '20',
                                 strokeDashoffset: '20',
-                                animation: 'drawCheckmark 0.4s ease-out forwards'
+                                animation: 'drawCheckmark 0.2s ease-out forwards'
                               }}
                             />
                           </svg>
