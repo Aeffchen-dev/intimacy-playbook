@@ -80,11 +80,11 @@ export function CategorySelector({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-screen h-screen bg-background border-0 p-0 overflow-hidden [&>button]:hidden fixed inset-0 flex items-center justify-center">
+      <DialogContent className="w-screen h-screen bg-background border-0 p-0 overflow-hidden [&>button]:hidden fixed inset-0 relative z-50">
         <DialogDescription className="sr-only">
           Wählen Sie die Kategorien aus, die Sie sehen möchten
         </DialogDescription>
-        <div className="flex flex-col w-full max-w-md mx-auto bg-background rounded-2xl overflow-hidden">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col w-full max-w-md mx-auto bg-background overflow-hidden">
           {/* Header */}
           <div className="flex items-center justify-between px-6 pt-4 pb-2 bg-background">
             <DialogHeader>
