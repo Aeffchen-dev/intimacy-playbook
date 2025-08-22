@@ -323,36 +323,44 @@ export function QuizApp() {
     }
   };
 
+  // Multi-slide system state
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [transitionDirection, setTransitionDirection] = useState<'left' | 'right' | null>(null);
+
   // Real-time dragging state
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
   const [dragStartX, setDragStartX] = useState(0);
 
   const nextQuestion = () => {
-    if (currentIndex < slides.length - 1) {
-      setAnimationClass('animate-slide-out-left');
+    if (currentIndex < slides.length - 1 && !isTransitioning) {
+      setIsTransitioning(true);
+      setTransitionDirection('left');
+      
       setTimeout(() => {
         setCurrentIndex(prev => prev + 1);
-        setAnimationClass('animate-slide-in-right');
-        setTimeout(() => setAnimationClass(''), 500);
+        setIsTransitioning(false);
+        setTransitionDirection(null);
       }, 300);
     }
   };
 
   const prevQuestion = () => {
-    if (currentIndex > 0) {
-      setAnimationClass('animate-slide-out-right');
+    if (currentIndex > 0 && !isTransitioning) {
+      setIsTransitioning(true);
+      setTransitionDirection('right');
+      
       setTimeout(() => {
         setCurrentIndex(prev => prev - 1);
-        setAnimationClass('animate-slide-in-left');
-        setTimeout(() => setAnimationClass(''), 500);
+        setIsTransitioning(false);
+        setTransitionDirection(null);
       }, 300);
     }
   };
 
   // Real-time drag handlers
   const handleDragStart = (clientX: number) => {
-    if (animationClass) return; // Don't start drag during animation
+    if (isTransitioning) return;
     setIsDragging(true);
     setDragStartX(clientX);
     setDragOffset(0);
@@ -367,14 +375,12 @@ export function QuizApp() {
   const handleDragEnd = () => {
     if (!isDragging) return;
     
-    const threshold = 100; // Minimum drag distance to trigger slide change
+    const threshold = 100;
     
     if (Math.abs(dragOffset) > threshold) {
       if (dragOffset > 0 && currentIndex > 0) {
-        // Dragged right - go to previous
         prevQuestion();
       } else if (dragOffset < 0 && currentIndex < slides.length - 1) {
-        // Dragged left - go to next
         nextQuestion();
       }
     }
@@ -600,24 +606,81 @@ export function QuizApp() {
         </button>
       </div>
 
-      {/* Main Quiz Container */}
+      {/* Main Quiz Container with multi-slide carousel */}
       <div className="flex-1 flex flex-col px-4 overflow-hidden mt-4 gap-3" style={{ minHeight: 0 }}>
-        <div className="flex-1 flex items-stretch justify-center min-h-0">
+        <div className="flex-1 flex items-stretch justify-center min-h-0 relative">
           {loading ? (
             <div className="flex items-center justify-center h-full text-white text-xl">Lade Fragen...</div>
           ) : hasSlides ? (
-            <QuizCard
-              question={safeSlide!.question!}
-              onSwipeLeft={nextQuestion}
-              onSwipeRight={prevQuestion}
-              animationClass={animationClass}
-              categoryIndex={categoryColorMap[safeSlide!.question!.category] || 0}
-              onDragStart={handleDragStart}
-              onDragMove={handleDragMove}
-              onDragEnd={handleDragEnd}
-              dragOffset={dragOffset}
-              isDragging={isDragging}
-            />
+            <div className="relative w-full h-full flex items-center justify-center">
+              {/* Render current slide and adjacent slides for transitions */}
+              {slides.map((slide, index) => {
+                const isActive = index === safeIndex;
+                const isPrev = index === safeIndex - 1;
+                const isNext = index === safeIndex + 1;
+                
+                if (!isActive && !isPrev && !isNext) return null;
+                
+                let transform = '';
+                let zIndex = 1;
+                
+                if (isActive) {
+                  // Current slide positioning
+                  if (isDragging) {
+                    transform = `translateX(${dragOffset}px)`;
+                  } else if (isTransitioning && transitionDirection === 'left') {
+                    transform = 'translateX(calc(-100% - 16px))';
+                  } else if (isTransitioning && transitionDirection === 'right') {
+                    transform = 'translateX(calc(100% + 16px))';
+                  } else {
+                    transform = 'translateX(0)';
+                  }
+                  zIndex = 2;
+                } else if (isPrev) {
+                  // Previous slide positioning
+                  if (isDragging) {
+                    transform = `translateX(calc(-100% - 16px + ${dragOffset}px))`;
+                  } else if (isTransitioning && transitionDirection === 'right') {
+                    transform = 'translateX(0)';
+                  } else {
+                    transform = 'translateX(calc(-100% - 16px))';
+                  }
+                } else if (isNext) {
+                  // Next slide positioning
+                  if (isDragging) {
+                    transform = `translateX(calc(100% + 16px + ${dragOffset}px))`;
+                  } else if (isTransitioning && transitionDirection === 'left') {
+                    transform = 'translateX(0)';
+                  } else {
+                    transform = 'translateX(calc(100% + 16px))';
+                  }
+                }
+                
+                return (
+                  <div
+                    key={`slide-${index}`}
+                    className="absolute inset-0 w-full h-full"
+                    style={{
+                      transform,
+                      zIndex,
+                      transition: isDragging ? 'none' : 'transform 0.3s ease-in-out'
+                    }}
+                  >
+                    <QuizCard
+                      question={slide.question!}
+                      onSwipeLeft={nextQuestion}
+                      onSwipeRight={prevQuestion}
+                      categoryIndex={categoryColorMap[slide.question!.category] || 0}
+                      onDragStart={handleDragStart}
+                      onDragMove={handleDragMove}
+                      onDragEnd={handleDragEnd}
+                      dragOffset={isDragging ? dragOffset : 0}
+                      isDragging={isDragging}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           ) : (
             <div className="flex items-center justify-center h-full text-white text-xl">Keine Fragen verfügbar</div>
           )}

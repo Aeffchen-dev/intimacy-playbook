@@ -251,14 +251,12 @@ export function QuizCard({
 
   return (
     <div 
-      className={`relative w-full max-w-[500px] mx-auto rounded-[2rem] shadow-card overflow-hidden select-none max-h-full ${animationClass}`}
+      className={`relative w-full max-w-[500px] mx-auto rounded-[2rem] shadow-card overflow-hidden select-none max-h-full`}
       style={{
         height: '100%',
         maxHeight: '100%',
         backgroundColor: question.category.toLowerCase() !== 'intro' ? categoryColors.bg : 'hsl(var(--card-background))',
-        color: question.category.toLowerCase() !== 'intro' ? categoryColors.text : 'hsl(var(--foreground))',
-        transform: isDragging ? `translateX(${dragOffset}px)` : undefined,
-        transition: isDragging ? 'none' : undefined
+        color: question.category.toLowerCase() !== 'intro' ? categoryColors.text : 'hsl(var(--foreground))'
       }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
