@@ -385,11 +385,26 @@ export function QuizApp() {
 
   return (
     <div className="min-h-[100svh] h-[100svh] bg-background overflow-hidden flex flex-col" style={{ height: '100svh' }}>
-      {/* App Header */}
-      <div className="bg-black mt-4 flex items-center w-full" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
-        <div className="flex items-baseline px-4 w-full">
-          <h1 className="text-white font-kokoro text-2xl" style={{ fontFamily: 'Kokoro, serif', fontWeight: 'bold', fontStyle: 'italic' }}>Intimacy Playbook</h1>
+      {/* App Header with controls */}
+      <div className="bg-black mt-4 flex items-center justify-between w-full px-4" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
+        <div className="flex items-center gap-2">
+          <span className="text-white font-normal text-xs">Frage</span>
+          <Switch 
+            checked={isMixedMode}
+            onCheckedChange={(checked) => {
+              setIsMixedMode(checked);
+              setHasToggleBeenChanged(true);
+            }}
+            className="data-[state=checked]:bg-white data-[state=unchecked]:bg-white"
+          />
+          <span className="text-white font-normal text-xs">Aktion</span>
         </div>
+        <button 
+          onClick={() => setCategorySelectorOpen(true)}
+          className="text-white font-normal text-xs flex items-center"
+        >
+          Kategorien wählen
+        </button>
       </div>
 
       {/* Main Quiz Container */}
@@ -420,28 +435,6 @@ export function QuizApp() {
           ) : (
             <div className="text-white text-xl">Keine Fragen verfügbar</div>
           )}
-        </div>
-        
-        {/* Bottom Footer */}
-        <div className="flex justify-between items-center w-full flex-shrink-0 mb-4" style={{ paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom, 0.5rem))' }}>
-          <div className="flex items-center gap-2">
-            <span className="text-white font-normal text-xs">Frage</span>
-            <Switch 
-              checked={isMixedMode}
-              onCheckedChange={(checked) => {
-                setIsMixedMode(checked);
-                setHasToggleBeenChanged(true);
-              }}
-              className="data-[state=checked]:bg-white data-[state=unchecked]:bg-white"
-            />
-            <span className="text-white font-normal text-xs">Aktion</span>
-          </div>
-          <button 
-            onClick={() => setCategorySelectorOpen(true)}
-            className="text-white font-normal text-xs flex items-center"
-          >
-            Kategorien wählen
-          </button>
         </div>
       </div>
       

@@ -48,7 +48,7 @@ All colors MUST be HSL.
     --quiz-surface: 0 0% 12%;
     
     /* Category-specific colors adjusted for 4.5:1 contrast with black text */
-    --quiz-category1-bg: 16 85% 75%;         /* Light orange-red */
+    --quiz-category1-bg: 180 85% 70%;        /* Light cyan instead of orange */
     --quiz-category1-text: 0 0% 0%;          /* Black text */
     --quiz-category2-bg: 186 70% 70%;        /* Light teal/turquoise */
     --quiz-category2-text: 0 0% 0%;          /* Black text */

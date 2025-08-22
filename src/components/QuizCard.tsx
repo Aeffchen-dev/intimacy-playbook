@@ -247,7 +247,9 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
             ref={textRef}
             className={`font-normal leading-tight w-full ${question.category.toLowerCase() === 'intro' ? 'text-base md:text-lg lg:text-xl max-w-md' : 'text-3xl md:text-4xl lg:text-4xl max-w-full'}`}
             style={{ 
-              fontFamily: 'Arial, sans-serif',
+              fontFamily: 'Kokoro, serif',
+              fontWeight: 'bold',
+              fontStyle: 'italic',
               color: question.category.toLowerCase() !== 'intro' ? categoryColors.text : 'hsl(var(--foreground))'
             }}
           >
