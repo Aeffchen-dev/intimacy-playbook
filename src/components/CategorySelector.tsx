@@ -143,9 +143,9 @@ export function CategorySelector({
                       >
                         {isSelected && (
                           <Check 
-                            className="text-white" 
+                            className="text-white animate-scale-in" 
                             style={{ width: '20px', height: '20px' }}
-                            strokeWidth={1}
+                            strokeWidth={2}
                           />
                         )}
                       </div>
