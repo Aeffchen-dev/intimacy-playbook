@@ -563,7 +563,7 @@ export function QuizApp() {
       </div>
 
       {/* Main Quiz Container */}
-      <div className="flex-1 flex flex-col px-4 overflow-hidden mt-4 gap-4" style={{ minHeight: 0 }}>
+      <div className="flex-1 flex flex-col px-4 overflow-hidden mt-4 gap-2" style={{ minHeight: 0 }}>
         <div className="flex-1 flex items-stretch justify-center min-h-0">
           {loading ? (
             <div className="flex items-center justify-center h-full text-white text-xl">Lade Fragen...</div>
@@ -581,7 +581,7 @@ export function QuizApp() {
         </div>
         
         {/* Toggle centered below the card */}
-        <div className="flex items-center justify-center pb-4 w-full">
+        <div className="flex items-center justify-center pb-2 w-full">
           <div className="flex items-center">
             <div 
               className="flex items-center cursor-pointer py-2" 
