@@ -88,10 +88,10 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
         });
 
         return (
-          <div key={lineIndex}>
+          <span key={lineIndex} style={{ display: 'inline' }}>
             {processedWords}
             {lineIndex < lines.length - 1 && <br />}
-          </div>
+          </span>
         );
       });
 
