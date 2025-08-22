@@ -247,7 +247,7 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
         {question.category.toLowerCase() !== 'intro' && (
           <div className="mb-4">
             <div 
-              className="px-4 py-1 rounded-full font-medium inline-block"
+              className="px-4 py-2 rounded-full font-medium inline-block"
               style={{
                 backgroundColor: categoryColors.pillBg,
                 color: categoryColors.text,
