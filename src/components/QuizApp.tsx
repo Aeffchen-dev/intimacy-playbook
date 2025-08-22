@@ -84,11 +84,9 @@ export function QuizApp() {
     fetchQuestions();
   }, []);
 
-  // Trigger logo animation when loading starts
+  // Rotate smiley during loading
   useEffect(() => {
-    if (loading && !logoAnimating) {
-      handleLogoClick();
-      // Also rotate smiley during loading
+    if (loading) {
       setLoadingSmileyRotating(true);
       setTimeout(() => {
         setLoadingSmileyRotating(false);
