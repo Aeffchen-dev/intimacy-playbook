@@ -531,7 +531,7 @@ export function QuizApp() {
                       transition: 'transform 0.3s ease-in-out'
                     }}
                   >
-                    <div style={{ display: 'flex', gap: '2px', position: 'absolute', top: '3.5px', left: '50%', transform: 'translateX(-50%)' }}>
+                    <div style={{ display: 'flex', gap: '2px', position: 'absolute', top: '4.5px', left: '50%', transform: 'translateX(-50%)' }}>
                       <div style={{ width: '2px', height: '2px', backgroundColor: 'black', borderRadius: '50%' }}></div>
                       <div style={{ width: '2px', height: '2px', backgroundColor: 'black', borderRadius: '50%' }}></div>
                     </div>
@@ -542,7 +542,7 @@ export function QuizApp() {
                       borderTop: 'none',
                       borderRadius: '0 0 6px 6px',
                       position: 'absolute',
-                      top: '7.5px',
+                      top: '8.5px',
                       left: '50%',
                       transform: 'translateX(-50%)'
                     }}></div>
