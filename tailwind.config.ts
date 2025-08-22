@@ -146,20 +146,20 @@ export default {
 					}
 				},
 				'slide-in-left': {
-					'0%': { transform: 'translateX(-100%)', opacity: '1' },
+					'0%': { transform: 'translateX(calc(-100% - 16px))', opacity: '1' },
 					'100%': { transform: 'translateX(0)', opacity: '1' }
 				},
 				'slide-in-right': {
-					'0%': { transform: 'translateX(100%)', opacity: '1' },
+					'0%': { transform: 'translateX(calc(100% + 16px))', opacity: '1' },
 					'100%': { transform: 'translateX(0)', opacity: '1' }
 				},
 				'slide-out-left': {
 					'0%': { transform: 'translateX(0)', opacity: '1' },
-					'100%': { transform: 'translateX(-100%)', opacity: '1' }
+					'100%': { transform: 'translateX(calc(-100% - 16px))', opacity: '1' }
 				},
 				'slide-out-right': {
 					'0%': { transform: 'translateX(0)', opacity: '1' },
-					'100%': { transform: 'translateX(100%)', opacity: '1' }
+					'100%': { transform: 'translateX(calc(100% + 16px))', opacity: '1' }
 				},
 				'glow-pulse': {
 					'0%, 100%': { boxShadow: '0 0 20px hsl(280 100% 70% / 0.3)' },
