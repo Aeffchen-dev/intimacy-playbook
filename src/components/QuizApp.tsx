@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { StackedCards } from './StackedCards';
+import { QuizCard } from './QuizCard';
 import { CategorySelector } from './CategorySelector';
 import { IntroSlide } from './IntroSlide';
 import { Switch } from './ui/switch';
@@ -63,6 +63,7 @@ const smartShuffle = (questions: Question[]): Question[] => {
 
 export function QuizApp() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [animationClass, setAnimationClass] = useState('');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [allQuestions, setAllQuestions] = useState<Question[]>([]);
   const [introSlide, setIntroSlide] = useState<Question | null>(null);
@@ -77,6 +78,67 @@ export function QuizApp() {
 
   useEffect(() => {
     fetchQuestions();
+  }, []);
+
+  // Add touch/mouse handlers for desktop swipe
+  useEffect(() => {
+    let startX = 0;
+    let startY = 0;
+    let isDragging = false;
+
+    const handleStart = (clientX: number, clientY: number) => {
+      startX = clientX;
+      startY = clientY;
+      isDragging = true;
+    };
+
+    const handleEnd = (clientX: number, clientY: number) => {
+      if (!isDragging) return;
+      
+      const deltaX = clientX - startX;
+      const deltaY = clientY - startY;
+      
+      // Only trigger if horizontal movement is greater than vertical
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+        if (deltaX > 0) {
+          prevQuestion();
+        } else {
+          nextQuestion();
+        }
+      }
+      
+      isDragging = false;
+    };
+
+    const handleMouseDown = (e: MouseEvent) => {
+      handleStart(e.clientX, e.clientY);
+    };
+
+    const handleMouseUp = (e: MouseEvent) => {
+      handleEnd(e.clientX, e.clientY);
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      handleStart(touch.clientX, touch.clientY);
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      const touch = e.changedTouches[0];
+      handleEnd(touch.clientX, touch.clientY);
+    };
+
+    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('touchstart', handleTouchStart);
+    document.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchend', handleTouchEnd);
+    };
   }, []);
 
   const fetchQuestions = async () => {
@@ -248,9 +310,38 @@ export function QuizApp() {
 
   const nextQuestion = () => {
     if (currentIndex < slides.length - 1) {
-      setCurrentIndex(prev => prev + 1);
+      setAnimationClass('animate-slide-out-left');
+      setTimeout(() => {
+        setCurrentIndex(prev => prev + 1);
+        setAnimationClass('animate-slide-in-right');
+        setTimeout(() => setAnimationClass(''), 500);
+      }, 300);
     }
   };
+
+  const prevQuestion = () => {
+    if (currentIndex > 0) {
+      setAnimationClass('animate-slide-out-right');
+      setTimeout(() => {
+        setCurrentIndex(prev => prev - 1);
+        setAnimationClass('animate-slide-in-left');
+        setTimeout(() => setAnimationClass(''), 500);
+      }, 300);
+    }
+  };
+
+  const handleKeyPress = (e: KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') {
+      prevQuestion();
+    } else if (e.key === 'ArrowRight') {
+      nextQuestion();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [currentIndex]);
 
   // Filter and order slides based on categories and mode
   useEffect(() => {
@@ -297,7 +388,7 @@ export function QuizApp() {
     <div className="min-h-[100svh] h-[100svh] bg-background overflow-hidden flex flex-col" style={{ height: '100svh' }}>
       {/* App Header with controls */}
       <div className="bg-black mt-4 flex items-center justify-between w-full px-4" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
-        <div className="text-white text-lg" style={{ fontFamily: 'Kokoro, serif', fontWeight: 'bold', fontStyle: 'italic' }}>
+        <div className="text-white font-schoolbell font-bold text-lg">
           Intimacy Playbook
         </div>
         <button 
@@ -314,10 +405,12 @@ export function QuizApp() {
           {loading ? (
             <div className="flex items-center justify-center h-full text-white text-xl">Lade Fragen...</div>
           ) : hasSlides ? (
-            <StackedCards
-              slides={slides.slice(currentIndex)}
-              onCardRemoved={nextQuestion}
-              categoryColorMap={categoryColorMap}
+            <QuizCard
+              question={safeSlide!.question!}
+              onSwipeLeft={nextQuestion}
+              onSwipeRight={prevQuestion}
+              animationClass={animationClass}
+              categoryIndex={categoryColorMap[safeSlide!.question!.category] || 0}
             />
           ) : (
             <div className="text-white text-xl">Keine Fragen verfügbar</div>
