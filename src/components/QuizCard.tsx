@@ -43,9 +43,10 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
         position: absolute;
         visibility: hidden;
         white-space: nowrap;
-        font-size: 3rem;
-        font-family: inherit;
-        font-weight: normal;
+        font-size: 5rem;
+        font-family: Kokoro, serif;
+        font-weight: bold;
+        font-style: italic;
         padding: 0;
         margin: 0;
         border: 0;
@@ -108,13 +109,13 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
     let colorIndex;
     switch(question.category) {
       case 'Körperliche Intimität':
-        colorIndex = 1; // Red
+        colorIndex = 1; // Cyan
         break;
       case 'Emotionale Intimität':
-        colorIndex = 2; // Blue
+        colorIndex = 2; // Teal
         break;
       case 'Geistige Intimität':
-        colorIndex = 4; // Rust
+        colorIndex = 4; // Golden
         break;
       case 'Kreative Intimität':
         colorIndex = 3; // Pink
@@ -129,7 +130,7 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
         colorIndex = 5; // Purple
         break;
       case 'Gemeinsame Abenteuer':
-        colorIndex = 8; // Green
+        colorIndex = 8; // Blue
         break;
       default:
         colorIndex = (categoryIndex % 8) + 1;
@@ -137,14 +138,14 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
     
     // CSS custom properties for the colors with proper contrast ratios
     const colorVars = {
-      1: { bg: 'hsl(var(--quiz-category1-bg))', text: 'hsl(var(--quiz-category1-text))' },
-      2: { bg: 'hsl(var(--quiz-category2-bg))', text: 'hsl(var(--quiz-category2-text))' },
-      3: { bg: 'hsl(var(--quiz-category3-bg))', text: 'hsl(var(--quiz-category3-text))' },
-      4: { bg: 'hsl(var(--quiz-category4-bg))', text: 'hsl(var(--quiz-category4-text))' },
-      5: { bg: 'hsl(var(--quiz-category5-bg))', text: 'hsl(var(--quiz-category5-text))' },
-      6: { bg: 'hsl(var(--quiz-category6-bg))', text: 'hsl(var(--quiz-category6-text))' },
-      7: { bg: 'hsl(var(--quiz-category7-bg))', text: 'hsl(var(--quiz-category7-text))' },
-      8: { bg: 'hsl(var(--quiz-category8-bg))', text: 'hsl(var(--quiz-category8-text))' },
+      1: { bg: 'hsl(var(--quiz-category1-bg))', text: 'hsl(var(--quiz-category1-text))', pillBg: 'hsl(180 85% 55%)' },
+      2: { bg: 'hsl(var(--quiz-category2-bg))', text: 'hsl(var(--quiz-category2-text))', pillBg: 'hsl(186 70% 55%)' },
+      3: { bg: 'hsl(var(--quiz-category3-bg))', text: 'hsl(var(--quiz-category3-text))', pillBg: 'hsl(320 60% 65%)' },
+      4: { bg: 'hsl(var(--quiz-category4-bg))', text: 'hsl(var(--quiz-category4-text))', pillBg: 'hsl(45 85% 60%)' },
+      5: { bg: 'hsl(var(--quiz-category5-bg))', text: 'hsl(var(--quiz-category5-text))', pillBg: 'hsl(270 65% 60%)' },
+      6: { bg: 'hsl(var(--quiz-category6-bg))', text: 'hsl(var(--quiz-category6-text))', pillBg: 'hsl(55 85% 65%)' },
+      7: { bg: 'hsl(var(--quiz-category7-bg))', text: 'hsl(var(--quiz-category7-text))', pillBg: 'hsl(160 55% 60%)' },
+      8: { bg: 'hsl(var(--quiz-category8-bg))', text: 'hsl(var(--quiz-category8-text))', pillBg: 'hsl(200 65% 55%)' },
     };
     
     return colorVars[colorIndex as keyof typeof colorVars] || colorVars[1];
@@ -241,11 +242,26 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
 
       {/* Main Content */}
       <div className={`h-full flex flex-col justify-center ${question.category.toLowerCase() === 'intro' ? 'px-8' : 'px-8 lg:px-10'}`}>
+        
+        {/* Category Pill - Only for non-intro slides */}
+        {question.category.toLowerCase() !== 'intro' && (
+          <div className="absolute top-6 left-1/2 transform -translate-x-1/2 z-20">
+            <div 
+              className="px-4 py-2 rounded-full text-sm font-medium"
+              style={{
+                backgroundColor: categoryColors.pillBg,
+                color: categoryColors.text
+              }}
+            >
+              {question.category}
+            </div>
+          </div>
+        )}
 
-        <div ref={containerRef} className={`flex-1 flex w-full ${question.category.toLowerCase() === 'intro' ? 'items-center justify-start text-left' : 'items-start justify-start text-left pt-16'}`}>
+        <div ref={containerRef} className={`flex-1 flex w-full ${question.category.toLowerCase() === 'intro' ? 'items-center justify-start text-left' : 'items-center justify-center text-center pt-12'}`}>
           <h1 
             ref={textRef}
-            className={`font-normal leading-tight w-full ${question.category.toLowerCase() === 'intro' ? 'text-base md:text-lg lg:text-xl max-w-md' : 'text-3xl md:text-4xl lg:text-4xl max-w-full'}`}
+            className={`font-normal leading-tight w-full ${question.category.toLowerCase() === 'intro' ? 'text-base md:text-lg lg:text-xl max-w-md' : 'text-4xl md:text-5xl lg:text-6xl max-w-full'}`}
             style={{ 
               fontFamily: 'Kokoro, serif',
               fontWeight: 'bold',
