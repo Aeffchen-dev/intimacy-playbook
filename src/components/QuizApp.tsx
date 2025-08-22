@@ -403,7 +403,7 @@ export function QuizApp() {
     <div className="min-h-[100svh] h-[100svh] bg-background overflow-hidden flex flex-col" style={{ height: '100svh' }}>
       {/* App Header with controls */}
       <div className="bg-black mt-4 flex items-center justify-between w-full px-4" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
-        <div className="text-white" style={{ fontFamily: 'Arial Heavy, Arial, sans-serif', fontSize: '16px', fontWeight: '950' }}>
+        <div className="text-white" style={{ fontFamily: 'Arial Heavy, Arial, sans-serif', fontSize: '20px', fontWeight: '950' }}>
           {"Intimacy".split('').map((char, index) => {
             const rotations = [3, -2, 4, -3, 2, -4, 3, -1];
             return (
