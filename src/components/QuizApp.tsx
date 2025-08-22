@@ -151,8 +151,8 @@ export function QuizApp() {
         
         // Only trigger if horizontal movement is greater than vertical
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-          const threshold = 80;
-          const velocityThreshold = 0.3;
+          const threshold = 120;
+          const velocityThreshold = 0.5;
           
           // Trigger based on distance or velocity
           if (Math.abs(deltaX) > threshold || absVelocity > velocityThreshold) {
