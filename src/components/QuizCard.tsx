@@ -213,7 +213,7 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
 
   return (
     <div 
-      className={`relative w-full max-w-[500px] mx-auto rounded-2xl shadow-card overflow-hidden select-none max-h-full ${animationClass}`}
+      className={`relative w-full max-w-[500px] mx-auto rounded-3xl shadow-card overflow-hidden select-none max-h-full ${animationClass}`}
       style={{
         height: '100%',
         maxHeight: '100%',
@@ -241,11 +241,11 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
       />
 
       {/* Main Content */}
-      <div className={`h-full flex flex-col justify-start ${question.category.toLowerCase() === 'intro' ? 'px-8' : 'px-8 lg:px-10'}`}>
+      <div className={`h-full flex flex-col justify-start ${question.category.toLowerCase() === 'intro' ? 'p-8' : 'p-8 lg:p-10'}`}>
         
         {/* Category Pill - Only for non-intro slides */}
         {question.category.toLowerCase() !== 'intro' && (
-          <div className="mt-6">
+          <div className="mb-4">
             <div 
               className="px-4 py-1 rounded-full text-sm font-medium inline-block"
               style={{
@@ -258,7 +258,7 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
           </div>
         )}
 
-        <div ref={containerRef} className={`flex-1 flex w-full ${question.category.toLowerCase() === 'intro' ? 'items-center justify-start text-left' : 'items-start justify-start text-left mt-4'}`}>
+        <div ref={containerRef} className={`flex-1 flex w-full ${question.category.toLowerCase() === 'intro' ? 'items-center justify-start text-left' : 'items-start justify-start text-left'}`}>
           <h1 
             ref={textRef}
             className={`font-normal leading-tight w-full ${question.category.toLowerCase() === 'intro' ? 'text-base md:text-lg lg:text-xl max-w-md' : 'text-3xl md:text-4xl lg:text-5xl max-w-full'}`}
@@ -275,7 +275,7 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
 
         {/* Navigation hint at bottom - only for intro slides */}
         {question.category.toLowerCase() === 'intro' && (
-          <div className="absolute bottom-4 left-0 right-0 text-center">
+          <div className="text-center">
             <p className="text-xs opacity-60">
               Swipe um weiter zu navigieren
             </p>
