@@ -569,9 +569,10 @@ export function QuizApp() {
                     transform = 'translateX(0) translateY(0)';
                   }
                 } else {
-                  // Slides below in the stack - properly centered with subtle scale
-                  scale = Math.max(1 - stackOrder * 0.05, 0.85); // More noticeable scale difference
-                  transform = `scale(${scale})`;
+                  // Slides below in the stack - slightly offset and scaled down
+                  const offset = Math.min(stackOrder * 4, 12); // Max 12px offset
+                  scale = Math.max(1 - stackOrder * 0.02, 0.94); // Slightly smaller, min 94%
+                  transform = `translateY(${offset}px) scale(${scale})`;
                 }
                 
                 return (
