@@ -80,13 +80,13 @@ export function CategorySelector({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-full max-w-md mx-auto h-screen bg-background border-0 p-0 overflow-hidden [&>button]:hidden">
+      <DialogContent className="w-full max-w-md mx-auto h-screen bg-background border-0 p-0 overflow-hidden [&>button]:hidden flex flex-col">
         <DialogDescription className="sr-only">
           Wählen Sie die Kategorien aus, die Sie sehen möchten
         </DialogDescription>
         <div className="flex flex-col w-full h-full bg-background overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between px-6 pt-4 pb-2 bg-background">
+          <div className="flex items-center justify-between px-6 pt-4 pb-2 bg-background shrink-0">
             <DialogHeader>
               <DialogTitle className="text-white font-normal" style={{ fontSize: '12px' }}>
                 Kategorien wählen
