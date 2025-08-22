@@ -34,12 +34,15 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
       if (!containerRef.current) return;
 
       // Normalize text by collapsing any sequence of line breaks into single line breaks
+      console.log('Original question text:', JSON.stringify(question.question));
       const normalizedText = question.question
         .replace(/[\r\n]+/g, '\n')  // Convert all line break types to single \n
         .replace(/\n\s*\n+/g, '\n') // Collapse multiple line breaks with optional whitespace
         .replace(/\n{2,}/g, '\n')   // Ensure no more than 1 consecutive line break
         .trim();
+      console.log('Normalized text:', JSON.stringify(normalizedText));
       const lines = normalizedText.split('\n');
+      console.log('Split lines:', lines.length, lines);
       const containerWidth = containerRef.current.getBoundingClientRect().width;
       
       // Create temporary element to measure word width with exact same styles
