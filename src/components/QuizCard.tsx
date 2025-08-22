@@ -43,7 +43,7 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
         position: absolute;
         visibility: hidden;
         white-space: nowrap;
-        font-size: 5rem;
+        font-size: 3rem;
         font-family: Kokoro, serif;
         font-weight: bold;
         font-style: italic;
@@ -241,13 +241,13 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
       />
 
       {/* Main Content */}
-      <div className={`h-full flex flex-col justify-center ${question.category.toLowerCase() === 'intro' ? 'px-8' : 'px-8 lg:px-10'}`}>
+      <div className={`h-full flex flex-col justify-start ${question.category.toLowerCase() === 'intro' ? 'px-8' : 'px-8 lg:px-10'}`}>
         
         {/* Category Pill - Only for non-intro slides */}
         {question.category.toLowerCase() !== 'intro' && (
-          <div className="absolute top-6 left-1/2 transform -translate-x-1/2 z-20">
+          <div className="mt-6">
             <div 
-              className="px-4 py-2 rounded-full text-sm font-medium"
+              className="px-4 py-1 rounded-full text-sm font-medium inline-block"
               style={{
                 backgroundColor: categoryColors.pillBg,
                 color: categoryColors.text
@@ -258,10 +258,10 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
           </div>
         )}
 
-        <div ref={containerRef} className={`flex-1 flex w-full ${question.category.toLowerCase() === 'intro' ? 'items-center justify-start text-left' : 'items-center justify-center text-center pt-12'}`}>
+        <div ref={containerRef} className={`flex-1 flex w-full ${question.category.toLowerCase() === 'intro' ? 'items-center justify-start text-left' : 'items-start justify-start text-left mt-4'}`}>
           <h1 
             ref={textRef}
-            className={`font-normal leading-tight w-full ${question.category.toLowerCase() === 'intro' ? 'text-base md:text-lg lg:text-xl max-w-md' : 'text-4xl md:text-5xl lg:text-6xl max-w-full'}`}
+            className={`font-normal leading-tight w-full ${question.category.toLowerCase() === 'intro' ? 'text-base md:text-lg lg:text-xl max-w-md' : 'text-2xl md:text-3xl lg:text-4xl max-w-full'}`}
             style={{ 
               fontFamily: 'Kokoro, serif',
               fontWeight: 'bold',
