@@ -425,10 +425,21 @@ export function QuizApp() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '10px'
+                    flexDirection: 'column'
                   }}
                 >
-                  😊
+                  <div style={{ display: 'flex', gap: '2px', marginTop: '2px' }}>
+                    <div style={{ width: '2px', height: '2px', backgroundColor: 'white', borderRadius: '50%' }}></div>
+                    <div style={{ width: '2px', height: '2px', backgroundColor: 'white', borderRadius: '50%' }}></div>
+                  </div>
+                  <div style={{ 
+                    width: '6px', 
+                    height: '3px', 
+                    border: '1px solid white', 
+                    borderTop: 'none',
+                    borderRadius: '0 0 6px 6px',
+                    marginTop: '1px'
+                  }}></div>
                 </div>
               )}
             </span>
