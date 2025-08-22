@@ -86,7 +86,7 @@ export function CategorySelector({
         </DialogDescription>
         <div className="flex flex-col h-full relative w-full max-h-full min-h-0">
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 bg-background">
+          <div className="flex items-center justify-between px-6 pt-4 pb-1 bg-background">
             <DialogHeader>
               <DialogTitle className="text-white text-xl font-normal">
                 Kategorien wählen
