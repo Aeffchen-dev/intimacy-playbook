@@ -388,12 +388,12 @@ export function QuizApp() {
     <div className="min-h-[100svh] h-[100svh] bg-background overflow-hidden flex flex-col" style={{ height: '100svh' }}>
       {/* App Header with controls */}
       <div className="bg-black mt-4 flex items-center justify-between w-full px-4" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
-        <div className="px-4 py-2 rounded-full font-medium text-xs bg-white/10 text-white border border-white/20">
+        <div className="text-white font-normal text-xs">
           Intimacy Playbook
         </div>
         <button 
           onClick={() => setCategorySelectorOpen(true)}
-          className="px-4 py-2 rounded-full font-medium text-xs bg-white/10 text-white border border-white/20 flex items-center"
+          className="text-white font-normal text-xs flex items-center"
         >
           Kategorien wählen
         </button>
