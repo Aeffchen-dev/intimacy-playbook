@@ -359,11 +359,26 @@ export function QuizApp() {
     
     const slides: SlideItem[] = [];
     
-    // Shuffle questions when toggle state changes
-    const shuffledQuestions = smartShuffle([...filteredQuestions]);
+    let orderedQuestions: Question[];
+    
+    if (isMixedMode) {
+      // In action mode, prioritize "Aktion" questions first
+      const aktionQuestions = filteredQuestions.filter(q => q.type === 'Aktion');
+      const frageQuestions = filteredQuestions.filter(q => q.type === 'Frage');
+      
+      // Shuffle each type separately
+      const shuffledAktionQuestions = smartShuffle([...aktionQuestions]);
+      const shuffledFrageQuestions = smartShuffle([...frageQuestions]);
+      
+      // Combine with "Aktion" questions first
+      orderedQuestions = [...shuffledAktionQuestions, ...shuffledFrageQuestions];
+    } else {
+      // In question mode, just shuffle normally
+      orderedQuestions = smartShuffle([...filteredQuestions]);
+    }
     
     // Add question slides
-    shuffledQuestions.forEach(q => {
+    orderedQuestions.forEach(q => {
       slides.push({ type: 'question', question: q });
     });
     
