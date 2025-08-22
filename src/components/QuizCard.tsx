@@ -21,15 +21,81 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
   const [mouseStart, setMouseStart] = useState<number | null>(null);
   const [mouseEnd, setMouseEnd] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  // Disable text processing to prevent word breaks
-  // const [processedText, setProcessedText] = useState<JSX.Element[]>([]);
+  const [processedText, setProcessedText] = useState<JSX.Element[]>([]);
   
   const textRef = useRef<HTMLHeadingElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const minSwipeDistance = 50;
 
-  // Removed text processing to prevent word breaks
+  // Process text to handle long words individually and preserve line breaks
+  useEffect(() => {
+    const processText = () => {
+      if (!containerRef.current) return;
+
+      // Remove all line breaks and let text flow naturally
+      console.log('Original question text:', JSON.stringify(question.question));
+      const cleanedText = question.question.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
+      console.log('Cleaned text:', JSON.stringify(cleanedText));
+      
+      const words = cleanedText.split(' ');
+      console.log('Words:', words.length, words);
+      const containerWidth = containerRef.current.getBoundingClientRect().width;
+      
+      // Create temporary element to measure word width with exact same styles
+      const tempElement = document.createElement('span');
+      tempElement.style.cssText = `
+        position: absolute;
+        visibility: hidden;
+        white-space: nowrap;
+        font-size: 4rem;
+        font-family: Kokoro, serif;
+        font-weight: bold;
+        font-style: italic;
+        padding: 0;
+        margin: 0;
+        border: 0;
+      `;
+      
+      // Add to same container to inherit styles
+      containerRef.current.appendChild(tempElement);
+
+      const processedWords = words.map((word, wordIndex) => {
+        tempElement.textContent = word;
+        const wordWidth = tempElement.getBoundingClientRect().width;
+        
+        // Only apply hyphenation if word is actually wider than available space
+        // Use full container width minus some padding buffer
+        const needsHyphenation = wordWidth > (containerWidth - 20);
+        
+        return (
+          <span 
+            key={wordIndex}
+            style={{
+              hyphens: needsHyphenation ? 'auto' : 'none',
+              overflowWrap: needsHyphenation ? 'break-word' : 'normal',
+              wordBreak: 'normal'
+            }}
+            lang="de"
+          >
+            {word}
+            {wordIndex < words.length - 1 && ' '}
+          </span>
+        );
+      });
+
+      containerRef.current.removeChild(tempElement);
+      setProcessedText([<span key="single-line">{processedWords}</span>]);
+    };
+
+    const timeoutId = setTimeout(processText, 50);
+    window.addEventListener('resize', processText);
+    
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', processText);
+    };
+  }, [question.question]);
 
   // Get category-specific colors using specific category mapping
   const getCategoryColors = (categoryIndex: number) => {
@@ -195,13 +261,10 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
               fontFamily: 'Kokoro, serif',
               fontWeight: 'bold',
               fontStyle: 'italic',
-              color: question.category.toLowerCase() !== 'intro' ? categoryColors.text : 'hsl(var(--foreground))',
-              hyphens: 'none',
-              wordBreak: 'keep-all',
-              overflowWrap: 'normal'
+              color: question.category.toLowerCase() !== 'intro' ? categoryColors.text : 'hsl(var(--foreground))'
             }}
           >
-            {question.question}
+            {processedText.length > 0 ? processedText : question.question}
           </h1>
         </div>
 
