@@ -519,7 +519,8 @@ export function QuizApp() {
 
   const hasSlides = slides.length > 0;
   const safeIndex = hasSlides ? Math.min(currentIndex, slides.length - 1) : 0;
-  const safeSlide = hasSlides ? slides[safeIndex] : undefined;
+  const safeSlide = hasSlides ? slides[safeIndex] : null;
+  const currentSlide = safeSlide?.question ? safeSlide : null;
 
   return (
     <div className="min-h-[100svh] h-[100svh] bg-background overflow-hidden flex flex-col" style={{ height: '100svh' }}>
@@ -617,7 +618,7 @@ export function QuizApp() {
         <div className="flex-1 flex items-stretch justify-center min-h-0 relative overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center h-full text-white text-xl">Lade Fragen...</div>
-          ) : hasSlides ? (
+          ) : hasSlides && currentSlide ? (
             <div className="relative w-full h-full flex items-center justify-center">
               {/* Sliding container */}
               <div 
@@ -630,7 +631,7 @@ export function QuizApp() {
                 }}
               >
                 {/* Previous slide preview */}
-                {currentIndex > 0 && (
+                {currentIndex > 0 && slides[currentIndex - 1]?.question && (
                   <div 
                     className="absolute left-0 w-full h-full pointer-events-none transition-opacity duration-150"
                     style={{
@@ -642,11 +643,11 @@ export function QuizApp() {
                     }}
                   >
                     <QuizCard
-                      question={slides[currentIndex - 1]!.question!}
+                      question={slides[currentIndex - 1].question!}
                       onSwipeLeft={() => {}}
                       onSwipeRight={() => {}}
                       animationClass=""
-                      categoryIndex={categoryColorMap[slides[currentIndex - 1]!.question!.category] || 0}
+                      categoryIndex={categoryColorMap[slides[currentIndex - 1].question!.category] || 0}
                     />
                   </div>
                 )}
@@ -654,16 +655,16 @@ export function QuizApp() {
                 {/* Current slide */}
                 <div className="w-full h-full relative z-10">
                   <QuizCard
-                    question={safeSlide!.question!}
+                    question={currentSlide.question!}
                     onSwipeLeft={nextQuestion}
                     onSwipeRight={prevQuestion}
                     animationClass={animationClass}
-                    categoryIndex={categoryColorMap[safeSlide!.question!.category] || 0}
+                    categoryIndex={categoryColorMap[currentSlide.question!.category] || 0}
                   />
                 </div>
                 
                 {/* Next slide preview */}
-                {currentIndex < slides.length - 1 && (
+                {currentIndex < slides.length - 1 && slides[currentIndex + 1]?.question && (
                   <div 
                     className="absolute right-0 w-full h-full pointer-events-none transition-opacity duration-150"
                     style={{
@@ -675,11 +676,11 @@ export function QuizApp() {
                     }}
                   >
                     <QuizCard
-                      question={slides[currentIndex + 1]!.question!}
+                      question={slides[currentIndex + 1].question!}
                       onSwipeLeft={() => {}}
                       onSwipeRight={() => {}}
                       animationClass=""
-                      categoryIndex={categoryColorMap[slides[currentIndex + 1]!.question!.category] || 0}
+                      categoryIndex={categoryColorMap[slides[currentIndex + 1].question!.category] || 0}
                     />
                   </div>
                 )}
