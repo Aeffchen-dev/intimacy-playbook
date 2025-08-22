@@ -474,7 +474,7 @@ export function QuizApp() {
   return (
     <div className="min-h-[100svh] h-[100svh] bg-background overflow-hidden flex flex-col" style={{ height: '100svh' }}>
       {/* App Header with controls - Always visible */}
-      <div className="bg-black mt-2 flex items-center justify-between w-full px-4" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
+      <div className="bg-black mt-4 flex items-center justify-between w-full px-4" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
         <div 
           className="text-white cursor-pointer" 
           style={{ fontFamily: 'Arial Heavy, Arial, sans-serif', fontSize: '20px', fontWeight: '950' }}
@@ -563,7 +563,7 @@ export function QuizApp() {
       </div>
 
       {/* Main Quiz Container */}
-      <div className="flex-1 flex flex-col px-4 overflow-hidden mt-2 gap-2" style={{ minHeight: 0 }}>
+      <div className="flex-1 flex flex-col px-4 overflow-hidden mt-4 gap-4" style={{ minHeight: 0 }}>
         <div className="flex-1 flex items-stretch justify-center min-h-0">
           {loading ? (
             <div className="flex items-center justify-center h-full text-white text-xl">Lade Fragen...</div>
@@ -581,7 +581,7 @@ export function QuizApp() {
         </div>
         
         {/* Toggle centered below the card */}
-        <div className="flex items-center justify-center pb-2 w-full">
+        <div className="flex items-center justify-center pb-4 w-full">
           <div className="flex items-center">
             <div 
               className="flex items-center cursor-pointer py-2" 
