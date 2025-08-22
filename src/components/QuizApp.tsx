@@ -75,6 +75,8 @@ export function QuizApp() {
   const [isMixedMode, setIsMixedMode] = useState(true);
   const [hasToggleBeenChanged, setHasToggleBeenChanged] = useState(false);
   const [categoryColorMap, setCategoryColorMap] = useState<{ [category: string]: number }>({});
+  const [logoAnimating, setLogoAnimating] = useState(false);
+  const [animatingLetterIndex, setAnimatingLetterIndex] = useState(-1);
 
   useEffect(() => {
     fetchQuestions();
@@ -395,6 +397,27 @@ export function QuizApp() {
     setSelectedCategories(categories);
   };
 
+  const handleLogoClick = () => {
+    if (logoAnimating) return;
+    
+    setLogoAnimating(true);
+    setAnimatingLetterIndex(0);
+    
+    // Animate each letter sequentially (16 letters total, 2 seconds duration)
+    for (let i = 0; i < 16; i++) {
+      setTimeout(() => {
+        setAnimatingLetterIndex(i);
+        // Reset animation state after the last letter
+        if (i === 15) {
+          setTimeout(() => {
+            setLogoAnimating(false);
+            setAnimatingLetterIndex(-1);
+          }, 300);
+        }
+      }, i * 125); // 125ms delay between letters for 2 second total
+    }
+  };
+
   const hasSlides = slides.length > 0;
   const safeIndex = hasSlides ? Math.min(currentIndex, slides.length - 1) : 0;
   const safeSlide = hasSlides ? slides[safeIndex] : undefined;
@@ -403,15 +426,21 @@ export function QuizApp() {
     <div className="min-h-[100svh] h-[100svh] bg-background overflow-hidden flex flex-col" style={{ height: '100svh' }}>
       {/* App Header with controls */}
       <div className="bg-black mt-4 flex items-center justify-between w-full px-4" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
-        <div className="text-white" style={{ fontFamily: 'Arial Heavy, Arial, sans-serif', fontSize: '20px', fontWeight: '950' }}>
+        <div 
+          className="text-white cursor-pointer" 
+          style={{ fontFamily: 'Arial Heavy, Arial, sans-serif', fontSize: '20px', fontWeight: '950' }}
+          onClick={handleLogoClick}
+        >
           {"Intimacy".split('').map((char, index) => {
             const rotations = [3, -2, 4, -3, 2, -4, 3, -1];
+            const isAnimating = animatingLetterIndex === index;
             return (
               <span 
                 key={index} 
                 style={{ 
                   display: 'inline-block',
-                  transform: `rotate(${rotations[index]}deg)`
+                  transform: `rotate(${rotations[index]}deg) translateY(${isAnimating ? '-2px' : '0px'})`,
+                  transition: 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
                 }}
               >
                 {char}
@@ -421,13 +450,16 @@ export function QuizApp() {
           <span style={{ marginLeft: '7px' }}></span>
           {"Playbook".split('').map((char, index) => {
             const rotations = [-2, 3, -1, 4, -3, 2, -4, 1];
+            const letterIndex = index + 8; // Continue counting from Intimacy letters
+            const isAnimating = animatingLetterIndex === letterIndex;
             return (
               <span 
                 key={index + 100} 
                 style={{ 
                   display: 'inline-block',
-                  transform: `rotate(${rotations[index]}deg)`,
-                  position: 'relative'
+                  transform: `rotate(${rotations[index]}deg) translateY(${isAnimating ? '-2px' : '0px'})`,
+                  position: 'relative',
+                  transition: 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
                 }}
               >
                 {char === 'o' && index === 6 ? (
