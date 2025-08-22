@@ -102,7 +102,7 @@ export function CategorySelector({
 
           {/* Categories List */}
           <ScrollArea className="flex-1 pt-20 min-h-0">
-            <div className="px-6 space-y-3 pb-6">
+            <div className="px-6 space-y-2 pb-6">
               {categories.map((category, index) => {
               const isSelected = tempSelection.includes(category);
               const borderColor = getCategoryColors(category, index);
@@ -116,7 +116,7 @@ export function CategorySelector({
                   }}
                   onClick={() => handleCategoryToggle(category)}
                 >
-                  <span className="text-black font-bold text-sm uppercase tracking-wide">
+                  <span className="text-black text-xs font-normal uppercase tracking-wide" style={{ fontFamily: 'Arial, sans-serif', fontSize: '12px' }}>
                     {category}
                   </span>
                   <div onClick={(e) => e.stopPropagation()}>
