@@ -13,13 +13,11 @@ interface QuizCardProps {
   onSwipeRight: () => void;
   animationClass?: string;
   categoryIndex?: number;
-  onDragStart?: (clientX: number, clientY?: number) => void;
-  onDragMove?: (clientX: number, clientY?: number) => void;
+  onDragStart?: (clientX: number) => void;
+  onDragMove?: (clientX: number) => void;
   onDragEnd?: () => void;
-  dragOffsetX?: number;
-  dragOffsetY?: number;
+  dragOffset?: number;
   isDragging?: boolean;
-  enableClickAreas?: boolean;
 }
 
 export function QuizCard({ 
@@ -31,10 +29,8 @@ export function QuizCard({
   onDragStart,
   onDragMove,
   onDragEnd,
-  dragOffsetX = 0,
-  dragOffsetY = 0,
-  isDragging = false,
-  enableClickAreas = true
+  dragOffset = 0,
+  isDragging = false
 }: QuizCardProps) {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
@@ -178,8 +174,7 @@ export function QuizCard({
 
   const onTouchMove = (e: React.TouchEvent) => {
     if (onDragMove) {
-      e.preventDefault();
-      onDragMove(e.touches[0].clientX, e.touches[0].clientY);
+      onDragMove(e.touches[0].clientX);
     } else {
       setTouchEnd(e.targetTouches[0].clientX);
     }
@@ -206,7 +201,7 @@ export function QuizCard({
   // Mouse drag handlers for desktop
   const onMouseDown = (e: React.MouseEvent) => {
     if (onDragStart) {
-      onDragStart(e.clientX, e.clientY);
+      onDragStart(e.clientX);
     } else {
       setMouseEnd(null);
       setMouseStart(e.clientX);
@@ -216,7 +211,7 @@ export function QuizCard({
 
   const onMouseMove = (e: React.MouseEvent) => {
     if (onDragMove) {
-      onDragMove(e.clientX, e.clientY);
+      onDragMove(e.clientX);
     } else {
       if (!isLocalDragging) return;
       setMouseEnd(e.clientX);
@@ -256,7 +251,7 @@ export function QuizCard({
 
   return (
     <div 
-      className={`relative quiz-card w-full max-w-[500px] mx-auto rounded-[2rem] shadow-card overflow-hidden select-none max-h-full`}
+      className={`relative w-full max-w-[500px] mx-auto rounded-[2rem] shadow-card overflow-hidden select-none max-h-full`}
       style={{
         height: '100%',
         maxHeight: '100%',
@@ -271,22 +266,17 @@ export function QuizCard({
       onMouseUp={onMouseUp}
       onMouseLeave={onMouseLeave}
     >
-      {enableClickAreas && (
-        <>
-          {/* Left Click Area - Previous */}
-          <div 
-            className="absolute left-0 top-0 w-20 h-full z-10 cursor-pointer"
-            onClick={onSwipeRight}
-          />
+      {/* Left Click Area - Previous */}
+      <div 
+        className="absolute left-0 top-0 w-20 h-full z-10 cursor-pointer"
+        onClick={onSwipeRight}
+      />
 
-          {/* Right Click Area - Next */}
-          <div 
-            className="absolute right-0 top-0 w-20 h-full z-10 cursor-pointer"
-            onClick={onSwipeLeft}
-          />
-        </>
-      )}
-
+      {/* Right Click Area - Next */}
+      <div 
+        className="absolute right-0 top-0 w-20 h-full z-10 cursor-pointer"
+        onClick={onSwipeLeft}
+      />
 
       {/* Main Content */}
       <div className={`h-full flex flex-col justify-start ${question.category.toLowerCase() === 'intro' ? 'p-8' : 'p-8 lg:p-10'}`}>
