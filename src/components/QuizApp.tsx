@@ -410,25 +410,22 @@ export function QuizApp() {
                 position: 'relative'
               }}
             >
-              {char}
-              {char === 'o' && index === 6 && (
+              {char === 'o' && index === 6 ? (
                 <div 
                   style={{
-                    position: 'absolute',
-                    top: '-2px',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
+                    display: 'inline-block',
                     width: '16px',
                     height: '16px',
                     backgroundColor: '#fbbf24',
                     borderRadius: '50%',
-                    display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    flexDirection: 'column'
+                    flexDirection: 'column',
+                    position: 'relative',
+                    transform: 'rotate(-2deg)'
                   }}
                 >
-                  <div style={{ display: 'flex', gap: '3px', marginTop: '1px' }}>
+                  <div style={{ display: 'flex', gap: '3px', position: 'absolute', top: '3px', left: '50%', transform: 'translateX(-50%)' }}>
                     <div style={{ width: '2px', height: '2px', backgroundColor: 'black', borderRadius: '50%' }}></div>
                     <div style={{ width: '2px', height: '2px', backgroundColor: 'black', borderRadius: '50%' }}></div>
                   </div>
@@ -438,9 +435,14 @@ export function QuizApp() {
                     border: '1px solid black', 
                     borderTop: 'none',
                     borderRadius: '0 0 6px 6px',
-                    marginTop: '3px'
+                    position: 'absolute',
+                    top: '9px',
+                    left: '50%',
+                    transform: 'translateX(-50%)'
                   }}></div>
                 </div>
+              ) : (
+                char
               )}
             </span>
           ))}
