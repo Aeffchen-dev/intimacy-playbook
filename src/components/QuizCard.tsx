@@ -138,14 +138,14 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
     
     // CSS custom properties for the colors with proper contrast ratios
     const colorVars = {
-      1: { bg: 'hsl(var(--quiz-category1-bg))', text: 'hsl(var(--quiz-category1-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category1-bg)) 85%, black 15%)' },
-      2: { bg: 'hsl(var(--quiz-category2-bg))', text: 'hsl(var(--quiz-category2-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category2-bg)) 85%, black 15%)' },
-      3: { bg: 'hsl(var(--quiz-category3-bg))', text: 'hsl(var(--quiz-category3-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category3-bg)) 85%, black 15%)' },
-      4: { bg: 'hsl(var(--quiz-category4-bg))', text: 'hsl(var(--quiz-category4-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category4-bg)) 85%, black 15%)' },
-      5: { bg: 'hsl(var(--quiz-category5-bg))', text: 'hsl(var(--quiz-category5-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category5-bg)) 85%, black 15%)' },
-      6: { bg: 'hsl(var(--quiz-category6-bg))', text: 'hsl(var(--quiz-category6-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category6-bg)) 85%, black 15%)' },
-      7: { bg: 'hsl(var(--quiz-category7-bg))', text: 'hsl(var(--quiz-category7-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category7-bg)) 85%, black 15%)' },
-      8: { bg: 'hsl(var(--quiz-category8-bg))', text: 'hsl(var(--quiz-category8-text))', pillBg: 'color-mix(in srgb, hsl(var(--quiz-category8-bg)) 85%, black 15%)' },
+      1: { bg: 'hsl(var(--quiz-category1-bg))', text: 'hsl(var(--quiz-category1-text))', pillBg: 'hsl(var(--quiz-category1-bg))' },
+      2: { bg: 'hsl(var(--quiz-category2-bg))', text: 'hsl(var(--quiz-category2-text))', pillBg: 'hsl(var(--quiz-category2-bg))' },
+      3: { bg: 'hsl(var(--quiz-category3-bg))', text: 'hsl(var(--quiz-category3-text))', pillBg: 'hsl(var(--quiz-category3-bg))' },
+      4: { bg: 'hsl(var(--quiz-category4-bg))', text: 'hsl(var(--quiz-category4-text))', pillBg: 'hsl(var(--quiz-category4-bg))' },
+      5: { bg: 'hsl(var(--quiz-category5-bg))', text: 'hsl(var(--quiz-category5-text))', pillBg: 'hsl(var(--quiz-category5-bg))' },
+      6: { bg: 'hsl(var(--quiz-category6-bg))', text: 'hsl(var(--quiz-category6-text))', pillBg: 'hsl(var(--quiz-category6-bg))' },
+      7: { bg: 'hsl(var(--quiz-category7-bg))', text: 'hsl(var(--quiz-category7-text))', pillBg: 'hsl(var(--quiz-category7-bg))' },
+      8: { bg: 'hsl(var(--quiz-category8-bg))', text: 'hsl(var(--quiz-category8-text))', pillBg: 'hsl(var(--quiz-category8-bg))' },
     };
     
     return colorVars[colorIndex as keyof typeof colorVars] || colorVars[1];
@@ -251,7 +251,8 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
               style={{
                 backgroundColor: categoryColors.pillBg,
                 color: categoryColors.text,
-                fontSize: '12px'
+                fontSize: '12px',
+                filter: 'brightness(0.85)'
               }}
             >
               {question.category}
