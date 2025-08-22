@@ -389,12 +389,24 @@ export function QuizApp() {
       {/* App Header with controls */}
       <div className="bg-black mt-4 flex items-center justify-between w-full px-4" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
         <div className="text-white" style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px', fontWeight: '900' }}>
-          {"Intimacy Playbook".split('').map((char, index) => (
+          {"Intimacy".split('').map((char, index) => (
             <span 
               key={index} 
               style={{ 
                 display: 'inline-block',
-                transform: `rotate(${(Math.random() * 2 + 1) * (Math.random() < 0.5 ? -1 : 1)}deg)`
+                transform: `rotate(${(Math.random() * 4 + 2) * (Math.random() < 0.5 ? -1 : 1)}deg)`
+              }}
+            >
+              {char}
+            </span>
+          ))}
+          <span style={{ marginLeft: '8px', marginRight: '8px' }}></span>
+          {"Playbook".split('').map((char, index) => (
+            <span 
+              key={index + 100} 
+              style={{ 
+                display: 'inline-block',
+                transform: `rotate(${(Math.random() * 4 + 2) * (Math.random() < 0.5 ? -1 : 1)}deg)`
               }}
             >
               {char}
