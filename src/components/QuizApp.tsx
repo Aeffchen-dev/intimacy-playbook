@@ -388,7 +388,7 @@ export function QuizApp() {
     <div className="min-h-[100svh] h-[100svh] bg-background overflow-hidden flex flex-col" style={{ height: '100svh' }}>
       {/* App Header with controls */}
       <div className="bg-black mt-4 flex items-center justify-between w-full px-4" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
-        <div className="text-white" style={{ fontFamily: 'Arial, sans-serif', fontSize: '12px', fontWeight: '900' }}>
+        <div className="text-white" style={{ fontFamily: 'Arial, sans-serif', fontSize: '14px', fontWeight: '900' }}>
           Intimacy Playbook
         </div>
         <button 
