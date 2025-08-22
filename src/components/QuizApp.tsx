@@ -310,23 +310,18 @@ export function QuizApp() {
 
   const nextQuestion = () => {
     if (currentIndex < slides.length - 1) {
-      setAnimationClass('animate-slide-out-left');
+      setAnimationClass('animate-[transform_0.5s_ease-out] translate-x-full opacity-0');
       setTimeout(() => {
         setCurrentIndex(prev => prev + 1);
-        setAnimationClass('animate-slide-in-right');
-        setTimeout(() => setAnimationClass(''), 500);
-      }, 300);
+        setAnimationClass('');
+      }, 500);
     }
   };
 
   const prevQuestion = () => {
     if (currentIndex > 0) {
-      setAnimationClass('animate-slide-out-right');
-      setTimeout(() => {
-        setCurrentIndex(prev => prev - 1);
-        setAnimationClass('animate-slide-in-left');
-        setTimeout(() => setAnimationClass(''), 500);
-      }, 300);
+      setCurrentIndex(prev => prev - 1);
+      // No animation needed for prev since new card appears from stack
     }
   };
 
@@ -401,17 +396,43 @@ export function QuizApp() {
 
       {/* Main Quiz Container */}
       <div className="flex-1 flex flex-col px-4 overflow-hidden mt-4 gap-4" style={{ minHeight: 0 }}>
-        <div className="flex-1 flex items-stretch justify-center min-h-0">
+        <div className="flex-1 flex items-stretch justify-center min-h-0 relative">
           {loading ? (
             <div className="flex items-center justify-center h-full text-white text-xl">Lade Fragen...</div>
           ) : hasSlides ? (
-            <QuizCard
-              question={safeSlide!.question!}
-              onSwipeLeft={nextQuestion}
-              onSwipeRight={prevQuestion}
-              animationClass={animationClass}
-              categoryIndex={categoryColorMap[safeSlide!.question!.category] || 0}
-            />
+            <div className="relative w-full h-full flex items-center justify-center">
+              {/* Render stack of cards */}
+              {slides.slice(safeIndex, safeIndex + 5).map((slide, stackIndex) => {
+                const actualIndex = safeIndex + stackIndex;
+                const isTopCard = stackIndex === 0;
+                
+                return (
+                  <div
+                    key={`${actualIndex}-${slide.question?.question.slice(0, 20)}`}
+                    className={`absolute inset-0 transition-all duration-500 ${
+                      isTopCard && animationClass ? animationClass : ''
+                    }`}
+                    style={{
+                      zIndex: 5 - stackIndex,
+                      transform: `
+                        translateY(${stackIndex * 4}px) 
+                        translateX(${stackIndex * 2}px) 
+                        scale(${1 - stackIndex * 0.02})
+                      `,
+                      opacity: stackIndex < 4 ? 1 - stackIndex * 0.1 : 0,
+                    }}
+                  >
+                    <QuizCard
+                      question={slide.question!}
+                      onSwipeLeft={isTopCard ? nextQuestion : () => {}}
+                      onSwipeRight={isTopCard ? prevQuestion : () => {}}
+                      animationClass=""
+                      categoryIndex={categoryColorMap[slide.question!.category] || 0}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           ) : (
             <div className="text-white text-xl">Keine Fragen verfügbar</div>
           )}
