@@ -388,16 +388,8 @@ export function QuizApp() {
     <div className="min-h-[100svh] h-[100svh] bg-background overflow-hidden flex flex-col" style={{ height: '100svh' }}>
       {/* App Header with controls */}
       <div className="bg-black mt-4 flex items-center justify-between w-full px-4" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
-        <div className="text-white font-sans font-black text-base flex items-center gap-0">
-          <span>Intimacy Playbo</span>
-          <div className="w-3 h-3 rounded-full mx-0.5 flex items-center justify-center" style={{ backgroundColor: '#ff69b4' }}>
-            <svg width="8" height="8" viewBox="0 0 12 12" fill="none" style={{ transform: 'rotate(-10deg)' }}>
-              <circle cx="3.5" cy="4" r="0.8" fill="black" />
-              <circle cx="8.5" cy="4" r="0.8" fill="black" />
-              <path d="M3 7.5 C4.5 9, 7.5 9, 9 7.5" stroke="black" strokeWidth="0.8" fill="none" strokeLinecap="round" />
-            </svg>
-          </div>
-          <span>k</span>
+        <div className="text-white font-sans font-black text-lg">
+          Intimacy Playbook
         </div>
         <button 
           onClick={() => setCategorySelectorOpen(true)}
