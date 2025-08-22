@@ -419,8 +419,8 @@ export function QuizApp() {
                   <div 
                     style={{
                       display: 'inline-block',
-                      width: '14px',
-                      height: '14px',
+                      width: '11px',
+                      height: '11px',
                       backgroundColor: '#fbbf24',
                       borderRadius: '50%',
                       alignItems: 'center',
@@ -430,18 +430,18 @@ export function QuizApp() {
                       transform: 'rotate(-2deg)'
                     }}
                   >
-                    <div style={{ display: 'flex', gap: '2.5px', position: 'absolute', top: '2.5px', left: '50%', transform: 'translateX(-50%)' }}>
-                      <div style={{ width: '1.8px', height: '1.8px', backgroundColor: 'black', borderRadius: '50%' }}></div>
-                      <div style={{ width: '1.8px', height: '1.8px', backgroundColor: 'black', borderRadius: '50%' }}></div>
+                    <div style={{ display: 'flex', gap: '2px', position: 'absolute', top: '2px', left: '50%', transform: 'translateX(-50%)' }}>
+                      <div style={{ width: '1.4px', height: '1.4px', backgroundColor: 'black', borderRadius: '50%' }}></div>
+                      <div style={{ width: '1.4px', height: '1.4px', backgroundColor: 'black', borderRadius: '50%' }}></div>
                     </div>
                     <div style={{ 
-                      width: '5.5px', 
-                      height: '2.5px', 
+                      width: '4.5px', 
+                      height: '2px', 
                       border: '1px solid black', 
                       borderTop: 'none',
-                      borderRadius: '0 0 5.5px 5.5px',
+                      borderRadius: '0 0 4.5px 4.5px',
                       position: 'absolute',
-                      top: '8px',
+                      top: '6.5px',
                       left: '50%',
                       transform: 'translateX(-50%)'
                     }}></div>
