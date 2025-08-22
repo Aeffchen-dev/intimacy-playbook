@@ -79,6 +79,7 @@ export function QuizApp() {
   const [animatingLetterIndex, setAnimatingLetterIndex] = useState(-1);
   const [toggleAnimating, setToggleAnimating] = useState(false);
   const [loadingSmileyRotating, setLoadingSmileyRotating] = useState(false);
+  const [logoSmileyRotating, setLogoSmileyRotating] = useState(false);
 
   useEffect(() => {
     fetchQuestions();
@@ -415,6 +416,14 @@ export function QuizApp() {
     setLogoAnimating(true);
     setAnimatingLetterIndex(0);
     
+    // Start smiley rotation after 2/3 of animation (800ms)
+    setTimeout(() => {
+      setLogoSmileyRotating(true);
+      setTimeout(() => {
+        setLogoSmileyRotating(false);
+      }, 400); // Rotate for 400ms
+    }, 800);
+    
     // Animate each letter sequentially (16 letters total, 1200ms duration)
     for (let i = 0; i < 16; i++) {
       setTimeout(() => {
@@ -512,7 +521,7 @@ export function QuizApp() {
                       justifyContent: 'center',
                       flexDirection: 'column',
                       position: 'relative',
-                      transform: `rotate(${loadingSmileyRotating ? '360deg' : '-2deg'})`,
+                      transform: `rotate(${loading ? (loadingSmileyRotating ? '360deg' : '-2deg') : (logoSmileyRotating ? '360deg' : '-2deg')})`,
                       transition: 'transform 0.3s ease-in-out'
                     }}
                   >
