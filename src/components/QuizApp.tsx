@@ -580,7 +580,7 @@ export function QuizApp() {
             className="flex items-center cursor-pointer px-4 py-2 flex-1 justify-end" 
             onClick={() => handleToggleClick(false)}
           >
-            <span className="text-white font-normal text-xs mr-2">
+            <span className="text-white font-normal text-xs mr-1">
               question mode
             </span>
             <div className="w-6 h-6" /> {/* Left half touch area over toggle */}
@@ -598,7 +598,7 @@ export function QuizApp() {
             onClick={() => handleToggleClick(true)}
           >
             <div className="w-6 h-6" /> {/* Right half touch area over toggle */}
-            <span className="text-white font-normal text-xs ml-2">
+            <span className="text-white font-normal text-xs ml-1">
               action mode
             </span>
           </div>
