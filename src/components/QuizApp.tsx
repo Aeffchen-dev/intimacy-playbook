@@ -419,7 +419,15 @@ export function QuizApp() {
         
         {/* Toggle centered below the card */}
         <div className="flex items-center justify-center gap-2 pb-4">
-          <span className="text-white font-normal text-xs">question mode</span>
+          <span 
+            className="text-white font-normal text-xs cursor-pointer" 
+            onClick={() => {
+              setIsMixedMode(false);
+              setHasToggleBeenChanged(true);
+            }}
+          >
+            question mode
+          </span>
           <Switch 
             checked={isMixedMode}
             onCheckedChange={(checked) => {
@@ -428,7 +436,15 @@ export function QuizApp() {
             }}
             className="w-[46px] data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px] [&>span]:bg-white [&>span]:m-0.5"
           />
-          <span className="text-white font-normal text-xs">action mode</span>
+          <span 
+            className="text-white font-normal text-xs cursor-pointer" 
+            onClick={() => {
+              setIsMixedMode(true);
+              setHasToggleBeenChanged(true);
+            }}
+          >
+            action mode
+          </span>
         </div>
       </div>
       
