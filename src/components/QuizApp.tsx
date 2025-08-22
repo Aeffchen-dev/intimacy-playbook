@@ -94,93 +94,38 @@ export function QuizApp() {
     }
   }, [loading]);
 
-  // Gesture control states
-  const [gestureState, setGestureState] = useState({
-    isDragging: false,
-    startX: 0,
-    startY: 0,
-    currentX: 0,
-    startTime: 0,
-    velocity: 0
-  });
-
-  // Add gesture-controlled swipe handlers
+  // Add touch/mouse handlers for desktop swipe
   useEffect(() => {
-    let animationId: number;
+    let startX = 0;
+    let startY = 0;
+    let isDragging = false;
 
     const handleStart = (clientX: number, clientY: number) => {
-      setGestureState({
-        isDragging: true,
-        startX: clientX,
-        startY: clientY,
-        currentX: clientX,
-        startTime: Date.now(),
-        velocity: 0
-      });
-    };
-
-    const handleMove = (clientX: number, clientY: number) => {
-      setGestureState(prev => {
-        if (!prev.isDragging) return prev;
-        
-        const deltaX = clientX - prev.startX;
-        const deltaY = clientY - prev.startY;
-        
-        // Only handle horizontal gestures
-        if (Math.abs(deltaX) < Math.abs(deltaY)) return prev;
-        
-        // Calculate velocity for momentum
-        const deltaTime = Date.now() - prev.startTime;
-        const velocity = deltaTime > 0 ? deltaX / deltaTime : 0;
-        
-        return {
-          ...prev,
-          currentX: clientX,
-          velocity
-        };
-      });
+      startX = clientX;
+      startY = clientY;
+      isDragging = true;
     };
 
     const handleEnd = (clientX: number, clientY: number) => {
-      setGestureState(prev => {
-        if (!prev.isDragging) return prev;
-        
-        const deltaX = clientX - prev.startX;
-        const deltaY = clientY - prev.startY;
-        const absVelocity = Math.abs(prev.velocity);
-        
-        // Only trigger if horizontal movement is greater than vertical
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-          const threshold = 120;
-          const velocityThreshold = 0.5;
-          
-          // Trigger based on distance or velocity
-          if (Math.abs(deltaX) > threshold || absVelocity > velocityThreshold) {
-            if (deltaX > 0) {
-              prevQuestion();
-            } else {
-              nextQuestion();
-            }
-          }
+      if (!isDragging) return;
+      
+      const deltaX = clientX - startX;
+      const deltaY = clientY - startY;
+      
+      // Only trigger if horizontal movement is greater than vertical
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+        if (deltaX > 0) {
+          prevQuestion();
+        } else {
+          nextQuestion();
         }
-        
-        return {
-          isDragging: false,
-          startX: 0,
-          startY: 0,
-          currentX: 0,
-          startTime: 0,
-          velocity: 0
-        };
-      });
+      }
+      
+      isDragging = false;
     };
 
     const handleMouseDown = (e: MouseEvent) => {
       handleStart(e.clientX, e.clientY);
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      handleMove(e.clientX, e.clientY);
     };
 
     const handleMouseUp = (e: MouseEvent) => {
@@ -192,31 +137,21 @@ export function QuizApp() {
       handleStart(touch.clientX, touch.clientY);
     };
 
-    const handleTouchMove = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      handleMove(touch.clientX, touch.clientY);
-    };
-
     const handleTouchEnd = (e: TouchEvent) => {
       const touch = e.changedTouches[0];
       handleEnd(touch.clientX, touch.clientY);
     };
 
     document.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
-    document.addEventListener('touchstart', handleTouchStart, { passive: false });
-    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('touchstart', handleTouchStart);
     document.addEventListener('touchend', handleTouchEnd);
 
     return () => {
       document.removeEventListener('mousedown', handleMouseDown);
-      document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('touchstart', handleTouchStart);
-      document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleTouchEnd);
-      if (animationId) cancelAnimationFrame(animationId);
     };
   }, []);
 
@@ -519,8 +454,7 @@ export function QuizApp() {
 
   const hasSlides = slides.length > 0;
   const safeIndex = hasSlides ? Math.min(currentIndex, slides.length - 1) : 0;
-  const safeSlide = hasSlides ? slides[safeIndex] : null;
-  const currentSlide = safeSlide?.question ? safeSlide : null;
+  const safeSlide = hasSlides ? slides[safeIndex] : undefined;
 
   return (
     <div className="min-h-[100svh] h-[100svh] bg-background overflow-hidden flex flex-col" style={{ height: '100svh' }}>
@@ -615,94 +549,17 @@ export function QuizApp() {
 
       {/* Main Quiz Container */}
       <div className="flex-1 flex flex-col px-4 overflow-hidden mt-4 gap-4" style={{ minHeight: 0 }}>
-        <div className="flex-1 flex items-stretch justify-center min-h-0 relative overflow-hidden">
+        <div className="flex-1 flex items-stretch justify-center min-h-0">
           {loading ? (
             <div className="flex items-center justify-center h-full text-white text-xl">Lade Fragen...</div>
-          ) : hasSlides && currentSlide ? (
-            <div className="relative w-full h-full flex items-center justify-center">
-              {/* Sliding container */}
-              <div 
-                className="flex w-full h-full transition-transform duration-300 ease-out"
-                style={{
-                  transform: gestureState.isDragging 
-                    ? `translateX(${Math.max(-120, Math.min(120, (gestureState.currentX - gestureState.startX) / 2.5))}px)`
-                    : 'translateX(0)',
-                  transitionDuration: gestureState.isDragging ? '0ms' : '300ms'
-                }}
-              >
-                {/* Previous slide preview */}
-                {currentIndex > 0 && slides[currentIndex - 1]?.question && (
-                  <div 
-                    className="absolute left-0 w-full h-full pointer-events-none transition-opacity duration-150"
-                    style={{
-                      transform: 'translateX(-100%)',
-                      zIndex: 0,
-                      opacity: gestureState.isDragging && (gestureState.currentX - gestureState.startX) > 0 
-                        ? Math.min(0.6, Math.max(0.1, (gestureState.currentX - gestureState.startX) / 200))
-                        : 0.1
-                    }}
-                  >
-                    <QuizCard
-                      question={slides[currentIndex - 1].question!}
-                      onSwipeLeft={() => {}}
-                      onSwipeRight={() => {}}
-                      animationClass=""
-                      categoryIndex={categoryColorMap[slides[currentIndex - 1].question!.category] || 0}
-                    />
-                  </div>
-                )}
-                
-                {/* Current slide */}
-                <div className="w-full h-full relative z-10">
-                  <QuizCard
-                    question={currentSlide.question!}
-                    onSwipeLeft={nextQuestion}
-                    onSwipeRight={prevQuestion}
-                    animationClass={animationClass}
-                    categoryIndex={categoryColorMap[currentSlide.question!.category] || 0}
-                  />
-                </div>
-                
-                {/* Next slide preview */}
-                {currentIndex < slides.length - 1 && slides[currentIndex + 1]?.question && (
-                  <div 
-                    className="absolute right-0 w-full h-full pointer-events-none transition-opacity duration-150"
-                    style={{
-                      transform: 'translateX(100%)',
-                      zIndex: 0,
-                      opacity: gestureState.isDragging && (gestureState.currentX - gestureState.startX) < 0 
-                        ? Math.min(0.6, Math.max(0.1, Math.abs(gestureState.currentX - gestureState.startX) / 200))
-                        : 0.1
-                    }}
-                  >
-                    <QuizCard
-                      question={slides[currentIndex + 1].question!}
-                      onSwipeLeft={() => {}}
-                      onSwipeRight={() => {}}
-                      animationClass=""
-                      categoryIndex={categoryColorMap[slides[currentIndex + 1].question!.category] || 0}
-                    />
-                  </div>
-                )}
-              </div>
-
-              {/* Gesture progress indicator */}
-              {gestureState.isDragging && (
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center space-x-2 z-20">
-                  <div 
-                    className="w-12 h-1 bg-white/20 rounded-full overflow-hidden"
-                  >
-                    <div 
-                      className="h-full bg-white/60 rounded-full transition-all duration-75"
-                      style={{
-                        width: `${Math.min(100, Math.max(0, Math.abs(gestureState.currentX - gestureState.startX) / 80 * 100))}%`,
-                        transform: gestureState.currentX - gestureState.startX < 0 ? 'translateX(0)' : 'translateX(0)'
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
+          ) : hasSlides ? (
+            <QuizCard
+              question={safeSlide!.question!}
+              onSwipeLeft={nextQuestion}
+              onSwipeRight={prevQuestion}
+              animationClass={animationClass}
+              categoryIndex={categoryColorMap[safeSlide!.question!.category] || 0}
+            />
           ) : (
             <div className="flex items-center justify-center h-full text-white text-xl">Keine Fragen verfügbar</div>
           )}
