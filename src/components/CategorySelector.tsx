@@ -131,10 +131,10 @@ export function CategorySelector({
                       }}
                     >
                       <div
-                        className={`w-5 h-5 border border-black flex items-center justify-center rounded-full ${isSelected ? 'bg-black' : 'bg-transparent'}`}
+                        className={`w-6 h-6 border border-black flex items-center justify-center rounded-full ${isSelected ? 'bg-black' : 'bg-transparent'}`}
                         style={{ 
-                          width: '20px', 
-                          height: '20px'
+                          width: '24px', 
+                          height: '24px'
                         }}
                       >
                         {isSelected && (
