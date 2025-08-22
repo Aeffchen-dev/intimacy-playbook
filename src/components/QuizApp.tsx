@@ -533,7 +533,7 @@ export function QuizApp() {
               categoryIndex={categoryColorMap[safeSlide!.question!.category] || 0}
             />
           ) : (
-            <div className="text-white text-xl">Keine Fragen verfügbar</div>
+            <div className="flex items-center justify-center h-full text-white text-xl">Keine Fragen verfügbar</div>
           )}
         </div>
         
