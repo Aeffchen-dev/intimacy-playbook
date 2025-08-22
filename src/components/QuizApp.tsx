@@ -388,12 +388,12 @@ export function QuizApp() {
     <div className="min-h-[100svh] h-[100svh] bg-background overflow-hidden flex flex-col" style={{ height: '100svh' }}>
       {/* App Header with controls */}
       <div className="bg-black mt-4 flex items-center justify-between w-full px-4" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
-        <div className="text-white font-normal text-xs">
+        <div className="px-4 py-2 rounded-full font-medium text-xs bg-white/10 text-white border border-white/20">
           Intimacy Playbook
         </div>
         <button 
           onClick={() => setCategorySelectorOpen(true)}
-          className="text-white font-normal text-xs flex items-center"
+          className="px-4 py-2 rounded-full font-medium text-xs bg-white/10 text-white border border-white/20 flex items-center"
         >
           Kategorien wählen
         </button>
@@ -419,15 +419,15 @@ export function QuizApp() {
         
         {/* Toggle centered below the card */}
         <div className="flex items-center justify-center gap-2 pb-4">
-          <div 
-            className="px-4 py-2 rounded-full font-medium text-xs cursor-pointer bg-white/10 text-white border border-white/20" 
+          <span 
+            className="text-white font-normal text-xs cursor-pointer" 
             onClick={() => {
               setIsMixedMode(false);
               setHasToggleBeenChanged(true);
             }}
           >
             question mode
-          </div>
+          </span>
           <Switch 
             checked={isMixedMode}
             onCheckedChange={(checked) => {
@@ -436,15 +436,15 @@ export function QuizApp() {
             }}
             className="w-[46px] data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px] [&>span]:bg-white [&>span]:m-0.5"
           />
-          <div 
-            className="px-4 py-2 rounded-full font-medium text-xs cursor-pointer bg-white/10 text-white border border-white/20" 
+          <span 
+            className="text-white font-normal text-xs cursor-pointer" 
             onClick={() => {
               setIsMixedMode(true);
               setHasToggleBeenChanged(true);
             }}
           >
             action mode
-          </div>
+          </span>
         </div>
       </div>
       
