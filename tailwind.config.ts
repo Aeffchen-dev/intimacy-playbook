@@ -20,7 +20,7 @@ export default {
 		extend: {
 			fontFamily: {
 				'kokoro': ['Kokoro', 'serif'],
-				'kalam': ['Kalam', 'cursive'],
+				'schoolbell': ['Schoolbell', 'cursive'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
