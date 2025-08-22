@@ -323,6 +323,11 @@ export function QuizApp() {
     }
   };
 
+  // Real-time dragging state
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [dragStartX, setDragStartX] = useState(0);
+
   const nextQuestion = () => {
     if (currentIndex < slides.length - 1) {
       setAnimationClass('animate-slide-out-left');
@@ -343,6 +348,39 @@ export function QuizApp() {
         setTimeout(() => setAnimationClass(''), 500);
       }, 300);
     }
+  };
+
+  // Real-time drag handlers
+  const handleDragStart = (clientX: number) => {
+    if (animationClass) return; // Don't start drag during animation
+    setIsDragging(true);
+    setDragStartX(clientX);
+    setDragOffset(0);
+  };
+
+  const handleDragMove = (clientX: number) => {
+    if (!isDragging) return;
+    const offset = clientX - dragStartX;
+    setDragOffset(offset);
+  };
+
+  const handleDragEnd = () => {
+    if (!isDragging) return;
+    
+    const threshold = 100; // Minimum drag distance to trigger slide change
+    
+    if (Math.abs(dragOffset) > threshold) {
+      if (dragOffset > 0 && currentIndex > 0) {
+        // Dragged right - go to previous
+        prevQuestion();
+      } else if (dragOffset < 0 && currentIndex < slides.length - 1) {
+        // Dragged left - go to next
+        nextQuestion();
+      }
+    }
+    
+    setIsDragging(false);
+    setDragOffset(0);
   };
 
   const handleKeyPress = (e: KeyboardEvent) => {
@@ -574,6 +612,11 @@ export function QuizApp() {
               onSwipeRight={prevQuestion}
               animationClass={animationClass}
               categoryIndex={categoryColorMap[safeSlide!.question!.category] || 0}
+              onDragStart={handleDragStart}
+              onDragMove={handleDragMove}
+              onDragEnd={handleDragEnd}
+              dragOffset={dragOffset}
+              isDragging={isDragging}
             />
           ) : (
             <div className="flex items-center justify-center h-full text-white text-xl">Keine Fragen verfügbar</div>
