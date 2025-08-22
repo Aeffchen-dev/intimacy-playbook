@@ -40,7 +40,7 @@ const Switch = React.forwardRef<
     
     {/* Smiley that moves across the full switch */}
     <div
-      className="absolute pointer-events-none transition-all duration-500 ease-in-out"
+      className="absolute pointer-events-none"
       style={{ 
         left: checked ? 'calc(100% - 18px - 2px)' : '2px',
         top: '1.5px',
@@ -51,7 +51,8 @@ const Switch = React.forwardRef<
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+        boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+        transition: 'all 0.6s ease-in-out'
       }}
     >
       <svg 
