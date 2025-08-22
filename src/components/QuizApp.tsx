@@ -576,8 +576,26 @@ export function QuizApp() {
           <Switch 
             checked={isMixedMode}
             onCheckedChange={handleToggleChange}
-            className={`w-[46px] data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px] [&>span]:bg-white [&>span]:m-0.5 ${toggleAnimating ? '[&>span]:animate-spin' : ''}`}
-          />
+            className="w-[46px] data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px] [&>span]:bg-white [&>span]:m-0.5 [&>span]:transition-all [&>span]:duration-300 [&>span]:ease-in-out"
+            style={{
+              ['--smiley-rotation' as any]: toggleAnimating ? '360deg' : '0deg'
+            }}
+          >
+            <div 
+              className="w-full h-full flex items-center justify-center transition-transform duration-300 ease-in-out"
+              style={{
+                transform: `rotate(${toggleAnimating ? '360deg' : '0deg'})`
+              }}
+            >
+              <div className="relative w-4 h-4 bg-pink-400 rounded-full flex items-center justify-center">
+                <div className="flex gap-0.5 absolute top-1">
+                  <div className="w-0.5 h-0.5 bg-black rounded-full"></div>
+                  <div className="w-0.5 h-0.5 bg-black rounded-full"></div>
+                </div>
+                <div className="w-2 h-1 border border-black border-t-0 rounded-b-full absolute top-2"></div>
+              </div>
+            </div>
+          </Switch>
           <span 
             className="text-white font-normal text-xs cursor-pointer" 
             onClick={() => handleToggleClick(true)}
