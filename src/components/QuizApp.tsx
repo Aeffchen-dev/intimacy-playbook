@@ -446,7 +446,7 @@ export function QuizApp() {
               setIsMixedMode(checked);
               setHasToggleBeenChanged(true);
             }}
-            className="data-[state=checked]:bg-white data-[state=unchecked]:bg-white"
+            className="data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px] [&>span]:h-3 [&>span]:w-3 [&>span]:bg-white"
           />
           <span className="text-white font-normal text-xs">Aktion</span>
         </div>
