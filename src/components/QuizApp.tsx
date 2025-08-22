@@ -600,7 +600,8 @@ export function QuizApp() {
         </div>
         <button 
           onClick={() => setCategorySelectorOpen(true)}
-          className="text-white font-normal text-xs flex items-center"
+          className="text-white font-normal flex items-center"
+          style={{ fontSize: '14px' }}
         >
           Kategorien wählen
         </button>
@@ -704,8 +705,8 @@ export function QuizApp() {
               onClick={() => handleToggleClick(false)}
             >
               <span 
-                className="text-white font-normal text-xs"
-                style={{ fontFamily: 'Arial, sans-serif', marginRight: '8px' }}
+                className="text-white font-normal"
+                style={{ fontFamily: 'Arial, sans-serif', marginRight: '8px', fontSize: '14px' }}
               >
                 question mode
               </span>
@@ -721,8 +722,8 @@ export function QuizApp() {
               onClick={() => handleToggleClick(true)}
             >
               <span 
-                className="text-white font-normal text-xs"
-                style={{ fontFamily: 'Arial, sans-serif', marginLeft: '8px' }}
+                className="text-white font-normal"
+                style={{ fontFamily: 'Arial, sans-serif', marginLeft: '8px', fontSize: '14px' }}
               >
                 action mode
               </span>

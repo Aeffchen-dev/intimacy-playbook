@@ -88,7 +88,7 @@ export function CategorySelector({
           {/* Header */}
           <div className="flex items-center justify-between px-4 pt-4 pb-0 bg-background shrink-0">
             <DialogHeader>
-              <DialogTitle className="text-white font-normal" style={{ fontSize: '12px' }}>
+              <DialogTitle className="text-white font-normal" style={{ fontSize: '20px', fontFamily: 'Arial, sans-serif' }}>
                 Kategorien wählen
               </DialogTitle>
             </DialogHeader>
@@ -121,7 +121,7 @@ export function CategorySelector({
                   }}
                   onClick={() => handleCategoryToggle(category)}
                 >
-                  <span className="text-black font-normal tracking-wide" style={{ fontFamily: 'Arial, sans-serif', fontSize: '12px' }}>
+                  <span className="text-black font-normal tracking-wide" style={{ fontFamily: 'Arial, sans-serif', fontSize: '14px' }}>
                     {category}
                   </span>
                   <div onClick={(e) => e.stopPropagation()}>
