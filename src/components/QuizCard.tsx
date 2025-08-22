@@ -19,6 +19,7 @@ interface QuizCardProps {
   dragOffsetX?: number;
   dragOffsetY?: number;
   isDragging?: boolean;
+  enableClickAreas?: boolean;
 }
 
 export function QuizCard({ 
@@ -32,7 +33,8 @@ export function QuizCard({
   onDragEnd,
   dragOffsetX = 0,
   dragOffsetY = 0,
-  isDragging = false
+  isDragging = false,
+  enableClickAreas = true
 }: QuizCardProps) {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
@@ -176,6 +178,7 @@ export function QuizCard({
 
   const onTouchMove = (e: React.TouchEvent) => {
     if (onDragMove) {
+      e.preventDefault();
       onDragMove(e.touches[0].clientX, e.touches[0].clientY);
     } else {
       setTouchEnd(e.targetTouches[0].clientX);
@@ -253,7 +256,7 @@ export function QuizCard({
 
   return (
     <div 
-      className={`relative w-full max-w-[500px] mx-auto rounded-[2rem] shadow-card overflow-hidden select-none max-h-full`}
+      className={`relative quiz-card w-full max-w-[500px] mx-auto rounded-[2rem] shadow-card overflow-hidden select-none max-h-full`}
       style={{
         height: '100%',
         maxHeight: '100%',
@@ -268,17 +271,22 @@ export function QuizCard({
       onMouseUp={onMouseUp}
       onMouseLeave={onMouseLeave}
     >
-      {/* Left Click Area - Previous */}
-      <div 
-        className="absolute left-0 top-0 w-20 h-full z-10 cursor-pointer"
-        onClick={onSwipeRight}
-      />
+      {enableClickAreas && (
+        <>
+          {/* Left Click Area - Previous */}
+          <div 
+            className="absolute left-0 top-0 w-20 h-full z-10 cursor-pointer"
+            onClick={onSwipeRight}
+          />
 
-      {/* Right Click Area - Next */}
-      <div 
-        className="absolute right-0 top-0 w-20 h-full z-10 cursor-pointer"
-        onClick={onSwipeLeft}
-      />
+          {/* Right Click Area - Next */}
+          <div 
+            className="absolute right-0 top-0 w-20 h-full z-10 cursor-pointer"
+            onClick={onSwipeLeft}
+          />
+        </>
+      )}
+
 
       {/* Main Content */}
       <div className={`h-full flex flex-col justify-start ${question.category.toLowerCase() === 'intro' ? 'p-8' : 'p-8 lg:p-10'}`}>

@@ -303,22 +303,19 @@ export function QuizApp() {
     setDragOffsetX(offsetX);
     setDragOffsetY(offsetY);
     
-    // Auto-complete drag when 20% of card is outside viewport
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    const cardWidth = 500; // max-w-[500px] from card
-    const cardHeight = Math.min(window.innerHeight * 0.7, 600); // Approximate card height
-    
-    const threshold20Percent = 0.2;
-    
-    // Check if 20% of card is outside any edge
-    const isOutsideLeft = offsetX < -(cardWidth * threshold20Percent);
-    const isOutsideRight = offsetX > (viewportWidth - cardWidth + (cardWidth * threshold20Percent));
-    const isOutsideTop = offsetY < -(cardHeight * threshold20Percent);
-    const isOutsideBottom = offsetY > (viewportHeight - cardHeight + (cardHeight * threshold20Percent));
-    
-    if (isOutsideLeft || isOutsideRight || isOutsideTop || isOutsideBottom) {
-      // Auto-complete the drag
+    // Auto-complete drag when 20% of the card crosses the viewport boundary
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const cardW = Math.min(vw - 32, 500); // px-4 paddings, max-w 500
+    const cardH = Math.min(vh * 0.8, 640);
+
+    const horizThreshold = (vw - cardW) / 2 + cardW * 0.2;
+    const vertThreshold = (vh - cardH) / 2 + cardH * 0.2;
+
+    const outsideHoriz = offsetX > horizThreshold || offsetX < -horizThreshold;
+    const outsideVert = offsetY > vertThreshold || offsetY < -vertThreshold;
+
+    if (outsideHoriz || outsideVert) {
       handleDragEnd(true);
     }
   };
@@ -641,9 +638,7 @@ export function QuizApp() {
                       onDragStart={(clientX, clientY) => handleDragStart(clientX, clientY || 0)}
                       onDragMove={(clientX, clientY) => handleDragMove(clientX, clientY || 0)}
                       onDragEnd={handleDragEnd}
-                      dragOffsetX={0}
-                      dragOffsetY={0}
-                      isDragging={false}
+                      enableClickAreas={false}
                     />
                   </div>
                 );
