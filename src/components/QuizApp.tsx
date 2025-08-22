@@ -275,13 +275,12 @@ export function QuizApp() {
   const [dragStartY, setDragStartY] = useState(0);
 
   const nextQuestion = () => {
-    if (currentIndex < slides.length - 1 && !isTransitioning) {
+    if (currentIndex < slides.length - 1 && !isTransitioning && !isDragging) {
       setIsTransitioning(true);
       
-      setTimeout(() => {
-        setCurrentIndex(prev => prev + 1);
-        setIsTransitioning(false);
-      }, 300);
+      // Simply move to next slide without animation
+      setCurrentIndex(prev => prev + 1);
+      setIsTransitioning(false);
     }
   };
 
@@ -558,16 +557,14 @@ export function QuizApp() {
                 if (isActive) {
                   // Current slide (top of stack) - can be dragged
                   if (isDragging) {
-                    // Card follows finger/mouse exactly
+                    // Card follows finger/mouse exactly, no transitions
                     transform = `translateX(${dragOffsetX}px) translateY(${dragOffsetY}px)`;
-                  } else if (isTransitioning) {
-                    // Slide out animation when transitioning
-                    transform = 'translateX(100vw)';
                   } else {
+                    // Normal position when not dragging
                     transform = 'translateX(0) translateY(0)';
                   }
                 } else {
-                  // Slides below in the stack - only offset and scaled down
+                  // Slides below in the stack - only scaled down
                   scale = Math.max(1 - stackOrder * 0.02, 0.94); // Slightly smaller, min 94%
                   transform = `scale(${scale})`;
                 }
@@ -579,7 +576,7 @@ export function QuizApp() {
                     style={{
                       transform,
                       zIndex,
-                      transition: isDragging ? 'none' : 'transform 0.3s ease-in-out',
+                      transition: isDragging && isActive ? 'none' : 'transform 0.3s ease-in-out',
                       transformOrigin: 'center center'
                     }}
                   >
