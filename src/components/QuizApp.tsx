@@ -345,9 +345,6 @@ export function QuizApp() {
 
   // Filter and order slides based on categories and mode
   useEffect(() => {
-    const isFiltered = selectedCategories.length < availableCategories.length;
-    const shouldHideIntro = isFiltered || hasToggleBeenChanged;
-    
     // Filter by categories
     let filteredQuestions = allQuestions.filter(q => 
       selectedCategories.includes(q.category)
@@ -362,11 +359,6 @@ export function QuizApp() {
     
     const slides: SlideItem[] = [];
     
-    // Only add intro slide if no filters are applied and toggle has not been changed
-    if (introSlide && !shouldHideIntro) {
-      slides.push({ type: 'intro', question: introSlide });
-    }
-    
     // Shuffle questions when toggle state changes
     const shuffledQuestions = smartShuffle([...filteredQuestions]);
     
@@ -377,7 +369,7 @@ export function QuizApp() {
     
     setSlides(slides);
     setCurrentIndex(0); // Reset to first slide when filtering/mode changes
-  }, [selectedCategories, allQuestions, availableCategories.length, isMixedMode, introSlide, hasToggleBeenChanged]);
+  }, [selectedCategories, allQuestions, availableCategories.length, isMixedMode, hasToggleBeenChanged]);
 
   // Clamp current index whenever slides length changes to prevent out-of-bounds access
   useEffect(() => {
@@ -413,25 +405,13 @@ export function QuizApp() {
           {loading ? (
             <div className="flex items-center justify-center h-full text-white text-xl">Lade Fragen...</div>
           ) : hasSlides ? (
-            safeSlide!.type === 'intro' ? (
-              <div className="flex items-center justify-center h-full">
-                <QuizCard
-                  question={safeSlide!.question!}
-                  onSwipeLeft={nextQuestion}
-                  onSwipeRight={prevQuestion}
-                  animationClass={animationClass}
-                  categoryIndex={categoryColorMap[safeSlide!.question!.category] || 0}
-                />
-              </div>
-            ) : (
-              <QuizCard
-                question={safeSlide!.question!}
-                onSwipeLeft={nextQuestion}
-                onSwipeRight={prevQuestion}
-                animationClass={animationClass}
-                categoryIndex={categoryColorMap[safeSlide!.question!.category] || 0}
-              />
-            )
+            <QuizCard
+              question={safeSlide!.question!}
+              onSwipeLeft={nextQuestion}
+              onSwipeRight={prevQuestion}
+              animationClass={animationClass}
+              categoryIndex={categoryColorMap[safeSlide!.question!.category] || 0}
+            />
           ) : (
             <div className="text-white text-xl">Keine Fragen verfügbar</div>
           )}
