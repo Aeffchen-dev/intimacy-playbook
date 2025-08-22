@@ -388,20 +388,18 @@ export function QuizApp() {
     <div className="min-h-[100svh] h-[100svh] bg-background overflow-hidden flex flex-col" style={{ height: '100svh' }}>
       {/* App Header with controls */}
       <div className="bg-black mt-4 flex items-center justify-between w-full px-4" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
-        <div className="text-white" style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px', fontWeight: '950' }}>
+        <div className="text-white" style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px', fontWeight: '900' }}>
           {"Intimacy Playbook".split('').map((char, index) => (
             <span 
               key={index} 
               style={{ 
                 display: 'inline-block',
-                transform: `rotate(${(Math.random() * 2 + 1) * (Math.random() < 0.5 ? -1 : 1)}deg)`,
-                color: char === 'o' && index === 12 ? '#ff69b4' : 'white' // Pink color for the 'o' in Playbook
+                transform: `rotate(${(Math.random() * 2 + 1) * (Math.random() < 0.5 ? -1 : 1)}deg)`
               }}
             >
               {char}
             </span>
           ))}
-          <span style={{ marginLeft: '8px' }}>😊</span>
         </div>
         <button 
           onClick={() => setCategorySelectorOpen(true)}
