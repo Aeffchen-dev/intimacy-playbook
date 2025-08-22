@@ -375,7 +375,7 @@ export function QuizApp() {
   const handleDragEnd = () => {
     if (!isDragging) return;
     
-    const threshold = 50;
+    const threshold = 150;
     
     if (Math.abs(dragOffset) > threshold) {
       if (dragOffset > 0 && currentIndex > 0) {
