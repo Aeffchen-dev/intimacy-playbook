@@ -558,10 +558,8 @@ export function QuizApp() {
                 if (isActive) {
                   // Current slide (top of stack) - can be dragged
                   if (isDragging) {
+                    // Card follows finger/mouse exactly
                     transform = `translateX(${dragOffsetX}px) translateY(${dragOffsetY}px)`;
-                    // Optional: Add rotation based on drag direction for more natural feel
-                    const rotation = dragOffsetX * 0.05; // Subtle rotation
-                    transform += ` rotate(${rotation}deg)`;
                   } else if (isTransitioning) {
                     // Slide out animation when transitioning
                     transform = 'translateX(100vw)';
@@ -569,10 +567,9 @@ export function QuizApp() {
                     transform = 'translateX(0) translateY(0)';
                   }
                 } else {
-                  // Slides below in the stack - slightly offset and scaled down
-                  const offset = Math.min(stackOrder * 4, 12); // Max 12px offset
+                  // Slides below in the stack - only offset and scaled down
                   scale = Math.max(1 - stackOrder * 0.02, 0.94); // Slightly smaller, min 94%
-                  transform = `translateY(${offset}px) scale(${scale})`;
+                  transform = `scale(${scale})`;
                 }
                 
                 return (
@@ -594,9 +591,9 @@ export function QuizApp() {
                       onDragStart={(clientX, clientY) => handleDragStart(clientX, clientY || 0)}
                       onDragMove={(clientX, clientY) => handleDragMove(clientX, clientY || 0)}
                       onDragEnd={handleDragEnd}
-                      dragOffsetX={isDragging && isActive ? dragOffsetX : 0}
-                      dragOffsetY={isDragging && isActive ? dragOffsetY : 0}
-                      isDragging={isDragging && isActive}
+                      dragOffsetX={0}
+                      dragOffsetY={0}
+                      isDragging={false}
                     />
                   </div>
                 );
