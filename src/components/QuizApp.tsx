@@ -428,11 +428,6 @@ export function QuizApp() {
                   ? `translate(${dragOffset.x}px, ${dragOffset.y}px) rotate(${dragOffset.x * 0.1}deg)`
                   : '';
                 
-                // Calculate opacity based on drag distance for top card
-                const dragOpacity = isTopCard && isDragging 
-                  ? Math.max(0.3, 1 - Math.abs(dragOffset.x) / 300)
-                  : 1;
-                
                 return (
                   <div
                     key={`${actualIndex}-${slide.question?.question.slice(0, 20)}`}
@@ -447,7 +442,7 @@ export function QuizApp() {
                         translateX(${stackIndex * 4}px) 
                         scale(${1 - stackIndex * 0.03})
                       `,
-                      opacity: isTopCard ? dragOpacity : (1 - stackIndex * 0.15),
+                      opacity: 1 - stackIndex * 0.15,
                       pointerEvents: isTopCard ? 'auto' : 'none',
                     }}
                   >
