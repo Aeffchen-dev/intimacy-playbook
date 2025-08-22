@@ -50,8 +50,8 @@ All colors MUST be HSL.
     /* Category-specific colors adjusted for contrast with very dark text versions of background */
     --quiz-category1-bg: 180 85% 70%;        /* Light cyan instead of orange */
     --quiz-category1-text: 180 85% 8%;       /* Darker cyan text */
-    --quiz-category2-bg: 285 65% 75%;        /* Light flieder/lilac */
-    --quiz-category2-text: 285 65% 8%;       /* Darker flieder text */
+    --quiz-category2-bg: 275 45% 80%;        /* Light lavender like uploaded image */
+    --quiz-category2-text: 275 45% 15%;      /* Darker lavender text */
     --quiz-category3-bg: 320 60% 80%;        /* Light purple-pink */
     --quiz-category3-text: 320 60% 8%;       /* Darker purple-pink text */
     --quiz-category4-bg: 45 85% 75%;         /* Light golden orange */
