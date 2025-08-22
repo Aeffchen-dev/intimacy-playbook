@@ -105,14 +105,12 @@ export function QuizApp() {
       if (!isDragging) return;
       
       const deltaX = clientX - dragStart.x;
-      const threshold = 100;
+      const deltaY = clientY - dragStart.y;
+      const threshold = 200;
       
-      if (Math.abs(deltaX) > threshold) {
-        if (deltaX > 0) {
-          prevQuestion();
-        } else {
-          nextQuestion();
-        }
+      // Any direction drag triggers next slide if threshold is met
+      if (Math.abs(deltaX) > threshold || Math.abs(deltaY) > threshold) {
+        nextQuestion();
       }
       
       setIsDragging(false);
