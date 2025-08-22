@@ -16,17 +16,10 @@ interface QuizCardProps {
 }
 
 export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass = '', categoryIndex = 0 }: QuizCardProps) {
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const [mouseStart, setMouseStart] = useState<number | null>(null);
-  const [mouseEnd, setMouseEnd] = useState<number | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
   const [processedText, setProcessedText] = useState<JSX.Element[]>([]);
   
   const textRef = useRef<HTMLHeadingElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const minSwipeDistance = 50;
 
   // Process text to handle long words individually and preserve line breaks
   useEffect(() => {
@@ -147,64 +140,6 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
 
   const categoryColors = getCategoryColors(categoryIndex);
 
-  const onTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
-
-    if (isLeftSwipe) {
-      onSwipeLeft();
-    } else if (isRightSwipe) {
-      onSwipeRight();
-    }
-  };
-
-  // Mouse drag handlers for desktop
-  const onMouseDown = (e: React.MouseEvent) => {
-    setMouseEnd(null);
-    setMouseStart(e.clientX);
-    setIsDragging(true);
-  };
-
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    setMouseEnd(e.clientX);
-  };
-
-  const onMouseUp = () => {
-    if (!isDragging || !mouseStart || !mouseEnd) {
-      setIsDragging(false);
-      return;
-    }
-    
-    const distance = mouseStart - mouseEnd;
-    const isLeftDrag = distance > minSwipeDistance;
-    const isRightDrag = distance < -minSwipeDistance;
-
-    if (isLeftDrag) {
-      onSwipeLeft();
-    } else if (isRightDrag) {
-      onSwipeRight();
-    }
-    
-    setIsDragging(false);
-  };
-
-  const onMouseLeave = () => {
-    setIsDragging(false);
-  };
-
   return (
     <div 
       className={`relative w-full max-w-[500px] mx-auto rounded-[2rem] shadow-card overflow-hidden select-none max-h-full ${animationClass}`}
@@ -214,13 +149,6 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
         backgroundColor: question.category.toLowerCase() !== 'intro' ? categoryColors.bg : 'hsl(var(--card-background))',
         color: question.category.toLowerCase() !== 'intro' ? categoryColors.text : 'hsl(var(--foreground))'
       }}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-      onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}
-      onMouseLeave={onMouseLeave}
     >
       {/* Left Click Area - Previous */}
       <div 
