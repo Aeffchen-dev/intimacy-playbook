@@ -580,7 +580,10 @@ export function QuizApp() {
             className="flex items-center cursor-pointer px-4 py-2 -mr-2" 
             onClick={() => handleToggleClick(false)}
           >
-            <span className="text-white font-normal text-xs">
+            <span 
+              className="text-white font-normal text-xs"
+              style={{ fontFamily: 'Arial, sans-serif' }}
+            >
               question mode
             </span>
           </div>
@@ -588,13 +591,16 @@ export function QuizApp() {
             checked={isMixedMode}
             onCheckedChange={handleToggleChange}
             isAnimating={toggleAnimating}
-            className="w-[46px] mx-2 data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px]"
+            className="w-[46px] mx-1 data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px]"
           />
           <div 
             className="flex items-center cursor-pointer px-4 py-2 -ml-2" 
             onClick={() => handleToggleClick(true)}
           >
-            <span className="text-white font-normal text-xs">
+            <span 
+              className="text-white font-normal text-xs"
+              style={{ fontFamily: 'Arial, sans-serif' }}
+            >
               action mode
             </span>
           </div>
