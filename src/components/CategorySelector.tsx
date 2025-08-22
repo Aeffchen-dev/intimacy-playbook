@@ -142,11 +142,26 @@ export function CategorySelector({
                         }}
                       >
                         {isSelected && (
-                          <Check 
-                            className="text-white animate-scale-in" 
-                            style={{ width: '20px', height: '20px' }}
-                            strokeWidth={2}
-                          />
+                          <svg 
+                            width="20" 
+                            height="20" 
+                            viewBox="0 0 24 24" 
+                            fill="none"
+                            className="text-white"
+                          >
+                            <path
+                              d="M20 6 9 17l-5-5"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              style={{
+                                strokeDasharray: '20',
+                                strokeDashoffset: '20',
+                                animation: 'drawCheckmark 0.4s ease-out forwards'
+                              }}
+                            />
+                          </svg>
                         )}
                       </div>
                     </div>

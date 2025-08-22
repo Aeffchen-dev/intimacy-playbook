@@ -181,3 +181,10 @@ All colors MUST be HSL.
     height: 100svh;
   }
 }
+
+/* Checkmark drawing animation */
+@keyframes drawCheckmark {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
