@@ -21,7 +21,7 @@ const Switch = React.forwardRef<
   >
     <SwitchPrimitives.Thumb
       className={cn(
-        "pointer-events-none block h-[18px] w-[18px] rounded-full shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-[21.5px] data-[state=unchecked]:translate-x-0 flex items-center justify-center"
+        "pointer-events-none block h-[18px] w-[18px] rounded-full shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-[23px] data-[state=unchecked]:translate-x-[1.5px] flex items-center justify-center"
       )}
       style={{ backgroundColor: '#ff69b4' }}
     >
@@ -31,7 +31,7 @@ const Switch = React.forwardRef<
         viewBox="0 0 12 12" 
         fill="none" 
         style={{ 
-          transform: `rotate(${isAnimating ? '360deg' : '-10deg'})`,
+          transform: `rotate(${isAnimating ? '180deg' : '-10deg'})`,
           transition: 'transform 0.3s ease-in-out'
         }}
       >
