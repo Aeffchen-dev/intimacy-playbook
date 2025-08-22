@@ -396,17 +396,8 @@ export function QuizApp() {
     <div className="min-h-[100svh] h-[100svh] bg-background overflow-hidden flex flex-col" style={{ height: '100svh' }}>
       {/* App Header with controls */}
       <div className="bg-black mt-4 flex items-center justify-between w-full px-4" style={{ paddingTop: 'env(safe-area-inset-top, 0)' }}>
-        <div className="flex items-center gap-2">
-          <span className="text-white font-normal text-xs">Frage</span>
-          <Switch 
-            checked={isMixedMode}
-            onCheckedChange={(checked) => {
-              setIsMixedMode(checked);
-              setHasToggleBeenChanged(true);
-            }}
-            className="data-[state=checked]:bg-white data-[state=unchecked]:bg-white"
-          />
-          <span className="text-white font-normal text-xs">Aktion</span>
+        <div className="text-white font-normal text-lg">
+          Intimacy Playbook
         </div>
         <button 
           onClick={() => setCategorySelectorOpen(true)}
@@ -444,6 +435,20 @@ export function QuizApp() {
           ) : (
             <div className="text-white text-xl">Keine Fragen verfügbar</div>
           )}
+        </div>
+        
+        {/* Toggle centered below the card */}
+        <div className="flex items-center justify-center gap-2 pb-4">
+          <span className="text-white font-normal text-xs">Frage</span>
+          <Switch 
+            checked={isMixedMode}
+            onCheckedChange={(checked) => {
+              setIsMixedMode(checked);
+              setHasToggleBeenChanged(true);
+            }}
+            className="data-[state=checked]:bg-white data-[state=unchecked]:bg-white"
+          />
+          <span className="text-white font-normal text-xs">Aktion</span>
         </div>
       </div>
       
