@@ -110,14 +110,13 @@ export function CategorySelector({
               return (
                 <div 
                   key={category}
-                  className="flex items-center justify-between p-4 border-l-8 bg-[#161616] cursor-pointer"
+                  className="flex items-center justify-between p-4 cursor-pointer rounded-full"
                   style={{ 
-                    borderRadius: '4px',
-                    borderLeftColor: borderColor
+                    backgroundColor: borderColor
                   }}
                   onClick={() => handleCategoryToggle(category)}
                 >
-                  <span className="text-white font-bold text-sm uppercase tracking-wide">
+                  <span className="text-black font-bold text-sm uppercase tracking-wide">
                     {category}
                   </span>
                   <div onClick={(e) => e.stopPropagation()}>
@@ -131,18 +130,15 @@ export function CategorySelector({
                       }}
                     >
                       <div
-                        className={`w-5 h-5 border border-white flex items-center justify-center ${isSelected ? 'bg-white' : 'bg-transparent'}`}
+                        className={`w-5 h-5 border border-black flex items-center justify-center rounded-full ${isSelected ? 'bg-black' : 'bg-transparent'}`}
                         style={{ 
                           width: '20px', 
-                          height: '20px', 
-                          borderRadius: '24px',
-                          outline: '1px solid white',
-                          outlineOffset: '0px'
+                          height: '20px'
                         }}
                       >
                         {isSelected && (
                           <Check 
-                            className="text-black" 
+                            className="text-white" 
                             style={{ width: '14px', height: '14px' }}
                             strokeWidth={2}
                           />
