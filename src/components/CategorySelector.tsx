@@ -113,7 +113,7 @@ export function CategorySelector({
                   className="flex items-center justify-between cursor-pointer rounded-full"
                   style={{ 
                     backgroundColor: borderColor,
-                    padding: '8px'
+                    padding: '12px'
                   }}
                   onClick={() => handleCategoryToggle(category)}
                 >
