@@ -33,16 +33,13 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
     const processText = () => {
       if (!containerRef.current) return;
 
-      // Normalize text by collapsing any sequence of line breaks into single line breaks
+      // Remove all line breaks and let text flow naturally
       console.log('Original question text:', JSON.stringify(question.question));
-      const normalizedText = question.question
-        .replace(/[\r\n]+/g, '\n')  // Convert all line break types to single \n
-        .replace(/\n\s*\n+/g, '\n') // Collapse multiple line breaks with optional whitespace
-        .replace(/\n{2,}/g, '\n')   // Ensure no more than 1 consecutive line break
-        .trim();
-      console.log('Normalized text:', JSON.stringify(normalizedText));
-      const lines = normalizedText.split('\n');
-      console.log('Split lines:', lines.length, lines);
+      const cleanedText = question.question.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
+      console.log('Cleaned text:', JSON.stringify(cleanedText));
+      
+      const words = cleanedText.split(' ');
+      console.log('Words:', words.length, words);
       const containerWidth = containerRef.current.getBoundingClientRect().width;
       
       // Create temporary element to measure word width with exact same styles
@@ -63,43 +60,32 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
       // Add to same container to inherit styles
       containerRef.current.appendChild(tempElement);
 
-      const processedLines = lines.map((line, lineIndex) => {
-        const words = line.split(' ');
+      const processedWords = words.map((word, wordIndex) => {
+        tempElement.textContent = word;
+        const wordWidth = tempElement.getBoundingClientRect().width;
         
-        const processedWords = words.map((word, wordIndex) => {
-          tempElement.textContent = word;
-          const wordWidth = tempElement.getBoundingClientRect().width;
-          
-          // Only apply hyphenation if word is actually wider than available space
-          // Use full container width minus some padding buffer
-          const needsHyphenation = wordWidth > (containerWidth - 20);
-          
-          return (
-            <span 
-              key={`${lineIndex}-${wordIndex}`}
-              style={{
-                hyphens: needsHyphenation ? 'auto' : 'none',
-                overflowWrap: needsHyphenation ? 'break-word' : 'normal',
-                wordBreak: 'normal'
-              }}
-              lang="de"
-            >
-              {word}
-              {wordIndex < words.length - 1 && ' '}
-            </span>
-          );
-        });
-
+        // Only apply hyphenation if word is actually wider than available space
+        // Use full container width minus some padding buffer
+        const needsHyphenation = wordWidth > (containerWidth - 20);
+        
         return (
-          <span key={lineIndex} style={{ display: 'inline' }}>
-            {processedWords}
-            {lineIndex < lines.length - 1 && <br />}
+          <span 
+            key={wordIndex}
+            style={{
+              hyphens: needsHyphenation ? 'auto' : 'none',
+              overflowWrap: needsHyphenation ? 'break-word' : 'normal',
+              wordBreak: 'normal'
+            }}
+            lang="de"
+          >
+            {word}
+            {wordIndex < words.length - 1 && ' '}
           </span>
         );
       });
 
       containerRef.current.removeChild(tempElement);
-      setProcessedText(processedLines);
+      setProcessedText([<span key="single-line">{processedWords}</span>]);
     };
 
     const timeoutId = setTimeout(processText, 50);
