@@ -80,11 +80,11 @@ export function CategorySelector({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-full max-w-md mx-auto bg-background border-0 p-0 overflow-hidden [&>button]:hidden">
+      <DialogContent className="w-full max-w-md mx-auto h-screen bg-background border-0 p-0 overflow-hidden [&>button]:hidden">
         <DialogDescription className="sr-only">
           Wählen Sie die Kategorien aus, die Sie sehen möchten
         </DialogDescription>
-        <div className="flex flex-col w-full bg-background overflow-hidden">
+        <div className="flex flex-col w-full h-full bg-background overflow-hidden">
           {/* Header */}
           <div className="flex items-center justify-between px-6 pt-4 pb-2 bg-background">
             <DialogHeader>
@@ -102,7 +102,7 @@ export function CategorySelector({
           </div>
 
           {/* Categories List */}
-          <ScrollArea className="h-96">
+          <ScrollArea className="flex-1 min-h-0">
             <div className="px-6 pt-2 space-y-2 pb-6">
               {categories.map((category, index) => {
               const isSelected = tempSelection.includes(category);
