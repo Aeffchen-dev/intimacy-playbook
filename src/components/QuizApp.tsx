@@ -581,7 +581,7 @@ export function QuizApp() {
         </div>
         
         {/* Toggle centered below the card */}
-        <div className="flex items-center justify-center pb-4 w-full">
+        <div className="flex items-center justify-center pb-3 w-full">
           <div className="flex items-center">
             <div 
               className="flex items-center cursor-pointer py-2" 
