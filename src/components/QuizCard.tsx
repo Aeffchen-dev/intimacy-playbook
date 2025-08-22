@@ -43,7 +43,7 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
         position: absolute;
         visibility: hidden;
         white-space: nowrap;
-        font-size: 3rem;
+        font-size: 4rem;
         font-family: Kokoro, serif;
         font-weight: bold;
         font-style: italic;
@@ -261,7 +261,7 @@ export function QuizCard({ question, onSwipeLeft, onSwipeRight, animationClass =
         <div ref={containerRef} className={`flex-1 flex w-full ${question.category.toLowerCase() === 'intro' ? 'items-center justify-start text-left' : 'items-start justify-start text-left mt-4'}`}>
           <h1 
             ref={textRef}
-            className={`font-normal leading-tight w-full ${question.category.toLowerCase() === 'intro' ? 'text-base md:text-lg lg:text-xl max-w-md' : 'text-2xl md:text-3xl lg:text-4xl max-w-full'}`}
+            className={`font-normal leading-tight w-full ${question.category.toLowerCase() === 'intro' ? 'text-base md:text-lg lg:text-xl max-w-md' : 'text-3xl md:text-4xl lg:text-5xl max-w-full'}`}
             style={{ 
               fontFamily: 'Kokoro, serif',
               fontWeight: 'bold',
