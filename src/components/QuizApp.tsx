@@ -308,7 +308,7 @@ export function QuizApp() {
   const handleDragEnd = () => {
     if (!isDragging) return;
     
-    const threshold = 300;
+    const threshold = 20;
     const distance = Math.sqrt(dragOffsetX * dragOffsetX + dragOffsetY * dragOffsetY);
     
     if (distance > threshold && currentIndex < slides.length - 1) {
