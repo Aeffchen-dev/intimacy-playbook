@@ -440,25 +440,31 @@ export function QuizApp() {
   };
 
   const handleToggleChange = (checked: boolean) => {
-    setToggleAnimating(true);
-    setIsMixedMode(checked);
-    setHasToggleBeenChanged(true);
-    
-    // Reset animation after toggle completes
-    setTimeout(() => {
-      setToggleAnimating(false);
-    }, 300);
+    // Only animate if the state is actually changing
+    if (checked !== isMixedMode) {
+      setToggleAnimating(true);
+      setIsMixedMode(checked);
+      setHasToggleBeenChanged(true);
+      
+      // Reset animation after toggle completes
+      setTimeout(() => {
+        setToggleAnimating(false);
+      }, 300);
+    }
   };
 
   const handleToggleClick = (mode: boolean) => {
-    setToggleAnimating(true);
-    setIsMixedMode(mode);
-    setHasToggleBeenChanged(true);
-    
-    // Reset animation after toggle completes
-    setTimeout(() => {
-      setToggleAnimating(false);
-    }, 300);
+    // Only animate if the state is actually changing
+    if (mode !== isMixedMode) {
+      setToggleAnimating(true);
+      setIsMixedMode(mode);
+      setHasToggleBeenChanged(true);
+      
+      // Reset animation after toggle completes
+      setTimeout(() => {
+        setToggleAnimating(false);
+      }, 300);
+    }
   };
 
   const hasSlides = slides.length > 0;
