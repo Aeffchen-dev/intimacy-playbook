@@ -13,10 +13,11 @@ interface QuizCardProps {
   onSwipeRight: () => void;
   animationClass?: string;
   categoryIndex?: number;
-  onDragStart?: (clientX: number) => void;
-  onDragMove?: (clientX: number) => void;
+  onDragStart?: (clientX: number, clientY?: number) => void;
+  onDragMove?: (clientX: number, clientY?: number) => void;
   onDragEnd?: () => void;
-  dragOffset?: number;
+  dragOffsetX?: number;
+  dragOffsetY?: number;
   isDragging?: boolean;
 }
 
@@ -29,7 +30,8 @@ export function QuizCard({
   onDragStart,
   onDragMove,
   onDragEnd,
-  dragOffset = 0,
+  dragOffsetX = 0,
+  dragOffsetY = 0,
   isDragging = false
 }: QuizCardProps) {
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -174,7 +176,7 @@ export function QuizCard({
 
   const onTouchMove = (e: React.TouchEvent) => {
     if (onDragMove) {
-      onDragMove(e.touches[0].clientX);
+      onDragMove(e.touches[0].clientX, e.touches[0].clientY);
     } else {
       setTouchEnd(e.targetTouches[0].clientX);
     }
@@ -201,7 +203,7 @@ export function QuizCard({
   // Mouse drag handlers for desktop
   const onMouseDown = (e: React.MouseEvent) => {
     if (onDragStart) {
-      onDragStart(e.clientX);
+      onDragStart(e.clientX, e.clientY);
     } else {
       setMouseEnd(null);
       setMouseStart(e.clientX);
@@ -211,7 +213,7 @@ export function QuizCard({
 
   const onMouseMove = (e: React.MouseEvent) => {
     if (onDragMove) {
-      onDragMove(e.clientX);
+      onDragMove(e.clientX, e.clientY);
     } else {
       if (!isLocalDragging) return;
       setMouseEnd(e.clientX);

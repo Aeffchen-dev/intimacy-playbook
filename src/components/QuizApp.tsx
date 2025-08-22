@@ -95,66 +95,7 @@ export function QuizApp() {
     }
   }, [loading]);
 
-  // Add touch/mouse handlers for desktop swipe
-  useEffect(() => {
-    let startX = 0;
-    let startY = 0;
-    let isDragging = false;
-
-    const handleStart = (clientX: number, clientY: number) => {
-      startX = clientX;
-      startY = clientY;
-      isDragging = true;
-    };
-
-    const handleEnd = (clientX: number, clientY: number) => {
-      if (!isDragging) return;
-      
-      const deltaX = clientX - startX;
-      const deltaY = clientY - startY;
-      
-      // Only trigger if horizontal movement is greater than vertical
-      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
-        if (deltaX > 0) {
-          prevQuestion();
-        } else {
-          nextQuestion();
-        }
-      }
-      
-      isDragging = false;
-    };
-
-    const handleMouseDown = (e: MouseEvent) => {
-      handleStart(e.clientX, e.clientY);
-    };
-
-    const handleMouseUp = (e: MouseEvent) => {
-      handleEnd(e.clientX, e.clientY);
-    };
-
-    const handleTouchStart = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      handleStart(touch.clientX, touch.clientY);
-    };
-
-    const handleTouchEnd = (e: TouchEvent) => {
-      const touch = e.changedTouches[0];
-      handleEnd(touch.clientX, touch.clientY);
-    };
-
-    document.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener('mouseup', handleMouseUp);
-    document.addEventListener('touchstart', handleTouchStart);
-    document.addEventListener('touchend', handleTouchEnd);
-
-    return () => {
-      document.removeEventListener('mousedown', handleMouseDown);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('touchstart', handleTouchStart);
-      document.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, []);
+  // Remove global touch/mouse handlers - now handled by individual components
 
   const fetchQuestions = async () => {
     try {
@@ -323,78 +264,68 @@ export function QuizApp() {
     }
   };
 
-  // Multi-slide system state
+  // Stack-based system state
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [transitionDirection, setTransitionDirection] = useState<'left' | 'right' | null>(null);
 
-  // Real-time dragging state
+  // Real-time dragging state for any direction
   const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState(0);
+  const [dragOffsetX, setDragOffsetX] = useState(0);
+  const [dragOffsetY, setDragOffsetY] = useState(0);
   const [dragStartX, setDragStartX] = useState(0);
+  const [dragStartY, setDragStartY] = useState(0);
 
   const nextQuestion = () => {
     if (currentIndex < slides.length - 1 && !isTransitioning) {
       setIsTransitioning(true);
-      setTransitionDirection('left');
       
       setTimeout(() => {
         setCurrentIndex(prev => prev + 1);
         setIsTransitioning(false);
-        setTransitionDirection(null);
       }, 300);
     }
   };
 
-  const prevQuestion = () => {
-    if (currentIndex > 0 && !isTransitioning) {
-      setIsTransitioning(true);
-      setTransitionDirection('right');
-      
-      setTimeout(() => {
-        setCurrentIndex(prev => prev - 1);
-        setIsTransitioning(false);
-        setTransitionDirection(null);
-      }, 300);
-    }
-  };
+  // Remove previous question functionality - only forward navigation
 
-  // Real-time drag handlers
-  const handleDragStart = (clientX: number) => {
+  // Real-time drag handlers for any direction
+  const handleDragStart = (clientX: number, clientY: number) => {
     if (isTransitioning) return;
     setIsDragging(true);
     setDragStartX(clientX);
-    setDragOffset(0);
+    setDragStartY(clientY);
+    setDragOffsetX(0);
+    setDragOffsetY(0);
   };
 
-  const handleDragMove = (clientX: number) => {
+  const handleDragMove = (clientX: number, clientY: number) => {
     if (!isDragging) return;
-    const offset = clientX - dragStartX;
-    setDragOffset(offset);
+    const offsetX = clientX - dragStartX;
+    const offsetY = clientY - dragStartY;
+    setDragOffsetX(offsetX);
+    setDragOffsetY(offsetY);
   };
 
   const handleDragEnd = () => {
     if (!isDragging) return;
     
     const threshold = 300;
+    const distance = Math.sqrt(dragOffsetX * dragOffsetX + dragOffsetY * dragOffsetY);
     
-    if (Math.abs(dragOffset) > threshold) {
-      if (dragOffset > 0 && currentIndex > 0) {
-        prevQuestion();
-      } else if (dragOffset < 0 && currentIndex < slides.length - 1) {
-        nextQuestion();
-      }
+    if (distance > threshold && currentIndex < slides.length - 1) {
+      // Dragged far enough - move to next slide
+      nextQuestion();
     }
     
     setIsDragging(false);
-    setDragOffset(0);
+    setDragOffsetX(0);
+    setDragOffsetY(0);
   };
 
   const handleKeyPress = (e: KeyboardEvent) => {
-    if (e.key === 'ArrowLeft') {
-      prevQuestion();
-    } else if (e.key === 'ArrowRight') {
+    if (e.key === 'ArrowRight' || e.key === ' ') {
       nextQuestion();
     }
+    // Remove left arrow and backspace navigation
   };
 
   useEffect(() => {
@@ -606,54 +537,42 @@ export function QuizApp() {
         </button>
       </div>
 
-      {/* Main Quiz Container with multi-slide carousel */}
+      {/* Main Quiz Container with stacked slides */}
       <div className="flex-1 flex flex-col px-4 overflow-hidden mt-4 gap-3" style={{ minHeight: 0 }}>
         <div className="flex-1 flex items-stretch justify-center min-h-0 relative">
           {loading ? (
             <div className="flex items-center justify-center h-full text-white text-xl">Lade Fragen...</div>
           ) : hasSlides ? (
             <div className="relative w-full h-full flex items-center justify-center">
-              {/* Render current slide and adjacent slides for transitions */}
+              {/* Render slides stacked on top of each other */}
               {slides.map((slide, index) => {
+                // Only render current slide and slides below it (next slides)
+                if (index < safeIndex) return null;
+                
                 const isActive = index === safeIndex;
-                const isPrev = index === safeIndex - 1;
-                const isNext = index === safeIndex + 1;
-                
-                if (!isActive && !isPrev && !isNext) return null;
-                
+                const stackOrder = index - safeIndex; // 0 for current, 1 for next, etc.
+                let zIndex = slides.length - stackOrder; // Higher z-index for slides on top
                 let transform = '';
-                let zIndex = 1;
+                let scale = 1;
                 
                 if (isActive) {
-                  // Current slide positioning
+                  // Current slide (top of stack) - can be dragged
                   if (isDragging) {
-                    transform = `translateX(${dragOffset}px)`;
-                  } else if (isTransitioning && transitionDirection === 'left') {
-                    transform = 'translateX(calc(-100% - 16px))';
-                  } else if (isTransitioning && transitionDirection === 'right') {
-                    transform = 'translateX(calc(100% + 16px))';
+                    transform = `translateX(${dragOffsetX}px) translateY(${dragOffsetY}px)`;
+                    // Optional: Add rotation based on drag direction for more natural feel
+                    const rotation = dragOffsetX * 0.05; // Subtle rotation
+                    transform += ` rotate(${rotation}deg)`;
+                  } else if (isTransitioning) {
+                    // Slide out animation when transitioning
+                    transform = 'translateX(100vw)';
                   } else {
-                    transform = 'translateX(0)';
+                    transform = 'translateX(0) translateY(0)';
                   }
-                  zIndex = 2;
-                } else if (isPrev) {
-                  // Previous slide positioning
-                  if (isDragging) {
-                    transform = `translateX(calc(-100% - 16px + ${dragOffset}px))`;
-                  } else if (isTransitioning && transitionDirection === 'right') {
-                    transform = 'translateX(0)';
-                  } else {
-                    transform = 'translateX(calc(-100% - 16px))';
-                  }
-                } else if (isNext) {
-                  // Next slide positioning
-                  if (isDragging) {
-                    transform = `translateX(calc(100% + 16px + ${dragOffset}px))`;
-                  } else if (isTransitioning && transitionDirection === 'left') {
-                    transform = 'translateX(0)';
-                  } else {
-                    transform = 'translateX(calc(100% + 16px))';
-                  }
+                } else {
+                  // Slides below in the stack - slightly offset and scaled down
+                  const offset = Math.min(stackOrder * 4, 12); // Max 12px offset
+                  scale = Math.max(1 - stackOrder * 0.02, 0.94); // Slightly smaller, min 94%
+                  transform = `translateY(${offset}px) scale(${scale})`;
                 }
                 
                 return (
@@ -663,19 +582,21 @@ export function QuizApp() {
                     style={{
                       transform,
                       zIndex,
-                      transition: isDragging ? 'none' : 'transform 0.3s ease-in-out'
+                      transition: isDragging ? 'none' : 'transform 0.3s ease-in-out',
+                      transformOrigin: 'center center'
                     }}
                   >
                     <QuizCard
                       question={slide.question!}
                       onSwipeLeft={nextQuestion}
-                      onSwipeRight={prevQuestion}
+                      onSwipeRight={nextQuestion} // Both directions go forward
                       categoryIndex={categoryColorMap[slide.question!.category] || 0}
-                      onDragStart={handleDragStart}
-                      onDragMove={handleDragMove}
+                      onDragStart={(clientX, clientY) => handleDragStart(clientX, clientY || 0)}
+                      onDragMove={(clientX, clientY) => handleDragMove(clientX, clientY || 0)}
                       onDragEnd={handleDragEnd}
-                      dragOffset={isDragging ? dragOffset : 0}
-                      isDragging={isDragging}
+                      dragOffsetX={isDragging && isActive ? dragOffsetX : 0}
+                      dragOffsetY={isDragging && isActive ? dragOffsetY : 0}
+                      isDragging={isDragging && isActive}
                     />
                   </div>
                 );
