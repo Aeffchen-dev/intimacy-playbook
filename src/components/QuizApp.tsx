@@ -420,7 +420,7 @@ export function QuizApp() {
                     transform: 'translateX(-50%)',
                     width: '16px',
                     height: '16px',
-                    backgroundColor: '#ec4899',
+                    backgroundColor: '#fbbf24',
                     borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',
@@ -428,17 +428,17 @@ export function QuizApp() {
                     flexDirection: 'column'
                   }}
                 >
-                  <div style={{ display: 'flex', gap: '2px', marginTop: '2px' }}>
-                    <div style={{ width: '2px', height: '2px', backgroundColor: 'white', borderRadius: '50%' }}></div>
-                    <div style={{ width: '2px', height: '2px', backgroundColor: 'white', borderRadius: '50%' }}></div>
+                  <div style={{ display: 'flex', gap: '3px', marginTop: '1px' }}>
+                    <div style={{ width: '2px', height: '2px', backgroundColor: 'black', borderRadius: '50%' }}></div>
+                    <div style={{ width: '2px', height: '2px', backgroundColor: 'black', borderRadius: '50%' }}></div>
                   </div>
                   <div style={{ 
                     width: '6px', 
                     height: '3px', 
-                    border: '1px solid white', 
+                    border: '1px solid black', 
                     borderTop: 'none',
                     borderRadius: '0 0 6px 6px',
-                    marginTop: '1px'
+                    marginTop: '3px'
                   }}></div>
                 </div>
               )}
