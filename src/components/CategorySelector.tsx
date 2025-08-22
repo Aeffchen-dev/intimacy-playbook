@@ -86,7 +86,7 @@ export function CategorySelector({
         </DialogDescription>
         <div className="flex flex-col w-full h-full bg-background overflow-hidden">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 bg-background shrink-0">
+          <div className="flex items-center justify-between px-4 pt-4 pb-0 bg-background shrink-0">
             <DialogHeader>
               <DialogTitle className="text-white font-normal" style={{ fontSize: '12px' }}>
                 Kategorien wählen
@@ -103,7 +103,7 @@ export function CategorySelector({
 
           {/* Categories List */}
           <ScrollArea className="flex-1 min-h-0">
-            <div className="p-4 space-y-2">
+            <div className="px-4 pt-4 pb-4 space-y-2">
               {categories.map((category, index) => {
               const isSelected = tempSelection.includes(category);
               const borderColor = getCategoryColors(category, index);
