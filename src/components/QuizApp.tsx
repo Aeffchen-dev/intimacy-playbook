@@ -406,10 +406,31 @@ export function QuizApp() {
               key={index + 100} 
               style={{ 
                 display: 'inline-block',
-                transform: `rotate(${(Math.random() * 4 + 2) * (Math.random() < 0.5 ? -1 : 1)}deg)`
+                transform: `rotate(${(Math.random() * 4 + 2) * (Math.random() < 0.5 ? -1 : 1)}deg)`,
+                position: 'relative'
               }}
             >
               {char}
+              {char === 'o' && index === 6 && (
+                <div 
+                  style={{
+                    position: 'absolute',
+                    top: '-2px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: '16px',
+                    height: '16px',
+                    backgroundColor: '#ec4899',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '10px'
+                  }}
+                >
+                  😊
+                </div>
+              )}
             </span>
           ))}
         </div>
