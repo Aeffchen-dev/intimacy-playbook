@@ -527,7 +527,7 @@ export function QuizApp() {
                       justifyContent: 'center',
                       flexDirection: 'column',
                       position: 'relative',
-                      transform: `translateY(3px) rotate(${loading ? (loadingSmileyRotating ? '360deg' : '-2deg') : (logoSmileyRotating ? '360deg' : '-2deg')})`,
+                      transform: `translateY(2px) rotate(${loading ? (loadingSmileyRotating ? '360deg' : '-2deg') : (logoSmileyRotating ? '360deg' : '-2deg')})`,
                       transition: 'transform 0.3s ease-in-out'
                     }}
                   >
