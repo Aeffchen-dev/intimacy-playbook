@@ -68,7 +68,7 @@ const Switch = React.forwardRef<
         <circle cx="3.5" cy="4" r="1" fill="black" />
         <circle cx="8.5" cy="4" r="1" fill="black" />
         {/* Mouth */}
-        <path d="M3.5 7 Q6 9 8.5 7" stroke="black" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M3.5 7.5 Q6 9.5 8.5 7.5" stroke="black" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </div>
   </SwitchPrimitives.Root>
