@@ -514,7 +514,7 @@ export function QuizApp() {
                       justifyContent: 'center',
                       flexDirection: 'column',
                       position: 'relative',
-                      transform: `rotate(${(toggleAnimating || loadingSmileyRotating) ? '360deg' : '-2deg'})`,
+                      transform: `rotate(${loadingSmileyRotating ? '360deg' : '-2deg'})`,
                       transition: 'transform 0.3s ease-in-out'
                     }}
                   >
@@ -578,7 +578,7 @@ export function QuizApp() {
           <Switch 
             checked={isMixedMode}
             onCheckedChange={handleToggleChange}
-            className="w-[46px] data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px] [&>span]:bg-white [&>span]:m-0.5"
+            className={`w-[46px] data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px] [&>span]:bg-white [&>span]:m-0.5 ${toggleAnimating ? '[&>span]:animate-spin' : ''}`}
           />
           <span 
             className="text-white font-normal text-xs cursor-pointer" 
