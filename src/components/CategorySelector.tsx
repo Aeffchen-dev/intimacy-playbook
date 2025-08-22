@@ -120,7 +120,7 @@ export function CategorySelector({
                   }}
                   onClick={() => handleCategoryToggle(category)}
                 >
-                  <span className="text-black text-xs font-normal tracking-wide" style={{ fontFamily: 'Arial, sans-serif', fontSize: '12px' }}>
+                  <span className="text-black text-base font-normal tracking-wide" style={{ fontFamily: 'Arial, sans-serif', fontSize: '16px' }}>
                     {category}
                   </span>
                   <div onClick={(e) => e.stopPropagation()}>
