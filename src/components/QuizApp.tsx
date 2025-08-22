@@ -403,7 +403,7 @@ export function QuizApp() {
     setLogoAnimating(true);
     setAnimatingLetterIndex(0);
     
-    // Animate each letter sequentially (16 letters total, 2 seconds duration)
+    // Animate each letter sequentially (16 letters total, 1.2 seconds duration)
     for (let i = 0; i < 16; i++) {
       setTimeout(() => {
         setAnimatingLetterIndex(i);
@@ -414,7 +414,7 @@ export function QuizApp() {
             setAnimatingLetterIndex(-1);
           }, 300);
         }
-      }, i * 125); // 125ms delay between letters for 2 second total
+      }, i * 75); // 75ms delay between letters for 1.2 second total
     }
   };
 
