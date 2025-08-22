@@ -627,32 +627,42 @@ export function QuizApp() {
                 if (isActive) {
                   // Current slide positioning
                   if (isDragging) {
-                    transform = `translateX(${dragOffset}px)`;
+                    // Calculate drag progress for scaling and rotation
+                    const dragProgress = Math.abs(dragOffset) / 300; // Normalize to 0-1
+                    const scale = Math.max(0.8, 1 - dragProgress * 0.2); // Scale from 1 to 0.8
+                    const rotation = dragOffset > 0 ? dragProgress * 5 : -dragProgress * 5; // Rotate up to 5 degrees
+                    transform = `translateX(${dragOffset}px) scale(${scale}) rotate(${rotation}deg)`;
                   } else if (isTransitioning && transitionDirection === 'left') {
-                    transform = 'translateX(calc(-100% - 16px))';
+                    transform = 'translateX(calc(-100% - 16px)) scale(0.8) rotate(-5deg)';
                   } else if (isTransitioning && transitionDirection === 'right') {
-                    transform = 'translateX(calc(100% + 16px))';
+                    transform = 'translateX(calc(100% + 16px)) scale(0.8) rotate(5deg)';
                   } else {
-                    transform = 'translateX(0)';
+                    transform = 'translateX(0) scale(1) rotate(0deg)';
                   }
                   zIndex = 2;
                 } else if (isPrev) {
                   // Previous slide positioning
                   if (isDragging) {
-                    transform = `translateX(calc(-100% - 16px + ${dragOffset}px))`;
+                    // Calculate scale for incoming slide based on drag progress
+                    const dragProgress = Math.abs(dragOffset) / 300;
+                    const scale = Math.min(1, 0.8 + dragProgress * 0.2); // Scale from 0.8 to 1
+                    transform = `translateX(calc(-100% - 16px + ${dragOffset}px)) scale(${scale}) rotate(0deg)`;
                   } else if (isTransitioning && transitionDirection === 'right') {
-                    transform = 'translateX(0)';
+                    transform = 'translateX(0) scale(1) rotate(0deg)';
                   } else {
-                    transform = 'translateX(calc(-100% - 16px))';
+                    transform = 'translateX(calc(-100% - 16px)) scale(0.8) rotate(0deg)';
                   }
                 } else if (isNext) {
                   // Next slide positioning
                   if (isDragging) {
-                    transform = `translateX(calc(100% + 16px + ${dragOffset}px))`;
+                    // Calculate scale for incoming slide based on drag progress
+                    const dragProgress = Math.abs(dragOffset) / 300;
+                    const scale = Math.min(1, 0.8 + dragProgress * 0.2); // Scale from 0.8 to 1
+                    transform = `translateX(calc(100% + 16px + ${dragOffset}px)) scale(${scale}) rotate(0deg)`;
                   } else if (isTransitioning && transitionDirection === 'left') {
-                    transform = 'translateX(0)';
+                    transform = 'translateX(0) scale(1) rotate(0deg)';
                   } else {
-                    transform = 'translateX(calc(100% + 16px))';
+                    transform = 'translateX(calc(100% + 16px)) scale(0.8) rotate(0deg)';
                   }
                 }
                 
