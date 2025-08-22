@@ -27,17 +27,32 @@ const Switch = React.forwardRef<
   return (
   <SwitchPrimitives.Root
     className={cn(
-      "peer inline-flex h-[23px] w-11 shrink-0 cursor-pointer items-center rounded-full border border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input",
+      "peer inline-flex h-[23px] w-11 shrink-0 cursor-pointer items-center rounded-full border border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input relative",
       className
     )}
     {...props}
     ref={ref}
   >
+    {/* Invisible thumb for touch area */}
     <SwitchPrimitives.Thumb
-      className={cn(
-        "pointer-events-none block h-[18px] w-[18px] rounded-full shadow-lg ring-0 transition-transform duration-300 ease-in-out data-[state=checked]:translate-x-[23.5px] data-[state=unchecked]:translate-x-[2px] flex items-center justify-center"
-      )}
-      style={{ backgroundColor: '#ff69b4' }}
+      className="pointer-events-none block h-[18px] w-[18px] rounded-full opacity-0 transition-transform duration-300 ease-in-out data-[state=checked]:translate-x-[23.5px] data-[state=unchecked]:translate-x-[2px]"
+    />
+    
+    {/* Smiley that moves across the full switch */}
+    <div
+      className="absolute pointer-events-none transition-all duration-300 ease-in-out"
+      style={{ 
+        left: checked ? 'calc(100% - 18px - 2px)' : '2px',
+        top: '2.5px',
+        width: '18px',
+        height: '18px',
+        backgroundColor: '#ff69b4',
+        borderRadius: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+      }}
     >
       <svg 
         width="10.8" 
@@ -55,7 +70,7 @@ const Switch = React.forwardRef<
         {/* Mouth */}
         <path d="M3 7.5 C4.5 9, 7.5 9, 9 7.5" stroke="black" strokeWidth="0.8" fill="none" strokeLinecap="round" />
       </svg>
-    </SwitchPrimitives.Thumb>
+    </div>
   </SwitchPrimitives.Root>
 )
 })
