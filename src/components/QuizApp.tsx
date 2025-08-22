@@ -575,34 +575,36 @@ export function QuizApp() {
         </div>
         
         {/* Toggle centered below the card */}
-        <div className="flex items-center justify-center pb-4">
-          <div 
-            className="flex items-center cursor-pointer px-4 py-2 -mr-2" 
-            onClick={() => handleToggleClick(false)}
-          >
-            <span 
-              className="text-white font-normal text-xs"
-              style={{ fontFamily: 'Arial, sans-serif' }}
+        <div className="flex items-center justify-center pb-4 w-full">
+          <div className="flex items-center">
+            <div 
+              className="flex items-center cursor-pointer py-2" 
+              onClick={() => handleToggleClick(false)}
             >
-              question mode
-            </span>
-          </div>
-          <Switch 
-            checked={isMixedMode}
-            onCheckedChange={handleToggleChange}
-            isAnimating={toggleAnimating}
-            className="w-[46px] mx-1 data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px]"
-          />
-          <div 
-            className="flex items-center cursor-pointer px-4 py-2 -ml-2" 
-            onClick={() => handleToggleClick(true)}
-          >
-            <span 
-              className="text-white font-normal text-xs"
-              style={{ fontFamily: 'Arial, sans-serif' }}
+              <span 
+                className="text-white font-normal text-xs"
+                style={{ fontFamily: 'Arial, sans-serif', marginRight: '2px' }}
+              >
+                question mode
+              </span>
+            </div>
+            <Switch 
+              checked={isMixedMode}
+              onCheckedChange={handleToggleChange}
+              isAnimating={toggleAnimating}
+              className="w-[46px] data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px]"
+            />
+            <div 
+              className="flex items-center cursor-pointer py-2" 
+              onClick={() => handleToggleClick(true)}
             >
-              action mode
-            </span>
+              <span 
+                className="text-white font-normal text-xs"
+                style={{ fontFamily: 'Arial, sans-serif', marginLeft: '2px' }}
+              >
+                action mode
+              </span>
+            </div>
           </div>
         </div>
       </div>
