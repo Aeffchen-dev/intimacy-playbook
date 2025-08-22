@@ -77,6 +77,7 @@ export function QuizApp() {
   const [categoryColorMap, setCategoryColorMap] = useState<{ [category: string]: number }>({});
   const [logoAnimating, setLogoAnimating] = useState(false);
   const [animatingLetterIndex, setAnimatingLetterIndex] = useState(-1);
+  const [toggleAnimating, setToggleAnimating] = useState(false);
 
   useEffect(() => {
     fetchQuestions();
@@ -425,6 +426,28 @@ export function QuizApp() {
     }
   };
 
+  const handleToggleChange = (checked: boolean) => {
+    setToggleAnimating(true);
+    setIsMixedMode(checked);
+    setHasToggleBeenChanged(true);
+    
+    // Reset animation after toggle completes
+    setTimeout(() => {
+      setToggleAnimating(false);
+    }, 300);
+  };
+
+  const handleToggleClick = (mode: boolean) => {
+    setToggleAnimating(true);
+    setIsMixedMode(mode);
+    setHasToggleBeenChanged(true);
+    
+    // Reset animation after toggle completes
+    setTimeout(() => {
+      setToggleAnimating(false);
+    }, 300);
+  };
+
   const hasSlides = slides.length > 0;
   const safeIndex = hasSlides ? Math.min(currentIndex, slides.length - 1) : 0;
   const safeSlide = hasSlides ? slides[safeIndex] : undefined;
@@ -485,7 +508,8 @@ export function QuizApp() {
                       justifyContent: 'center',
                       flexDirection: 'column',
                       position: 'relative',
-                      transform: 'rotate(-2deg)'
+                      transform: `rotate(${toggleAnimating ? '360deg' : '-2deg'})`,
+                      transition: 'transform 0.3s ease-in-out'
                     }}
                   >
                     <div style={{ display: 'flex', gap: '2px', position: 'absolute', top: '3.5px', left: '50%', transform: 'translateX(-50%)' }}>
@@ -541,27 +565,18 @@ export function QuizApp() {
         <div className="flex items-center justify-center gap-2 pb-4">
           <span 
             className="text-white font-normal text-xs cursor-pointer" 
-            onClick={() => {
-              setIsMixedMode(false);
-              setHasToggleBeenChanged(true);
-            }}
+            onClick={() => handleToggleClick(false)}
           >
             question mode
           </span>
           <Switch 
             checked={isMixedMode}
-            onCheckedChange={(checked) => {
-              setIsMixedMode(checked);
-              setHasToggleBeenChanged(true);
-            }}
+            onCheckedChange={handleToggleChange}
             className="w-[46px] data-[state=checked]:bg-transparent data-[state=unchecked]:bg-transparent data-[state=checked]:border-white data-[state=unchecked]:border-white border-[1px] [&>span]:bg-white [&>span]:m-0.5"
           />
           <span 
             className="text-white font-normal text-xs cursor-pointer" 
-            onClick={() => {
-              setIsMixedMode(true);
-              setHasToggleBeenChanged(true);
-            }}
+            onClick={() => handleToggleClick(true)}
           >
             action mode
           </span>
