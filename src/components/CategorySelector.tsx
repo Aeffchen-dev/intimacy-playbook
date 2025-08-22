@@ -88,7 +88,7 @@ export function CategorySelector({
           {/* Header */}
           <div className="flex items-center justify-between px-6 pt-4 pb-2 bg-background">
             <DialogHeader>
-              <DialogTitle className="text-white text-xl font-normal">
+              <DialogTitle className="text-white font-normal" style={{ fontSize: '12px' }}>
                 Kategorien wählen
               </DialogTitle>
             </DialogHeader>
@@ -97,7 +97,7 @@ export function CategorySelector({
               onClick={handleClose}
               className="text-white hover:bg-white/10 p-2 rounded-full transition-colors"
             >
-              <X className="h-6 w-6" />
+              <X className="h-6 w-6" strokeWidth={1} />
             </button>
           </div>
 
@@ -121,7 +121,7 @@ export function CategorySelector({
                   }}
                   onClick={() => handleCategoryToggle(category)}
                 >
-                  <span className="text-black font-normal tracking-wide" style={{ fontFamily: 'Arial, sans-serif', fontSize: '14px' }}>
+                  <span className="text-black font-normal tracking-wide" style={{ fontFamily: 'Arial, sans-serif', fontSize: '12px' }}>
                     {category}
                   </span>
                   <div onClick={(e) => e.stopPropagation()}>
@@ -145,7 +145,7 @@ export function CategorySelector({
                           <Check 
                             className="text-white" 
                             style={{ width: '20px', height: '20px' }}
-                            strokeWidth={2}
+                            strokeWidth={1}
                           />
                         )}
                       </div>
