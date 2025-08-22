@@ -63,7 +63,6 @@ const smartShuffle = (questions: Question[]): Question[] => {
 
 export function QuizApp() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [animationClass, setAnimationClass] = useState('');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [allQuestions, setAllQuestions] = useState<Question[]>([]);
   const [introSlide, setIntroSlide] = useState<Question | null>(null);
@@ -75,43 +74,55 @@ export function QuizApp() {
   const [isMixedMode, setIsMixedMode] = useState(true);
   const [hasToggleBeenChanged, setHasToggleBeenChanged] = useState(false);
   const [categoryColorMap, setCategoryColorMap] = useState<{ [category: string]: number }>({});
+  
+  // Drag state
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     fetchQuestions();
   }, []);
 
-  // Add touch/mouse handlers for desktop swipe
+  // Add drag handlers
   useEffect(() => {
-    let startX = 0;
-    let startY = 0;
-    let isDragging = false;
-
     const handleStart = (clientX: number, clientY: number) => {
-      startX = clientX;
-      startY = clientY;
-      isDragging = true;
+      setIsDragging(true);
+      setDragStart({ x: clientX, y: clientY });
+      setDragOffset({ x: 0, y: 0 });
+    };
+
+    const handleMove = (clientX: number, clientY: number) => {
+      if (!isDragging) return;
+      
+      const deltaX = clientX - dragStart.x;
+      const deltaY = clientY - dragStart.y;
+      
+      setDragOffset({ x: deltaX, y: deltaY });
     };
 
     const handleEnd = (clientX: number, clientY: number) => {
       if (!isDragging) return;
       
-      const deltaX = clientX - startX;
-      const deltaY = clientY - startY;
+      const deltaX = clientX - dragStart.x;
+      const deltaY = clientY - dragStart.y;
+      const threshold = 200;
       
-      // Only trigger if horizontal movement is greater than vertical
-      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
-        if (deltaX > 0) {
-          prevQuestion();
-        } else {
-          nextQuestion();
-        }
+      // Any direction drag triggers next slide if threshold is met
+      if (Math.abs(deltaX) > threshold || Math.abs(deltaY) > threshold) {
+        nextQuestion();
       }
       
-      isDragging = false;
+      setIsDragging(false);
+      setDragOffset({ x: 0, y: 0 });
     };
 
     const handleMouseDown = (e: MouseEvent) => {
       handleStart(e.clientX, e.clientY);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      handleMove(e.clientX, e.clientY);
     };
 
     const handleMouseUp = (e: MouseEvent) => {
@@ -123,23 +134,32 @@ export function QuizApp() {
       handleStart(touch.clientX, touch.clientY);
     };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      handleMove(touch.clientX, touch.clientY);
+    };
+
     const handleTouchEnd = (e: TouchEvent) => {
       const touch = e.changedTouches[0];
       handleEnd(touch.clientX, touch.clientY);
     };
 
     document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('touchstart', handleTouchStart);
+    document.addEventListener('touchmove', handleTouchMove);
     document.addEventListener('touchend', handleTouchEnd);
 
     return () => {
       document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleTouchEnd);
     };
-  }, []);
+  }, [isDragging, dragStart]);
 
   const fetchQuestions = async () => {
     try {
@@ -310,23 +330,13 @@ export function QuizApp() {
 
   const nextQuestion = () => {
     if (currentIndex < slides.length - 1) {
-      setAnimationClass('animate-slide-out-left');
-      setTimeout(() => {
-        setCurrentIndex(prev => prev + 1);
-        setAnimationClass('animate-slide-in-right');
-        setTimeout(() => setAnimationClass(''), 500);
-      }, 300);
+      setCurrentIndex(prev => prev + 1);
     }
   };
 
   const prevQuestion = () => {
     if (currentIndex > 0) {
-      setAnimationClass('animate-slide-out-right');
-      setTimeout(() => {
-        setCurrentIndex(prev => prev - 1);
-        setAnimationClass('animate-slide-in-left');
-        setTimeout(() => setAnimationClass(''), 500);
-      }, 300);
+      setCurrentIndex(prev => prev - 1);
     }
   };
 
@@ -401,17 +411,50 @@ export function QuizApp() {
 
       {/* Main Quiz Container */}
       <div className="flex-1 flex flex-col px-4 overflow-hidden mt-4 gap-4" style={{ minHeight: 0 }}>
-        <div className="flex-1 flex items-stretch justify-center min-h-0">
+        <div className="flex-1 flex items-stretch justify-center min-h-0 relative">
           {loading ? (
             <div className="flex items-center justify-center h-full text-white text-xl">Lade Fragen...</div>
           ) : hasSlides ? (
-            <QuizCard
-              question={safeSlide!.question!}
-              onSwipeLeft={nextQuestion}
-              onSwipeRight={prevQuestion}
-              animationClass={animationClass}
-              categoryIndex={categoryColorMap[safeSlide!.question!.category] || 0}
-            />
+            <div className="relative w-full h-full flex items-center justify-center">
+              {/* Render stack of cards */}
+              {slides.slice(safeIndex, safeIndex + 4).map((slide, stackIndex) => {
+                const actualIndex = safeIndex + stackIndex;
+                const isTopCard = stackIndex === 0;
+                
+                // Calculate transform based on drag for top card
+                const dragTransform = isTopCard && isDragging 
+                  ? `translate(${dragOffset.x}px, ${dragOffset.y}px) rotate(${dragOffset.x * 0.1}deg)`
+                  : '';
+                
+                return (
+                  <div
+                    key={`${actualIndex}-${slide.question?.question.slice(0, 20)}`}
+                    className={`absolute inset-0 transition-all duration-200 ${
+                      isTopCard && !isDragging ? 'cursor-grab' : ''
+                    } ${isTopCard && isDragging ? 'cursor-grabbing' : ''}`}
+                    style={{
+                      zIndex: 10 - stackIndex,
+                      transform: `
+                        ${dragTransform}
+                        translateY(${stackIndex * 8}px) 
+                        translateX(${stackIndex * 4}px) 
+                        scale(${1 - stackIndex * 0.03})
+                      `,
+                      opacity: 1 - stackIndex * 0.15,
+                      pointerEvents: isTopCard ? 'auto' : 'none',
+                    }}
+                  >
+                    <QuizCard
+                      question={slide.question!}
+                      onSwipeLeft={() => {}}
+                      onSwipeRight={() => {}}
+                      animationClass=""
+                      categoryIndex={categoryColorMap[slide.question!.category] || 0}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           ) : (
             <div className="text-white text-xl">Keine Fragen verfügbar</div>
           )}
