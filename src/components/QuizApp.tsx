@@ -430,7 +430,7 @@ export function QuizApp() {
                       transform: 'rotate(-2deg)'
                     }}
                   >
-                    <div style={{ display: 'flex', gap: '2px', position: 'absolute', top: '2px', left: '50%', transform: 'translateX(-50%)' }}>
+                    <div style={{ display: 'flex', gap: '2px', position: 'absolute', top: '2.5px', left: '50%', transform: 'translateX(-50%)' }}>
                       <div style={{ width: '1.4px', height: '1.4px', backgroundColor: 'black', borderRadius: '50%' }}></div>
                       <div style={{ width: '1.4px', height: '1.4px', backgroundColor: 'black', borderRadius: '50%' }}></div>
                     </div>
