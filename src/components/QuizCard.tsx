@@ -90,24 +90,24 @@ export function QuizCard({
       };
 
       const processedWords = words.map((word, wordIndex) => {
-        tempElement.textContent = word;
-        const wordWidth = tempElement.getBoundingClientRect().width;
+        // Separate trailing punctuation so we don't hyphenate it
+        const match = word.match(/^([A-Za-zÄÖÜäöüß]+(?:-[A-Za-zÄÖÜäöüß]+)*)([^A-Za-zÄÖÜäöüß]*)$/);
+        const base = match ? match[1] : word;
+        const suffix = match ? match[2] : '';
         
-        // Width-based: Only hyphenate if word width exceeds available width minus 16px buffer
-        const availableWidth = containerWidth - 16;
-        const needsHyphenation = wordWidth > availableWidth;
+        let displayWord = base;
         
-        let displayWord = word;
-        
-        if (needsHyphenation && !shouldExcludeFromHyphenation(word)) {
-          // Use German syllable rules to insert soft hyphens
-          const syllables = hypher.hyphenate(word);
-          displayWord = syllables.join('\u00AD'); // Soft hyphen
+        if (!shouldExcludeFromHyphenation(base)) {
+          const syllables = hypher.hyphenate(base);
+          if (syllables.length > 1) {
+            displayWord = syllables.join('\u00AD');
+          }
         }
         
         return (
           <span key={wordIndex}>
             {displayWord}
+            {suffix}
             {wordIndex < words.length - 1 && ' '}
           </span>
         );
@@ -321,7 +321,7 @@ export function QuizCard({
               color: question.category.toLowerCase() !== 'intro' ? categoryColors.text : 'hsl(var(--foreground))',
               hyphens: 'manual',
               wordBreak: 'normal',
-              overflowWrap: 'break-word'
+              overflowWrap: 'normal'
             }}
           >
             {processedText.length > 0 ? processedText : question.question}
