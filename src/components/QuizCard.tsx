@@ -95,16 +95,18 @@ export function QuizCard({
         const base = match ? match[1] : word;
         const suffix = match ? match[2] : '';
         
+        // Measure word width to determine if hyphenation is needed
+        tempElement.textContent = base;
+        const wordWidth = tempElement.getBoundingClientRect().width;
+        const availableWidth = containerWidth - 16;
+        const needsHyphenation = wordWidth > availableWidth;
+        
         let displayWord = base;
         
-        if (!shouldExcludeFromHyphenation(base)) {
+        if (needsHyphenation && !shouldExcludeFromHyphenation(base)) {
           const syllables = hypher.hyphenate(base);
           if (syllables.length > 1) {
             displayWord = syllables.join('\u00AD');
-            // Debug logging for long words
-            if (base.length > 15) {
-              console.log(`Hyphenating "${base}":`, syllables, `→ "${displayWord}"`);
-            }
           }
         }
         
