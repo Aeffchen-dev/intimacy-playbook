@@ -58,23 +58,28 @@ export function QuizCard({
       const words = cleanedText.split(' ');
       const containerWidth = containerRef.current.getBoundingClientRect().width;
       
-      // Create temporary element to measure word width with exact same styles
-      const tempElement = document.createElement('span');
+      // Create offscreen measurer with same typography to detect line wraps
       const computedStyle = window.getComputedStyle(containerRef.current);
-      tempElement.style.cssText = `
+      const measurer = document.createElement('div');
+      measurer.style.cssText = `
         position: absolute;
         visibility: hidden;
-        white-space: nowrap;
+        left: -9999px;
+        top: -9999px;
+        width: ${containerRef.current.getBoundingClientRect().width}px;
+        white-space: normal;
+        hyphens: manual;
         font-size: ${computedStyle.fontSize};
         font-family: ${computedStyle.fontFamily};
         font-weight: ${computedStyle.fontWeight};
         font-style: ${computedStyle.fontStyle};
+        line-height: ${computedStyle.lineHeight};
+        letter-spacing: ${computedStyle.letterSpacing};
         padding: 0;
         margin: 0;
         border: 0;
       `;
-      
-      containerRef.current.appendChild(tempElement);
+      document.body.appendChild(measurer);
 
       const shouldExcludeFromHyphenation = (word: string): boolean => {
         // Exclude words shorter than 6 characters
@@ -89,38 +94,44 @@ export function QuizCard({
         return false;
       };
 
-      const processedWords = words.map((word, wordIndex) => {
+      const processedElements: JSX.Element[] = [];
+
+      let lastTop = 0;
+      words.forEach((word, wordIndex) => {
         // Separate trailing punctuation so we don't hyphenate it
         const match = word.match(/^([A-Za-zÄÖÜäöüß]+(?:-[A-Za-zÄÖÜäöüß]+)*)([^A-Za-zÄÖÜäöüß]*)$/);
         const base = match ? match[1] : word;
         const suffix = match ? match[2] : '';
-        
-        // Measure word width to determine if hyphenation is needed
-        tempElement.textContent = base;
-        const wordWidth = tempElement.getBoundingClientRect().width;
-        const availableWidth = containerWidth - 16;
-        const needsHyphenation = wordWidth > availableWidth;
-        
-        let displayWord = base;
-        
-        if (needsHyphenation && !shouldExcludeFromHyphenation(base)) {
+
+        // Append to measurer to see if it wraps to a new line
+        const span = document.createElement('span');
+        span.textContent = (wordIndex > 0 ? ' ' : '') + base + suffix;
+        measurer.appendChild(span);
+        const wrapped = wordIndex > 0 && span.offsetTop > lastTop;
+
+        let displayBase = base;
+        if (wrapped && !shouldExcludeFromHyphenation(base)) {
           const syllables = hypher.hyphenate(base);
           if (syllables.length > 1) {
-            displayWord = syllables.join('\u00AD');
+            displayBase = syllables.join('\u00AD');
+            // Update measurer span so subsequent words measure correctly
+            span.textContent = (wordIndex > 0 ? ' ' : '') + displayBase + suffix;
           }
         }
-        
-        return (
+
+        lastTop = span.offsetTop;
+
+        processedElements.push(
           <span key={wordIndex}>
-            {displayWord}
+            {wordIndex > 0 ? ' ' : ''}
+            {displayBase}
             {suffix}
-            {wordIndex < words.length - 1 && ' '}
           </span>
         );
       });
 
-      containerRef.current.removeChild(tempElement);
-      setProcessedText([<span key="single-line">{processedWords}</span>]);
+      document.body.removeChild(measurer);
+      setProcessedText([<span key="single-line">{processedElements}</span>]);
     };
 
     const timeoutId = setTimeout(processText, 50);
