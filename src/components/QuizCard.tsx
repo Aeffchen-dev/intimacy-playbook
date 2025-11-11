@@ -106,13 +106,7 @@ export function QuizCard({
         }
         
         return (
-          <span 
-            key={wordIndex}
-            style={{
-              overflowWrap: 'normal',
-              wordBreak: 'normal'
-            }}
-          >
+          <span key={wordIndex}>
             {displayWord}
             {wordIndex < words.length - 1 && ' '}
           </span>
@@ -324,7 +318,10 @@ export function QuizCard({
               fontFamily: 'Kokoro, serif',
               fontWeight: 'bold',
               fontStyle: 'italic',
-              color: question.category.toLowerCase() !== 'intro' ? categoryColors.text : 'hsl(var(--foreground))'
+              color: question.category.toLowerCase() !== 'intro' ? categoryColors.text : 'hsl(var(--foreground))',
+              hyphens: 'manual',
+              wordBreak: 'normal',
+              overflowWrap: 'break-word'
             }}
           >
             {processedText.length > 0 ? processedText : question.question}
