@@ -81,6 +81,24 @@ export function QuizCard({
       `;
       document.body.appendChild(measurer);
 
+      // Separate hidden width measurer for individual words (no wrapping)
+      const tempElement = document.createElement('span');
+      tempElement.style.cssText = `
+        position: absolute;
+        visibility: hidden;
+        white-space: nowrap;
+        font-size: ${computedStyle.fontSize};
+        font-family: ${computedStyle.fontFamily};
+        font-weight: ${computedStyle.fontWeight};
+        font-style: ${computedStyle.fontStyle};
+        line-height: ${computedStyle.lineHeight};
+        letter-spacing: ${computedStyle.letterSpacing};
+        padding: 0;
+        margin: 0;
+        border: 0;
+      `;
+      document.body.appendChild(tempElement);
+
       const shouldExcludeFromHyphenation = (word: string): boolean => {
         // Exclude words shorter than 6 characters
         if (word.length < 6) return true;
@@ -110,12 +128,10 @@ export function QuizCard({
         const wrapped = wordIndex > 0 && span.offsetTop > lastTop;
 
         let displayBase = base;
-        if (wrapped && !shouldExcludeFromHyphenation(base)) {
+        if (!shouldExcludeFromHyphenation(base)) {
           const syllables = hypher.hyphenate(base);
           if (syllables.length > 1) {
             displayBase = syllables.join('\u00AD');
-            // Update measurer span so subsequent words measure correctly
-            span.textContent = (wordIndex > 0 ? ' ' : '') + displayBase + suffix;
           }
         }
 
@@ -131,6 +147,7 @@ export function QuizCard({
       });
 
       document.body.removeChild(measurer);
+      document.body.removeChild(tempElement);
       setProcessedText([<span key="single-line">{processedElements}</span>]);
     };
 
