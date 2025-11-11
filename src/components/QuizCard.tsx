@@ -58,10 +58,32 @@ export function QuizCard({
       const words = cleanedText.split(' ');
       const containerWidth = containerRef.current.getBoundingClientRect().width;
       
-      // Create temporary element to measure word width with exact same styles
+      // Offscreen measurer to detect actual line wraps with same typography
       const computedStyle = window.getComputedStyle(containerRef.current);
-      const tempElement = document.createElement('span');
-      tempElement.style.cssText = `
+      const measurer = document.createElement('div');
+      measurer.style.cssText = `
+        position: absolute;
+        visibility: hidden;
+        left: -9999px;
+        top: -9999px;
+        width: ${containerWidth}px;
+        white-space: normal;
+        hyphens: manual;
+        font-size: ${computedStyle.fontSize};
+        font-family: ${computedStyle.fontFamily};
+        font-weight: ${computedStyle.fontWeight};
+        font-style: ${computedStyle.fontStyle};
+        line-height: ${computedStyle.lineHeight};
+        letter-spacing: ${computedStyle.letterSpacing};
+        padding: 0;
+        margin: 0;
+        border: 0;
+      `;
+      document.body.appendChild(measurer);
+
+      // Tight width measurer (no wrapping) to detect over-wide words
+      const tempWord = document.createElement('span');
+      tempWord.style.cssText = `
         position: absolute;
         visibility: hidden;
         white-space: nowrap;
@@ -75,7 +97,7 @@ export function QuizCard({
         margin: 0;
         border: 0;
       `;
-      document.body.appendChild(tempElement);
+      document.body.appendChild(tempWord);
 
       const shouldExcludeFromHyphenation = (word: string): boolean => {
         // Exclude words shorter than 6 characters
@@ -98,14 +120,8 @@ export function QuizCard({
         const base = match ? match[1] : word;
         const suffix = match ? match[2] : '';
 
-        // Measure word width to check if it exceeds available width
-        tempElement.textContent = base;
-        const wordWidth = tempElement.getBoundingClientRect().width;
-        const availableWidth = containerWidth - 16;
-        const needsHyphenation = wordWidth > availableWidth;
-
         let displayBase = base;
-        if (needsHyphenation && !shouldExcludeFromHyphenation(base)) {
+        if (!shouldExcludeFromHyphenation(base)) {
           const syllables = hypher.hyphenate(base);
           if (syllables.length > 1) {
             displayBase = syllables.join('\u00AD');
@@ -121,7 +137,8 @@ export function QuizCard({
         );
       });
 
-      document.body.removeChild(tempElement);
+      // Clean up measurer (kept for compatibility but not required now)
+      document.body.removeChild(measurer);
       setProcessedText([<span key="single-line">{processedElements}</span>]);
     };
 
