@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Hypher from 'hypher';
+import german from 'hyphenation.de';
 
 interface Question {
   question: string;
@@ -44,57 +46,74 @@ export function QuizCard({
 
   const minSwipeDistance = 50;
 
-  // Process text to handle long words individually and preserve line breaks
+  // Process text with German hyphenation rules
   useEffect(() => {
+    const hypher = new Hypher(german);
+    
     const processText = () => {
       if (!containerRef.current) return;
 
-      // Remove all line breaks and let text flow naturally
-      console.log('Original question text:', JSON.stringify(question.question));
+      // Clean text: remove line breaks, normalize spaces
       const cleanedText = question.question.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
-      console.log('Cleaned text:', JSON.stringify(cleanedText));
-      
       const words = cleanedText.split(' ');
-      console.log('Words:', words.length, words);
       const containerWidth = containerRef.current.getBoundingClientRect().width;
       
       // Create temporary element to measure word width with exact same styles
       const tempElement = document.createElement('span');
+      const computedStyle = window.getComputedStyle(containerRef.current);
       tempElement.style.cssText = `
         position: absolute;
         visibility: hidden;
         white-space: nowrap;
-        font-size: 4rem;
-        font-family: Kokoro, serif;
-        font-weight: bold;
-        font-style: italic;
+        font-size: ${computedStyle.fontSize};
+        font-family: ${computedStyle.fontFamily};
+        font-weight: ${computedStyle.fontWeight};
+        font-style: ${computedStyle.fontStyle};
         padding: 0;
         margin: 0;
         border: 0;
       `;
       
-      // Add to same container to inherit styles
       containerRef.current.appendChild(tempElement);
+
+      const shouldExcludeFromHyphenation = (word: string): boolean => {
+        // Exclude words shorter than 6 characters
+        if (word.length < 6) return true;
+        
+        // Exclude abbreviations (all uppercase like "USA", "BMW")
+        if (word === word.toUpperCase() && /^[A-ZÄÖÜ]+$/.test(word)) return true;
+        
+        // Exclude words containing numbers or symbols
+        if (/[\d§$%€£¥@#&*+=/\\|<>[\]{}()_]/.test(word)) return true;
+        
+        return false;
+      };
 
       const processedWords = words.map((word, wordIndex) => {
         tempElement.textContent = word;
         const wordWidth = tempElement.getBoundingClientRect().width;
         
-        // Only apply hyphenation if word is actually wider than available space
-        // Use full container width minus some padding buffer
-        const needsHyphenation = wordWidth > (containerWidth - 20);
+        // Width-based: Only hyphenate if word width exceeds available width minus 16px buffer
+        const availableWidth = containerWidth - 16;
+        const needsHyphenation = wordWidth > availableWidth;
+        
+        let displayWord = word;
+        
+        if (needsHyphenation && !shouldExcludeFromHyphenation(word)) {
+          // Use German syllable rules to insert soft hyphens
+          const syllables = hypher.hyphenate(word);
+          displayWord = syllables.join('\u00AD'); // Soft hyphen
+        }
         
         return (
           <span 
             key={wordIndex}
             style={{
-              hyphens: needsHyphenation ? 'auto' : 'none',
-              overflowWrap: needsHyphenation ? 'break-word' : 'normal',
+              overflowWrap: 'normal',
               wordBreak: 'normal'
             }}
-            lang="de"
           >
-            {word}
+            {displayWord}
             {wordIndex < words.length - 1 && ' '}
           </span>
         );
