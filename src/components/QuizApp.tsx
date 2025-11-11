@@ -611,7 +611,7 @@ export function QuizApp() {
       <div className="flex-1 flex flex-col px-4 overflow-hidden mt-4 gap-3" style={{ minHeight: 0 }}>
         <div className="flex-1 flex items-stretch justify-center min-h-0 relative">
           {loading ? (
-            <div className="flex items-center justify-center h-full text-white text-xl">Lade Fragen...</div>
+            <div className="flex items-center justify-center h-full text-white" style={{ fontSize: '14px' }}>Lade Fragen...</div>
           ) : hasSlides ? (
             <div className="relative w-full h-full flex items-center justify-center">
               {/* Render current slide and adjacent slides for transitions */}
