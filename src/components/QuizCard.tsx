@@ -101,6 +101,10 @@ export function QuizCard({
           const syllables = hypher.hyphenate(base);
           if (syllables.length > 1) {
             displayWord = syllables.join('\u00AD');
+            // Debug logging for long words
+            if (base.length > 15) {
+              console.log(`Hyphenating "${base}":`, syllables, `→ "${displayWord}"`);
+            }
           }
         }
         
@@ -321,7 +325,8 @@ export function QuizCard({
               color: question.category.toLowerCase() !== 'intro' ? categoryColors.text : 'hsl(var(--foreground))',
               hyphens: 'manual',
               wordBreak: 'normal',
-              overflowWrap: 'normal'
+              overflowWrap: 'normal',
+              wordWrap: 'normal'
             }}
           >
             {processedText.length > 0 ? processedText : question.question}
