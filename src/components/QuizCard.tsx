@@ -120,8 +120,14 @@ export function QuizCard({
         const base = match ? match[1] : word;
         const suffix = match ? match[2] : '';
 
+        // Measure word width to check if it exceeds available line width
+        tempWord.textContent = base;
+        const wordWidth = tempWord.getBoundingClientRect().width;
+        const availableWidth = containerWidth - 16; // 16px buffer
+        const exceedsLineWidth = wordWidth > availableWidth;
+
         let displayBase = base;
-        if (!shouldExcludeFromHyphenation(base)) {
+        if (exceedsLineWidth && !shouldExcludeFromHyphenation(base)) {
           const syllables = hypher.hyphenate(base);
           if (syllables.length > 1) {
             displayBase = syllables.join('\u00AD');
@@ -137,8 +143,9 @@ export function QuizCard({
         );
       });
 
-      // Clean up measurer (kept for compatibility but not required now)
+      // Clean up measurement elements
       document.body.removeChild(measurer);
+      document.body.removeChild(tempWord);
       setProcessedText([<span key="single-line">{processedElements}</span>]);
     };
 
